@@ -95,8 +95,8 @@
   <div id="test-banner" class="test-banner">
     <div class="test-banner-content">
       <p>
-        ⚠️ This website is the **testing site** for pixellaserprints.ca,  may experience errors.
-        Please visit www.pixellaserprints.ca .
+        ⚠️ This website is in the **testing phase** ,  may experience errors.
+        
       </p>
       <button id="close-test-banner" class="btn-close">Close</button>
     </div>
