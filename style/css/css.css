@@ -113,7 +113,7 @@ h1, h2, h3 {
 /* HERO MOBILE */
 @media (max-width: 768px) {
   .hero {
-    background-image: url('/images/general/contactBG.svg');
+    background-image: url('/images/general/heroServices.JPG');
     padding: 60px 20px;
     min-height: 80vh;
   }
@@ -289,7 +289,7 @@ h1, h2, h3 {
 
 @media (max-width: 768px) {
     .heroServices {
-        background-image: url('/images/general/heroServicesBg.png');
+        background-image: url('/images/general/1.JPG');
         padding: 60px 20px;
         min-height: 80vh;
     }
