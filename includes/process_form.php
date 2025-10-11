@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Validar el token con la API de Google (código omitido por ser boilerplate)
-    $secretKey = '6LetfuQrAAAAAB6DI4Vv6a-tJKtCZgCae1pXwqF3'; 
+    $secretKey = '6Lf2feQrAAAAANtR2l5amDaAyv6yYj7yJ9jGqCNs'; 
     $url = "https://www.google.com/recaptcha/api/siteverify";
     $data = [
         'secret' => $secretKey,

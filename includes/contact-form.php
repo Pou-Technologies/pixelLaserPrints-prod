@@ -83,7 +83,7 @@
 
 <script>
     // Tu Site Key real
-    const siteKey = "6LetfuQrAAAAACSaiVLd2A3pzcGD52Bl5sPOAKln"; 
+    const siteKey = "6Lf2feQrAAAAAAQ_z9gZTzIpQ3ONb6C6CDs1aQMx"; 
 
     document.addEventListener('DOMContentLoaded', function() {
         const contactForm = document.getElementById('contactForm');
