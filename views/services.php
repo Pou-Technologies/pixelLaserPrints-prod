@@ -11,8 +11,8 @@ include '../includes/header.php';
         <div class="row">
             <div class="col-md-10 col-lg-8 mx-auto text-center"> <!-- Centramos el texto y el contenedor,mx-auto para centrar o no-->
                 <!-- <h3 class="hero-subtitle text-black">Need it now?</h3> -->
-                <h1 class="hero-title text-white"></h1>
-                <p class="hero-description text-white">Products Designed for Impact</p>
+                <h1 class="hero-title text-white">Services</h1>
+                <p class="hero-subtitle text-white">Products Designed for Impact</p>
  <!-- Centramos los botones -->
                 <!-- <div class="d-flex justify-content-center gap-3 flex-wrap"> 
                     <a href="/views/contact.php" class="btn btn-primary btn-lg text-white">Request a Delivery</a>
