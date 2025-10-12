@@ -56,9 +56,9 @@ include '../includes/header.php';
                     <i class="fas fa-share-alt fa-2x color-font mb-3"></i>
                     <h5 class="fw-bold">Follow Us</h5>
                     <div class="d-flex justify-content-center gap-3 mt-3">
-                        <a href="#" class="btn btn-gold rounded-circle"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="btn btn-gold rounded-circle"><i class="fab fa-tiktok"></i></a>
-                        <a href="#" class="btn btn-gold rounded-circle"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/people/Pixel-Laser-Prints/61571892844993/?mibextid=wwXIfr" class="btn btn-gold rounded-circle"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.tiktok.com/@pixellaserpei" class="btn btn-gold rounded-circle"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://www.instagram.com/pixelcharlottetown/" class="btn btn-gold rounded-circle"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
