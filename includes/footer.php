@@ -22,6 +22,7 @@
           <li><a href="/views/contact.php" class="text-light text-decoration-none">Contact</a></li>
           <li><a href="/views/catalog.php" class="text-light text-decoration-none">Catalog</a></li>
           <li><a href="#" class="text-light text-decoration-none">FAQ</a></li>
+          <li><a href="/views/copyright.php" class="text-light text-decoration-none">Copyright</a></li>
         </ul>
       </div>
 
@@ -63,7 +64,7 @@
         © 2025 Pixel Laser Prints | All rights reserved
       </p>
       <a href="/views/privacy.php" class="text-light text-decoration-none small me-2">Privacy Policy</a> |
-      <a href="#" class="text-light text-decoration-none small ms-2">Terms and Conditions</a>
+      <a href="/views/termsAndConditions.php" class="text-light text-decoration-none small ms-2">Terms and Conditions</a>
     </div>
     <!--POU TECH LOGO -->
     <div class="text-end">
