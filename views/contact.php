@@ -37,7 +37,7 @@ include '../includes/header.php';
                 <div class="card h-100 p-4 shadow-sm rounded-4 text-center">
                     <i class="fas fa-phone-alt fa-2x color-font mb-3"></i>
                     <h5 class="fw-bold">Phone and Email</h5>
-                    <p class="mb-1">(902) 330-1525</p>
+                    <p class="mb-1">902-388-0416</p>
                     <p>sales@pixellaserprints.ca</p>
                 </div>
             </div>
@@ -57,7 +57,7 @@ include '../includes/header.php';
                     <h5 class="fw-bold">Follow Us</h5>
                     <div class="d-flex justify-content-center gap-3 mt-3">
                         <a href="https://www.facebook.com/people/Pixel-Laser-Prints/61571892844993/?mibextid=wwXIfr" class="btn btn-gold rounded-circle"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.tiktok.com/@pixellaserpei" class="btn btn-gold rounded-circle"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://www.tiktok.com/@pixel.laser.print?_t=ZS-90TZTOkr3zz&_r=1" class="btn btn-gold rounded-circle"><i class="fab fa-tiktok"></i></a>
                         <a href="https://www.instagram.com/pixelcharlottetown/" class="btn btn-gold rounded-circle"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>

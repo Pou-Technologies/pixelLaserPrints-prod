@@ -44,14 +44,14 @@
       <div class="col-md-3 mb-4">
         <h6 class="fw-bold">Contact</h6>
         <p class="small mb-1">📍 180 Belvedere Ave , Charlottetown, PEI,C1A 2Z1, Canada.</p>
-        <p class="small mb-1">📞 (902) 330-1525</p>
+        <p class="small mb-1">📞 902-388-0416</p>
         <p class="small mb-1">✉️ sales@pixellaserprints.ca</p>
         <p class="small mb-1">⏰ Monday - Friday: 7am - 6pm</p> 
         <p class="small ">Saturday: 7am -2pm , Sunday: Closed.</p>
         <div>
           <a href="https://www.facebook.com/people/Pixel-Laser-Prints/61571892844993/?mibextid=wwXIfr" class="text-light me-2"><i class="bi bi-facebook"></i></a>
           <a href="https://www.instagram.com/pixelcharlottetown/" class="text-light me-2"><i class="bi bi-instagram"></i></a>
-          <a href="https://www.tiktok.com/@pixellaserpei" class="text-light"><i class="bi bi-tiktok"></i></a>
+          <a href="https://www.tiktok.com/@pixel.laser.print?_t=ZS-90TZTOkr3zz&_r=1" class="text-light"><i class="bi bi-tiktok"></i></a>
         </div>
       </div>
 
