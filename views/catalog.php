@@ -191,7 +191,7 @@ include '../includes/header.php';
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="productModal1Label">Personalized Wooden Frame</h5>
+                <h5 class="modal-title" id="productModal1Label">Acrylic Commemorative Trophy</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -215,7 +215,7 @@ include '../includes/header.php';
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="productModal2Label">Engraved Metal Keychain</h5>
+                <h5 class="modal-title" id="productModal2Label">Acrylic Recognition Plaque</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -301,7 +301,7 @@ include '../includes/header.php';
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="productModal5Label"> LED Illuminated Acrylic Sign</h5>
+                <h5 class="modal-title" id="productModal5Label"> Personalized Agendas</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -329,7 +329,7 @@ include '../includes/header.php';
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="productModal6Label"> LED Illuminated Acrylic Sign</h5>
+                <h5 class="modal-title" id="productModal6Label"> Custom Acrylic Keychains</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -357,7 +357,7 @@ include '../includes/header.php';
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="productModal7Label"> LED Illuminated Acrylic Sign</h5>
+                <h5 class="modal-title" id="productModal7Label"> Custom NFC Keychains</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
