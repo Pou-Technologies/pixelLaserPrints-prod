@@ -111,7 +111,7 @@ h1, h2, h3 {
 /* HERO MOBILE */
 @media (max-width: 768px) {
   .hero {
-    background-image: url('/images/general/heroServices.JPG');
+    background-image: url('/images/general/contactBG.svg');
     padding: 60px 20px;
     min-height: 80vh;
   }
@@ -1017,6 +1017,19 @@ textarea.form-control {
 .btn-primary:hover {
     background-color: #0056b3;
     transform: translateY(-2px); /* Efecto de elevación al pasar el mouse */
+}
+
+
+
+.btn-custom-light {
+    border: 1px solid #ffffff; /* Borde blanco */
+    color: #ffffff;
+    background-color: transparent;
+}
+
+.btn-custom-light:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Un blanco translúcido por ejemplo */
+    color: #ffffff; /* Sigue siendo blanco */
 }
 
 /* Estilos para los placeholders */
