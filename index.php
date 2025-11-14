@@ -78,8 +78,8 @@ include 'includes/hero.php';
         <div class="category-card" data-bs-toggle="modal" data-bs-target="#cardModal"
           data-title="Corporate & Hospitality"
           data-description="Elegant engraved solutions for businesses, offices, and hotels."
-          data-image="/images/general/index/corporate.PNG">
-          <img src="/images/general/index/corporate.PNG" alt="Custom Signage">
+          data-image="/images/general/index/corporate.png">
+          <img src="/images/general/index/corporate.png" alt="Custom Signage">
           <div class="overlay">
             <h5 class="text-black">Corporate & Hospitality</h5>
           </div>
@@ -102,8 +102,8 @@ include 'includes/hero.php';
         <div class="category-card" data-bs-toggle="modal" data-bs-target="#cardModal"
           data-title="Wedding Decor & Events"
           data-description="Add elegance and personalization to your special day."
-          data-image="/images/general/index/decor_.png">
-          <img src="/images/general/index/decor_.png" alt="Wedding Décor">
+          data-image="/images/general/index/decoration.png">
+          <img src="/images/general/index/decoration.png" alt="Wedding Décor">
           <div class="overlay">
             <h5 class="text-black">Wedding Decor & Events</h5>
           </div>
