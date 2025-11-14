@@ -61,7 +61,7 @@ include '../includes/header.php';
     <!-- Wedding Decor -->
     <div class="row align-items-center mb-5">
       <div class="col-md-6">
-        <img src="/images/general/index/Decor_.png" alt="Wedding Decor" class="img-fluid rounded shadow">
+        <img src="/images/general/index/decoration.png" alt="Wedding Decor" class="img-fluid rounded shadow">
       </div>
       <div class="col-md-6 text-start">
         <h2 class="fw-bold text-black display-5">Wedding Decor & Events</h2>
