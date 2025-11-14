@@ -24,7 +24,7 @@ include 'includes/hero.php';
         <!-- Card 1 -->
         <div class="col-12 col-sm-6 col-md-4">
           <div class="card h-100 shadow-sm border-0 text-white card-bg"
-            style="background-image: url('/images/general/index/acrylic.png');">
+            style="background-image: url('/images/general/index/modernDesigns.jpg');">
             <div class="card-body d-flex flex-column justify-content-end text-start p-4">
               <h5 class="fw-bold">Modern Designs</h5>
               <p class="small">Sleek, stylish, and tailored to your vision.</p>
@@ -36,9 +36,9 @@ include 'includes/hero.php';
         <!-- Card 2 -->
         <div class="col-12 col-sm-6 col-md-4">
           <div class="card h-100 shadow-sm border-0 text-white card-bg"
-            style="background-image: url('/images/general/index/skuP.JPG');">
+            style="background-image: url('/images/general/index/qr.JPG');">
             <div class="card-body d-flex flex-column justify-content-end text-start p-4">
-              <h5 class="fw-bold">Premium Finishe</h5>
+              <h5 class="fw-bold">Premium Finish</h5>
               <p class="small">Attention to detail that makes every piece stand out.</p>
 
             </div>
@@ -63,7 +63,7 @@ include 'includes/hero.php';
 
 </main>
 
-<!-- SECTION 2-->
+<!-- Our Collections-->
 
 <section class="section-wrapper bg-white" style="background: url('/images/general/index/') no-repeat center center/cover;">
   <div class="container">
@@ -73,279 +73,182 @@ include 'includes/hero.php';
     </div>
     <div class="row g-4">
 
-      <!-- Custom Signage -->
+      <!-- Card Template -->
       <div class="col-md-4 col-lg-3">
-        <div class="category-card">
-          <img src="/images/general/index/corporate.png" alt="Custom Signage">
+        <div class="category-card" data-bs-toggle="modal" data-bs-target="#cardModal"
+          data-title="Corporate & Hospitality"
+          data-description="Elegant engraved solutions for businesses, offices, and hotels."
+          data-image="/images/general/index/corporate.PNG">
+          <img src="/images/general/index/corporate.PNG" alt="Custom Signage">
           <div class="overlay">
-            <h5 class="text-white">Corporate & Hospitality</h5>
-            <p class="text-black">Elegant engraved solutions for businesses, offices, and hotels.</p>
+            <h5 class="text-black">Corporate & Hospitality</h5>
           </div>
         </div>
       </div>
 
-      <!-- Corporate Gifts -->
       <div class="col-md-4 col-lg-3">
-        <div class="category-card">
-          <img src="/images/general/index/corporateIndex.png" alt="Corporate Gifts">
+        <div class="category-card" data-bs-toggle="modal" data-bs-target="#cardModal"
+          data-title="Signage"
+          data-description="Custom engraved signs for offices, restaurants, and events."
+          data-image="/images/general/index/singage.png">
+          <img src="/images/general/index/singage.png" alt="Corporate Gifts">
           <div class="overlay">
-            <h5 class="text-black">Corporate Gifts</h5>
-            <p class="text-black">Custom engraved gifts that leave a lasting impression.</p>
+            <h5 class="text-black">Signage</h5>
           </div>
         </div>
       </div>
 
-      <!-- Wedding Décor -->
       <div class="col-md-4 col-lg-3">
-        <div class="category-card">
-          <img src="/images/general/index/homeIndex.png" alt="Wedding Décor">
+        <div class="category-card" data-bs-toggle="modal" data-bs-target="#cardModal"
+          data-title="Wedding Decor & Events"
+          data-description="Add elegance and personalization to your special day."
+          data-image="/images/general/index/decor_.png">
+          <img src="/images/general/index/decor_.png" alt="Wedding Décor">
           <div class="overlay">
             <h5 class="text-black">Wedding Decor & Events</h5>
-            <p class="text-black">Add elegance and personalization to your special day.</p>
           </div>
         </div>
       </div>
 
-      <!-- Trophies & Awards -->
       <div class="col-md-4 col-lg-3">
-        <div class="category-card">
-          <img src="/images/general/index/tropIndex.png" alt="Trophies & Awards">
+        <div class="category-card" data-bs-toggle="modal" data-bs-target="#cardModal"
+          data-title="Sports"
+          data-description="Celebrate achievements with modern engraved designs."
+          data-image="/images/general/index/sports.png">
+          <img src="/images/general/index/sports.png" alt="Trophies & Awards">
           <div class="overlay">
             <h5 class="text-black">Sports</h5>
-            <p class="text-black">Celebrate achievements with modern engraved designs.</p>
           </div>
         </div>
       </div>
 
-      <!-- Home Décor -->
       <div class="col-md-4 col-lg-3">
-        <div class="category-card">
-          <img src="/images/general/index/homeDecor.png" alt="Home Décor & Lifestyle">
+        <div class="category-card" data-bs-toggle="modal" data-bs-target="#cardModal"
+          data-title="Home Decor & Lifestyle"
+          data-description="Personalized items that bring style into your home."
+          data-image="/images/general/index/decor.png">
+          <img src="/images/general/index/decor.png" alt="Trophies & Awards">
           <div class="overlay">
             <h5 class="text-black">Home Decor & Lifestyle</h5>
-            <p class="text-black">Personalized items that bring style into your home.</p>
           </div>
         </div>
       </div>
 
-      <!-- Restaurants -->
       <div class="col-md-4 col-lg-3">
-        <div class="category-card">
-          <img src="/images/general/index/restaurantsIndex.png" alt="Home Décor & Lifestyle">
+        <div class="category-card" data-bs-toggle="modal" data-bs-target="#cardModal"
+          data-title="Restaurants"
+          data-description="Personalized items for the food and hospitality industry."
+          data-image="/images/general/index/restaurants.png">
+          <img src="/images/general/index/restaurants.png" alt="Trophies & Awards">
           <div class="overlay">
             <h5 class="text-black">Restaurants</h5>
-            <p class="text-black">Personalized items for the food and hospitality industry.</p>
           </div>
         </div>
       </div>
 
-      <!-- NFC -->
       <div class="col-md-4 col-lg-3">
-        <div class="category-card">
-          <img src="/images/general/index/nfcIndex.png" alt="Home Décor & Lifestyle">
+        <div class="category-card" data-bs-toggle="modal" data-bs-target="#cardModal"
+          data-title="NFC"
+          data-description="Smart, connected products for the modern world."
+          data-image="/images/general/index/nfc.png">
+          <img src="/images/general/index/nfc.png" alt="NFC">
           <div class="overlay">
-            <h5 class="text-white">NFC</h5>
-            <p class="text-white">Smart, connected products for the modern world.</p>
+            <h5 class="text-black">NFC</h5>
           </div>
         </div>
       </div>
 
-      <!-- Local Stores -->
       <div class="col-md-4 col-lg-3">
-        <div class="category-card">
-          <img src="/images/general/index/localIndex.png" alt="Home Décor & Lifestyle">
+        <div class="category-card" data-bs-toggle="modal" data-bs-target="#cardModal"
+          data-title="Local Stores"
+          data-description="Personalized products made locally for local businesses."
+          data-image="/images/general/index/localIndex.png">
+          <img src="/images/general/index/localIndex.png" alt="Trophies & Awards">
           <div class="overlay">
             <h5 class="text-black">Local Stores</h5>
-            <p class="text-black">Personalized products made locally for local businesses.</p>
           </div>
         </div>
       </div>
-      <!-- Botón debajo de las cards -->
-      <div class="mt-5 py-4 text-center">
-        <a href="/views/services.php" class="btn btn-gold btn-lg rounded-pill">Explore Our Services</a>
+
+
+
+      <!-- ... puedes seguir con las demás cards igual cambiando título, descripción e imagen ... -->
+
+      <div class="py-4 mt-5 text-center">
+        <a href="/views/catalog.php" class="btn btn-gold btn-lg rounded-pill">Explore Our Catalog</a>
       </div>
     </div>
   </div>
 </section>
 
-
-
-<!-- SECTION 3 -->
-
-<section>
-  <div class="container section-wrapper">
-    <div class="text-center mb-5">
-      <h2 class="display-3 fw-bold text-black">Our Products</h2>
-      <p class="text-muted">Personalized creations crafted with precision and care. Discover our bestsellers.</p>
-    </div>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-
-        <div class="col">
-            <div class="card product-card h-100">
-                <img src="/images/general/catalog/1001.png" class="card-img-top product-image" alt="Acrylic Commemorative Trophy">
-                <div class="card-body product-body d-flex flex-column">
-                    <span class="product-id">ID: 1001</span>
-                    <h5 class="product-title">Acrylic Commemorative Trophy</h5>
-                    <p class="product-description flex-grow-1">Ideal for corporate recognition, special event awards, anniversary celebrations, and luxury corporate gifts. </p>
-                    <div class="d-flex justify-content-between align-items-center mt-auto">
-                        <div class="mt-auto">
-                            <a href="#" class="btn btn-gold btn-sm me-2" data-bs-toggle="modal" data-bs-target="#productModal1">View Details</a>
-                            <!-- <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-share"></i></button> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- 2 -->
-        <div class="col">
-            <div class="card product-card h-100">
-                <img src="/images/general/catalog/2001.jpeg" class="card-img-top product-image" alt="Acrylic Recognition Plaque">
-                <div class="card-body product-body d-flex flex-column">
-                    <span class="product-id">ID: 2001</span>
-                    <h5 class="product-title">Acrylic Recognition Plaque</h5>
-                    <p class="product-description flex-grow-1">Ideal for employee recognition, corporate awards, educational or sports tributes, and commemorative gifts.</p>
-                    <div class="d-flex justify-content-between align-items-center mt-auto">
-                        <div class="mt-auto">
-                            <a href="#" class="btn btn-gold btn-sm me-2" data-bs-toggle="modal" data-bs-target="#productModal2">View Details</a>
-                            <!-- <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-share"></i></button> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- 3 -->
-        <div class="col">
-            <div class="card product-card h-100">
-                <img src="/images/general/catalog/3001.jpeg" class="card-img-top product-image" alt="Grabado en Acrílico">
-                <div class="card-body product-body d-flex flex-column">
-                    <span class="product-id">ID: 3001</span>
-                    <h5 class="product-title">Personalized Tumblers with Laser Engraving</h5>
-                    <p class="product-description flex-grow-1">Corporate gifts, client appreciation, school or sports events, personalized souvenirs, and everyday use.</p>
-                    <div class="d-flex justify-content-between align-items-center mt-auto">
-                        <div class="mt-auto">
-                            <a href="#" class="btn btn-gold btn-sm me-2" data-bs-toggle="modal" data-bs-target="#productModal3">View Details</a>
-                            <!-- <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-share"></i></button> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-    </div>
-    <!-- Botón debajo de las cards -->
-      <div class="py-4 mt-5 text-center">
-        <a href="/views/catalog.php" class="btn btn-gold btn-lg rounded-pill">Explore Our Catalog</a>
+<!-- Modal -->
+<div class="modal fade" id="cardModal" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-bold" id="cardModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-
-      <!-- Modals -->
-
-      <div class="modal fade" id="productModal1" tabindex="-1" aria-labelledby="productModal1Label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="productModal1Label">Personalized Wooden Frame</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img src="/images/general/catalog/1001.png" class="img-fluid mb-3" alt="Detalles del producto">
-                <p><strong>Description:</strong> Commemorative acrylic trophy with a
-                    modern and elegant design. It combines layers of acrylic with 2D details and engravings, ideal for anniversaries, corporate recognitions, and special events.</p>
-                <p><strong>Material:</strong> High quality acrylic (3mm and 6mm).</p>
-                <p><strong>Dimensions:</strong> Available in 6”w x 8”h</p>
-                <p><strong>Colours:</strong> Black, White, Gold mirror, Silver mirror, Rose Gold mirror</p>
-                <p><strong>Customization options:</strong> Corporate logo, Commemorative text, Years or numbers embossed with mirror acrylic</p>
-                <p><strong>Identification number:</strong> 1001</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
+      <div class="modal-body text-center">
+        <img id="cardModalImage" src="" class="img-fluid rounded mb-3" alt="">
+        <p id="cardModalDescription" class="text-muted"></p>
+      </div>
     </div>
-</div>
-<!-- 2 -->
-<div class="modal fade" id="productModal2" tabindex="-1" aria-labelledby="productModal2Label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="productModal2Label">Engraved Metal Keychain</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img src="/images/general/catalog/2001.jpeg" class="img-fluid mb-3" alt="Details">
-                <p><strong>Description:</strong> Commemorative acrylic trophy with a
-                    modern and elegant design. It combines layers of acrylic with 2D details and engravings, ideal for anniversaries, corporate recognitions, and special events.</p>
-                <p><strong>Materials:</strong> 3mm thick clear acrylic.</p>
-                <p><strong>Dimensions:</strong> 7.5”w x 10”h.</p>
-                <p><strong>Engraving:</strong> Text, logo, and design with permanent laser engraving.</p>
-                <p><strong>Finish and mounting options:</strong> straight or beveled corners with stainless steel standoffs.</p>
-                <p><strong>Colours:</strong> Clear, Black, White, Gold Mirror, Silver Mirror, and Rose Gold Mirror. </p>
-                <p><strong>Customize it with:</strong> The honoree’s name, your company logo, years of service, anniversaries, or a special message.</p>
-                <p><strong>Identification number:</strong> 2001</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- 3 -->
-<div class="modal fade" id="productModal3" tabindex="-1" aria-labelledby="productModal3Label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="productModal3Label"> Personalized Tumblers with Laser Engraving</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img src="/images/general/catalog/3001.jpeg" class="img-fluid mb-3" alt="Detalles del producto">
-                <p><strong>Description:</strong>
-                    High-quality stainless steel tumblers with permanent laser engraving.
-                    Keeps your drinks hot or cold for hours.
-                    Machine wash safe, break-resistant, insulated, and BPA-free.
-                </p>
-                <p><strong>Materials:</strong> Food-grade stainless steel (double-wall, vacuum insulated)</p>
-                <p><strong>Dimensions:</strong> 20 oz – Other sizes available upon request</p>
-                <p><strong>Lid:</strong> Leak-proof screw top</p>
-                <p><strong>Finish:</strong> Matte or glossy depending on color</p>
-                <p><strong>Available Colors:</strong> Matte Black, White, Blue, Pink, Mint</p>
-                <p><strong>Personalization Options:</strong> Individual engraving with name, corporate logos, and designs</p>
-                <p><strong>Wholesale Orders:</strong> Available from 3 pieces with special pricing</p>
-                <p><strong>Identification number:</strong> 3001</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
- 
-<!-- MODALS -->
- 
-<div class="modal fade" id="productModal1" tabindex="-1" aria-labelledby="productModal1Label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="productModal1Label">Personalized Wooden Frame</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img src="/images/general/catalog/1.JPG" class="img-fluid mb-3" alt="Detalles del producto">
-                <p><strong>Description:</strong> This frame is perfect for capturing special moments. We engrave photos, text, or logos on highly resistant and durable maple or bamboo wood. The finish is smooth and the engraving is photographic quality.</p>
-                <p><strong>Material:</strong> Maple, bamboo, walnut wood.</p>
-                <p><strong>Dimensions:</strong> Available in 20x30 cm and 30x40 cm.</p>
-                <p><strong>Identification number:</strong> 1001</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>
 
-</section>
+<script>
+  // Script para llenar el modal dinámicamente
+  const cardModal = document.getElementById('cardModal');
+  cardModal.addEventListener('show.bs.modal', event => {
+    const card = event.relatedTarget;
+    const title = card.getAttribute('data-title');
+    const description = card.getAttribute('data-description');
+    const image = card.getAttribute('data-image');
+
+    document.getElementById('cardModalLabel').textContent = title;
+    document.getElementById('cardModalDescription').textContent = description;
+    document.getElementById('cardModalImage').src = image;
+  });
+</script>
+
+<style>
+  .category-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .category-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .category-card:hover img {
+    transform: scale(1.1);
+  }
+
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    text-align: center;
+  }
+
+  .category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+</style>
+
+
+
 
 
 
@@ -496,7 +399,7 @@ include 'includes/hero.php';
           <img src="/images/general/clients/azteca.png" class="img-fluid" alt="Brand 4">
         </div>
       </div>
-      
+
     </div>
   </div>
 </section>

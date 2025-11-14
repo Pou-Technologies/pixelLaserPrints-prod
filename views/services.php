@@ -33,7 +33,7 @@ include '../includes/header.php';
         <!-- Servicio 1 -->
     <div class="row align-items-center mb-5">
       <div class="col-md-6">
-        <img src="/images/general/index/corporate.jpeg" alt="Custom Signage" class="img-fluid rounded shadow">
+        <img src="/images/general/index/corporate.png" alt="Custom Signage" class="img-fluid rounded shadow">
       </div>
       <div class="col-md-6 text-start">
         <h2 class="fw-bold text-black display-5">Corporate & Hospitality</h2>
@@ -48,10 +48,10 @@ include '../includes/header.php';
     <!-- Corporate Gifts -->
     <div class="row align-items-center mb-5 flex-md-row-reverse">
       <div class="col-md-6">
-        <img src="/images/general/index/corporateIndex.png" alt="Corporate Gifts" class="img-fluid rounded shadow">
+        <img src="/images/general/index/singage.png" alt="Corporate Gifts" class="img-fluid rounded shadow">
       </div>
       <div class="col-md-6 text-start">
-        <h2 class="fw-bold text-black display-5">Corporate Gifts</h2>
+        <h2 class="fw-bold text-black display-5">Signage</h2>
         <p class="lead text-muted">Perfect for employee recognition, client appreciation, or corporate events, our engraved gifts combine
            functionality with a touch of elegance. Personalize each piece with names, logos, or special messages.</p>
         <!-- <button class="btn btn-gold mt-3" data-bs-toggle="modal" data-bs-target="#giftsModal">Learn More</button> -->
@@ -61,7 +61,7 @@ include '../includes/header.php';
     <!-- Wedding Decor -->
     <div class="row align-items-center mb-5">
       <div class="col-md-6">
-        <img src="/images/general/index/homeIndex.png" alt="Wedding Decor" class="img-fluid rounded shadow">
+        <img src="/images/general/index/Decor_.png" alt="Wedding Decor" class="img-fluid rounded shadow">
       </div>
       <div class="col-md-6 text-start">
         <h2 class="fw-bold text-black display-5">Wedding Decor & Events</h2>
@@ -74,7 +74,7 @@ include '../includes/header.php';
     <!-- Trophies & Awards -->
     <div class="row align-items-center mb-5 flex-md-row-reverse">
       <div class="col-md-6">
-        <img src="/images/general/index/tropIndex.png" alt="Trophies & Awards" class="img-fluid rounded shadow">
+        <img src="/images/general/index/sports.png" alt="Trophies & Awards" class="img-fluid rounded shadow">
       </div>
       <div class="col-md-6 text-start">
         <h2 class="fw-bold text-black display-5">Sports</h2>
@@ -86,7 +86,7 @@ include '../includes/header.php';
     <!-- Home Decor & Lifestyle -->
     <div class="row align-items-center mb-5">
       <div class="col-md-6">
-        <img src="/images/general/index/homeDecor.png" alt="Wedding Decor" class="img-fluid rounded shadow">
+        <img src="/images/general/index/decor.png" alt="Wedding Decor" class="img-fluid rounded shadow">
       </div>
       <div class="col-md-6 text-start">
         <h2 class="fw-bold text-black display-5">Home Decor & Lifestyle</h2>
@@ -99,7 +99,7 @@ include '../includes/header.php';
     <!-- Restaurants -->
     <div class="row align-items-center mb-5 flex-md-row-reverse">
       <div class="col-md-6">
-        <img src="/images/general/index/restaurantsIndex.png" alt="Trophies & Awards" class="img-fluid rounded shadow">
+        <img src="/images/general/index/restaurants.png" alt="Trophies & Awards" class="img-fluid rounded shadow">
       </div>
       <div class="col-md-6 text-start">
         <h2 class="fw-bold text-black display-5">Restaurants</h2>
