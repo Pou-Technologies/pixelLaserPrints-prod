@@ -21,6 +21,13 @@ define('SOCIAL_INSTAGRAM', 'https://www.instagram.com/pixelcharlottetown/');
 // Base URL configuration
 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
 $host = $_SERVER['HTTP_HOST'];
-// Detect if running carefully to avoid issues, but for now specific to this setup:
-define('BASE_URL', '/Pou-Technologies-Projects/Pixel%20Laser%20Prints/pixelLaserPrints-qa');
+
+// Detect Environment
+if (strpos($host, 'localhost') !== false) {
+    // Local Development
+    define('BASE_URL', '/Pou-Technologies-Projects/Pixel%20Laser%20Prints/pixelLaserPrints-qa');
+} else {
+    // Production / QA (Subdomain or Root)
+    define('BASE_URL', '');
+}
 ?>
