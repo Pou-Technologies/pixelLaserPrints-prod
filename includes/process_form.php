@@ -63,6 +63,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Procesar el formulario (enviar correo)
     $to = "sales@pixellaserprints.ca";
+
+    // Check if we are in a QA environment (based on directory name OR subdomain)
+    $host = $_SERVER['HTTP_HOST'] ?? '';
+    if (strpos($host, 'qa404') !== false || strpos(__FILE__, 'pixelLaserPrints-qa') !== false) {
+        $to = "test@poutechnologies.com";
+    }
+
     $subject = "New message from the form";
 
     // Generar un boundary único
