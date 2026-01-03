@@ -13,12 +13,14 @@
                     <span class="text-sm font-weight-medium">Precision Laser Technology</span>
                 </div> -->
                 <h1 class="py-4 hero-title text-white">Laser Precision Meets Artistry</h1>
-                <p class="hero-description text-white">Transform your ideas into reality with our cutting-edge laser engraving.</p>
+                <p class="hero-description text-white">Transform your ideas into reality with our cutting-edge laser
+                    engraving.</p>
                 <div class="d-flex justify-content-start gap-3 flex-wrap">
-                    <a href="/views/contact.php" class="btn btn-gold btn-lg">
+                    <a href="<?php echo BASE_URL; ?>/views/contact.php" class="btn btn-gold btn-lg">
                         <i class="bi bi-bag me-2"></i>Get a quote
                     </a>
-                    <a href="/views/services.php" class="btn text-white btn-lg btn-custom-light px-4">Explore Our Work</a>
+                    <a href="<?php echo BASE_URL; ?>/views/services.php"
+                        class="btn text-white btn-lg btn-custom-light px-4">Explore Our Work</a>
                 </div>
             </div>
         </div>

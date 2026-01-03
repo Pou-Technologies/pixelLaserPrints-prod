@@ -17,26 +17,31 @@ include '../includes/header.php';
   <h1 class="fw-bold">Copyright Notice</h1>
   <span class="copyright-symbol">&copy;</span>
   <p class="company-info">
-    Copyright 2025 by **PIXEL LASER PRINTS** - All Rights Reserved.
+    Copyright <?php echo date("Y"); ?> by **PIXEL LASER PRINTS** - All Rights Reserved.
   </p>
 
   <p>
-    The content, design, logo, product photography, and all materials published on this website are the intellectual property of **PIXEL LASER PRINTS** (or our content suppliers) and are protected by international copyright and trademark laws.
+    The content, design, logo, product photography, and all materials published on this website are the intellectual
+    property of **PIXEL LASER PRINTS** (or our content suppliers) and are protected by international copyright and
+    trademark laws.
   </p>
 
   <p>
-    Unauthorized use, reproduction, distribution, display, or transmission of any content is strictly prohibited without the express written permission of **PIXEL LASER PRINTS**.
+    Unauthorized use, reproduction, distribution, display, or transmission of any content is strictly prohibited without
+    the express written permission of **PIXEL LASER PRINTS**.
   </p>
 
   <hr class="my-4">
 
   <h2>Limited Permission to Use</h2>
   <p>
-    You may print or download portions of the material from the different areas of the Service solely for your own **non-commercial use** and provided that you agree not to change or delete any copyright or proprietary notices from the materials.
+    You may print or download portions of the material from the different areas of the Service solely for your own
+    **non-commercial use** and provided that you agree not to change or delete any copyright or proprietary notices from
+    the materials.
   </p>
 
   <p>
-    For permission requests, please contact us at: <br> **sales@pixellaserprints.ca**
+    For permission requests, please contact us at: <br> **<?php echo COMPANY_EMAIL; ?>**
   </p>
 </section>
 

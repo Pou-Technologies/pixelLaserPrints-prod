@@ -1,14 +1,13 @@
 <!-- Header -->
-    <?php
-    $pageTitle = "Documentation"; // Define el título de la página
-    include '../includes/header.php';
-    ?>
+<?php
+$pageTitle = "Documentation"; // Define el título de la página
+include '../includes/header.php';
+?>
 
 
 
-<section class="hero" 
-    style="
-        background-image: url('/images/general/Blog(5).png'); 
+<section class="hero" style="
+        background-image: url('<?php echo BASE_URL; ?>/images/general/Blog(5).png'); 
         background-size: cover; 
         background-position: center; 
         background-repeat: no-repeat; 
@@ -19,18 +18,17 @@
         <!-- Hero Section -->
         <section class="text-center">
             <div class="container">
-               <!-- 503 -->
-                <?php  
-                include '../errors/503.php';
-                ?> 
+                <!-- 503 -->
+                <?php
+                include '../includes/503.php';
+                ?>
             </div>
         </section>
 
     </div>
 
 
-<!-- Footer -->
-    <?php  
+    <!-- Footer -->
+    <?php
     include '../includes/footer.php';
     ?>
-
