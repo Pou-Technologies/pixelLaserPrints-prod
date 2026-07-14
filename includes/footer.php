@@ -3,7 +3,7 @@
     <div class="row">
 
       <!-- Columna 1 -->
-      <div class="col-md-3 mb-4">
+      <div class="col-lg-3 col-md-6 mb-4">
         <h5 class="fw-bold"></h5>
         <img src="<?php echo BASE_URL; ?>/images/logo/logo.png" alt="Company Logo" class="mb-3"
           style="max-width: 150px;">
@@ -14,7 +14,7 @@
       </div>
 
       <!-- Columna 2 -->
-      <div class="col-md-3 mb-4">
+      <div class="col-lg-2 col-md-3 mb-4">
         <h6 class="fw-bold">Company</h6>
         <ul class="list-unstyled">
           <li><a href="<?php echo BASE_URL; ?>/index.php" class="text-light text-decoration-none">Home</a></li>
@@ -32,7 +32,7 @@
       </div>
 
       <!-- Columna 3 -->
-      <div class="col-md-3 mb-4">
+      <div class="col-lg-2 col-md-3 mb-4">
         <h6 class="fw-bold">Products</h6>
         <ul class="list-unstyled">
           <li><a href="#" class="text-light text-decoration-none">Signage</a></li>
@@ -47,7 +47,7 @@
       </div>
 
       <!-- Columna 4 -->
-      <div class="col-md-3 mb-4">
+      <div class="col-lg-2 col-md-6 mb-4">
         <h6 class="fw-bold">Contact</h6>
         <p class="small mb-1">📍
           <?php echo COMPANY_FULL_ADDRESS; ?>
@@ -58,13 +58,25 @@
         <p class="small mb-1">✉️
           <?php echo COMPANY_EMAIL; ?>
         </p>
-        <p class="small mb-1">⏰ Monday - Friday: 7am - 6pm</p>
-        <p class="small ">Saturday: 7am -2pm , Sunday: Closed.</p>
+        <p class="small mb-1">⏰ Mon - Fri: 7am - 6pm</p>
+        <p class="small ">Sat: 7am - 2pm, Sun: Closed.</p>
         <div>
           <a href="<?php echo SOCIAL_FACEBOOK; ?>" class="text-light me-2"><i class="bi bi-facebook"></i></a>
           <a href="<?php echo SOCIAL_INSTAGRAM; ?>" class="text-light me-2"><i class="bi bi-instagram"></i></a>
           <a href="<?php echo SOCIAL_TIKTOK; ?>" class="text-light"><i class="bi bi-tiktok"></i></a>
         </div>
+      </div>
+
+      <!-- Columna 5: Subscription -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <h6 class="fw-bold">Newsletter</h6>
+        <p class="small ">Subscribe to receive updates, access to exclusive deals, and more.</p>
+        <form id="subscribe-form" class="mt-3">
+          <div class="input-group">
+            <input type="email" name="email" class="form-control bg-dark text-light border-secondary" placeholder="Your email address" required style="font-size: 0.85rem;">
+            <button class="btn btn-outline-light" type="submit" style="font-size: 0.85rem;">Subscribe</button>
+          </div>
+        </form>
       </div>
 
     </div>
@@ -155,6 +167,59 @@
         // Maneja estados desconocidos o faltantes (opcional)
         console.warn("No valid form_status provided.");
         break;
+    }
+
+    // Handle newsletter subscription
+    const subscribeForm = document.getElementById('subscribe-form');
+    if (subscribeForm) {
+      subscribeForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const emailInput = subscribeForm.querySelector('input[name="email"]');
+        const submitBtn = subscribeForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.textContent;
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Subscribing...';
+
+        const formData = new FormData(subscribeForm);
+
+        fetch('<?php echo BASE_URL; ?>/includes/subscribe.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            Swal.fire({
+              title: "Subscribed!",
+              text: data.message,
+              icon: "success",
+              confirmButtonColor: "#3085d6"
+            });
+            subscribeForm.reset();
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: data.message,
+              icon: "error",
+              confirmButtonColor: "#d33"
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          Swal.fire({
+            title: "Oops...",
+            text: "Something went wrong. Please try again later.",
+            icon: "error"
+          });
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
+        });
+      });
     }
   });
 
