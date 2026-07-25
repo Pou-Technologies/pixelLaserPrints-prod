@@ -1,20 +1,52 @@
-<section class="hero d-flex align-items-center" style="min-height: 100vh;">
+<?php
+require_once __DIR__ . '/PortalApiClient.php';
+
+// Fallback default values
+$heroTitle = "Laser Precision Meets Artistry";
+$heroSubtitle = "Transform your ideas into reality with our cutting-edge laser engraving.";
+$heroImage = "";
+$heroPromotionalText = "";
+
+$heroResponse = PortalApiClient::getHeroContent();
+
+if (!empty($heroResponse['success']) && !empty($heroResponse['data'])) {
+    $data = $heroResponse['data'];
+    // Handle possible nested data key from Laravel API responses (e.g. ['data' => [...]])
+    $content = isset($data['data']) && is_array($data['data']) ? $data['data'] : $data;
+
+    if (!empty($content['hero_title'])) {
+        $heroTitle = $content['hero_title'];
+    }
+    if (!empty($content['hero_subtitle'])) {
+        $heroSubtitle = $content['hero_subtitle'];
+    }
+    if (!empty($content['hero_image'])) {
+        $heroImage = $content['hero_image'];
+    }
+    if (!empty($content['promotional_text'])) {
+        $heroPromotionalText = $content['promotional_text'];
+    } elseif (!empty($content['promo_text'])) {
+        $heroPromotionalText = $content['promo_text'];
+    }
+}
+
+$heroStyle = 'min-height: 100vh;';
+if (!empty($heroImage)) {
+    $heroStyle .= ' background: url(\'' . htmlspecialchars($heroImage) . '\') no-repeat center center/cover;';
+}
+?>
+<section class="hero d-flex align-items-center" style="<?php echo $heroStyle; ?>">
     <div class="container text-white">
         <div class="row">
             <div class="col-md-8 col-lg-6 text-left">
-                <!-- <div class="d-inline-flex align-items-center rounded-pill px-4 py-2 mb-4" style="border: 2px solid #D4AF37; color: #D4AF37;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 me-2">
-                        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
-                        <path d="M5 3v4"></path>
-                        <path d="M19 17v4"></path>
-                        <path d="M3 5h4"></path>
-                        <path d="M17 19h4"></path>
-                    </svg>
-                    <span class="text-sm font-weight-medium">Precision Laser Technology</span>
-                </div> -->
-                <h1 class="py-4 hero-title text-white">Laser Precision Meets Artistry</h1>
-                <p class="hero-description text-white">Transform your ideas into reality with our cutting-edge laser
-                    engraving.</p>
+                <?php if (!empty($heroPromotionalText)): ?>
+                <div class="d-inline-flex align-items-center rounded-pill px-4 py-2 mb-3" style="border: 2px solid #D4AF37; color: #D4AF37; background: rgba(0,0,0,0.5);">
+                    <i class="bi bi-stars me-2"></i>
+                    <span class="text-sm font-weight-medium"><?php echo htmlspecialchars($heroPromotionalText); ?></span>
+                </div>
+                <?php endif; ?>
+                <h1 class="py-3 hero-title text-white"><?php echo htmlspecialchars($heroTitle); ?></h1>
+                <p class="hero-description text-white"><?php echo htmlspecialchars($heroSubtitle); ?></p>
                 <div class="d-flex justify-content-start gap-3 flex-wrap">
                     <a href="<?php echo BASE_URL; ?>/views/contact.php" class="btn btn-gold btn-lg">
                         <i class="bi bi-bag me-2"></i>Get a quote

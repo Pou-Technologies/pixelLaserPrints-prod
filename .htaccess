@@ -26,9 +26,10 @@ RewriteEngine On
 # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Proteger archivos .htaccess y .env
-# <FilesMatch "^(\.htaccess|\.env)">
-#    Require all denied
-# </FilesMatch>
+<FilesMatch "^(\.htaccess|\.env)">
+    Require all denied
+</FilesMatch>
+
 
 # Prevenir Clickjacking
 # Header set X-Frame-Options "DENY"

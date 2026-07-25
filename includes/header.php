@@ -117,12 +117,13 @@
               href="<?php echo BASE_URL; ?>/views/catalog.php">Catalog</a></li>   
           <li class="nav-item"><a class="nav-link text-white"
               href="<?php echo BASE_URL; ?>/views/contact.php">Contact</a></li>
-          <li class="nav-item"><a class="nav-link text-white" href="<?php echo BASE_URL; ?>/views/about.php">About
-              Us</a></li>    
+          <li class="nav-item"><a class="nav-link text-white" href="<?php echo BASE_URL; ?>/views/about.php">About Us</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="<?php echo BASE_URL; ?>/views/blog.php">Blog</a></li>
         </ul>
       </div>
     </div>
   </nav>
+
 
 
 
