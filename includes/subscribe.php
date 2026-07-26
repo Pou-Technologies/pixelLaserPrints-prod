@@ -45,6 +45,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         // If API fails but email sent, or return error description
         $errorMsg = $apiResult['data']['message'] ?? $apiResult['error'] ?? "Failed to submit subscription. Please try again later.";
+        if (isset($apiResult['raw_response'])) {
+            $errorMsg .= " | Raw Response: " . substr(strip_tags($apiResult['raw_response']), 0, 300);
+        }
         echo json_encode([
             "status" => "error",
             "message" => $errorMsg
