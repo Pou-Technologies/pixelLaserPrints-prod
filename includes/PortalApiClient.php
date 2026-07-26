@@ -30,8 +30,8 @@ class PortalApiClient {
             }
         }
 
-        self::$apiUrl = getenv('CLIENT_PORTAL_API_URL') ?: ($_ENV['CLIENT_PORTAL_API_URL'] ?? 'http://localhost/pou-technologies-prod/public/api/v1');
-        self::$apiKey = getenv('CLIENT_PORTAL_API_KEY') ?: ($_ENV['CLIENT_PORTAL_API_KEY'] ?? '');
+        self::$apiUrl = $_ENV['CLIENT_PORTAL_API_URL'] ?? getenv('CLIENT_PORTAL_API_URL') ?: 'https://www.poutechnologies.com/api/v1';
+        self::$apiKey = $_ENV['CLIENT_PORTAL_API_KEY'] ?? getenv('CLIENT_PORTAL_API_KEY') ?: '';
     }
 
     /**
