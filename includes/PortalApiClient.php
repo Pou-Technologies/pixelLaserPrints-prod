@@ -134,11 +134,11 @@ class PortalApiClient {
         return self::request('GET', '/blog/posts/' . urlencode($slug));
     }
 
-    /**
-     * POST /subscribers/add
-     */
     public static function subscribeNewsletter($email) {
-        return self::request('POST', '/subscribers/add', ['email' => $email]);
+        return self::request('POST', '/subscribers/add', [
+            'email' => $email,
+            'name' => 'Subscriber'
+        ]);
     }
 
     /**
