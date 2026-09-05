@@ -4,13 +4,6 @@ $pageTitle = "About Us"; // Define el título de la página
 include '../includes/header.php';
 ?>
 
-<section class="py-3 about-hero text-center text-white d-flex bg-black align-items-center justify-content-center">
-  <div class="container py-5">
-    <h1 class="display-3 fw-bold mb-3"></h1>
-    <p class="lead"></p>
-  </div>
-</section>
-
 <section class="about-hero text-center text-white d-flex align-items-center justify-content-center"
   style="background-image: url('<?php echo BASE_URL; ?>/images/general/peiUs.svg'); background-repeat: no-repeat; background-position: center; background-size: cover; min-height: 60vh;">
 
@@ -36,7 +29,7 @@ include '../includes/header.php';
           <h2 class="display-5 fw-bold mb-4 text-dark">Our Journey to Success</h2>
           <p class="lead text-secondary mb-4">
             We started this company with a simple vision: to create something truly exceptional. From our humble
-            beginnings in Prince Edwar Island, we have grown, but our core values remain the same.
+            beginnings in Prince Edward Island, we have grown, but our core values remain the same.
           </p>
           <p class="mb-4">
             Our passion for quality and dedication to our clients have been the driving forces behind everything we do.
@@ -73,7 +66,7 @@ include '../includes/header.php';
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                   class="h-4 w-4 me-2">
                   <path
-                    d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z">
+                    d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275 1.275L12 3Z">
                   </path>
                   <path d="M5 3v4"></path>
                   <path d="M19 17v4"></path>
@@ -92,7 +85,36 @@ include '../includes/header.php';
   </div>
 </section>
 
-<section class="section-wrapper bg-light text-center container">
+<!-- Meet Our Team Section -->
+<section class="section-wrapper bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="display-5 fw-bold text-dark mb-3">Meet Our Team</h2>
+      <p class="lead text-secondary mx-auto" style="max-width: 650px;">
+        The passionate minds behind Pixel Laser Prints, dedicated to quality, precision, and bringing your vision to life.
+      </p>
+    </div>
+
+    <div class="row justify-content-center g-4">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 team-card">
+          <div class="team-img-wrapper" style="height: 380px;">
+            <img src="<?php echo BASE_URL; ?>/images/team/luis-lopez.jpg" alt="Luis Lopez - Operations & Production Manager" class="w-100 h-100 object-fit-cover">
+          </div>
+          <div class="card-body p-4 text-center">
+            <h3 class="h4 fw-bold mb-1 text-dark">Luis Lopez</h3>
+            <p class="color-font fw-semibold mb-3">Operations & Production Manager</p>
+            <p class="text-secondary text-sm mb-0">
+              Overseeing daily operations and laser production workflows with meticulous precision to deliver unmatched craftsmanship in every project.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-wrapper text-center">
   <div class="container">
     <h2 class="fw-bold mb-4">Why Choose Us?</h2>
 
@@ -132,17 +154,10 @@ include '../includes/header.php';
         value circulating here at home and contributes to long-term economic stability.
       </p>
     </div>
-
-
-
-
-
+  </div>
 </section>
-
-
-
 
 <!-- Footer -->
 <?php
 include '../includes/footer.php';
-?>
+?>
