@@ -69,6 +69,8 @@ class PortalApiClient {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'PixelLaserPrints/1.0 (PortalApiClient; +https://www.pixellaserprints.ca)');
 
         // For local development on WAMP, disable SSL verification if self-signed
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -98,11 +100,21 @@ class PortalApiClient {
 
         $decoded = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
+            // Provide specific human-readable errors for common HTTP status codes
+            $statusExplanation = match ($httpCode) {
+                429 => 'Límite de peticiones excedido (Rate Limit). Espera unos instantes antes de reintentar.',
+                403 => 'Acceso denegado (403 Forbidden). Cloudflare o el firewall del servidor bloquearon temporalmente la petición.',
+                500 => 'Error interno del servidor en el Client Portal (500).',
+                502, 504 => 'El servidor del Client Portal no responde o tardó demasiado (502/504 Gateway Timeout).',
+                503 => 'Servidor temporalmente no disponible (503 Service Unavailable).',
+                default => 'Respuesta no válida del Portal API (Código HTTP: ' . $httpCode . ').'
+            };
+
             return [
                 'success' => false,
                 'http_code' => $httpCode,
                 'raw_response' => $response,
-                'error' => 'Invalid JSON response from Portal API.'
+                'error' => $statusExplanation
             ];
         }
 
@@ -114,10 +126,30 @@ class PortalApiClient {
     }
 
     /**
-     * GET /content/hero
+     * GET /content/hero (cached for 5 minutes to avoid rate-limiting)
      */
-    public static function getHeroContent() {
-        return self::request('GET', '/content/hero');
+    public static function getHeroContent($ttl = 300) {
+        $cacheFile = sys_get_temp_dir() . '/plp_hero_cache.json';
+        
+        if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < $ttl)) {
+            $cached = @json_decode(file_get_contents($cacheFile), true);
+            if (!empty($cached['success'])) {
+                return $cached;
+            }
+        }
+
+        $res = self::request('GET', '/content/hero');
+        if (!empty($res['success'])) {
+            @file_put_contents($cacheFile, json_encode($res));
+        } elseif (file_exists($cacheFile)) {
+            // If live request fails, return stale cache if available
+            $cached = @json_decode(file_get_contents($cacheFile), true);
+            if (!empty($cached)) {
+                return $cached;
+            }
+        }
+
+        return $res;
     }
 
     /**
