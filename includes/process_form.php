@@ -57,17 +57,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // ------------------------------------------------------------------
     // Consumir API del Client Portal (POST /api/v1/orders/create)
     // ------------------------------------------------------------------
+    $fullName = trim($firstName . ' ' . $lastName);
     $orderPayload = [
-        'first_name' => $firstName,
-        'last_name'  => $lastName,
-        'name'       => $firstName . ' ' . $lastName,
-        'email'      => $email,
-        'phone'      => $phone,
-        'service'    => $service,
-        'reference_id' => $projectID,
-        'project_id' => $projectID,
-        'message'    => $message,
-        'source'     => 'Pixel Laser Prints Web'
+        'customer_name'  => !empty($fullName) ? $fullName : 'Prospective Client',
+        'customer_email' => $email,
+        'customer_phone' => $phone,
+        'first_name'     => $firstName,
+        'last_name'      => $lastName,
+        'name'           => $fullName,
+        'email'          => $email,
+        'phone'          => $phone,
+        'service'        => $service,
+        'reference_id'   => $projectID,
+        'project_id'     => $projectID,
+        'message'        => $message,
+        'total'          => 0.00,
+        'items'          => [
+            [
+                'name'     => !empty($service) ? "Service Request: $service" : 'Custom Order Request',
+                'quantity' => 1,
+                'price'    => 0.00
+            ]
+        ],
+        'source'         => 'Pixel Laser Prints Web'
     ];
 
     $apiResult = PortalApiClient::createOrder($orderPayload);
