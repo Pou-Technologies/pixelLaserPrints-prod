@@ -367,37 +367,78 @@ include 'includes/hero.php';
   </div>
 </section>
 
-<!-- SECTION 5: Brands We've Worked With -->
-<section class="modern-section bg-white border-top">
+<!-- SECTION 5: Brands We've Worked With (Automatic Carousel) -->
+<section class="modern-section bg-white border-top overflow-hidden">
   <div class="container text-center">
     <span class="section-badge mb-2">Trusted Partners</span>
     <h2 class="section-heading fw-bold text-black mb-3">Brands We’ve Worked With</h2>
     <p class="text-secondary mb-5 mx-auto" style="max-width: 640px;">
       We’re proud to have collaborated with businesses and organizations that trust our work.
     </p>
+  </div>
 
-    <div class="row justify-content-center align-items-center g-4">
-      <!-- Brand 1 -->
-      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div class="p-4 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
+  <div class="brands-marquee-wrapper position-relative">
+    <div class="brands-marquee-track">
+      <!-- Set 1 -->
+      <div class="brand-item">
+        <div class="p-3 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
           <img src="<?php echo BASE_URL; ?>/images/general/clients/rodd.png" class="img-fluid" alt="Rodd Hotels & Resorts">
         </div>
       </div>
-      <!-- Brand 2 -->
-      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div class="p-4 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
+      <div class="brand-item">
+        <div class="p-3 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
+          <img src="<?php echo BASE_URL; ?>/images/general/clients/dynamic.png" class="img-fluid" alt="Dynamic Smart Lawns & Landscaping">
+        </div>
+      </div>
+      <div class="brand-item">
+        <div class="p-3 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
           <img src="<?php echo BASE_URL; ?>/images/general/clients/haviland.png" class="img-fluid" alt="The Haviland">
         </div>
       </div>
-      <!-- Brand 3 -->
-      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div class="p-4 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
+      <div class="brand-item">
+        <div class="p-3 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
+          <img src="<?php echo BASE_URL; ?>/images/general/clients/poutechnologies.png" class="img-fluid" alt="Pou Technologies">
+        </div>
+      </div>
+      <div class="brand-item">
+        <div class="p-3 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
           <img src="<?php echo BASE_URL; ?>/images/general/clients/connectors.png" class="img-fluid" alt="Connectors">
         </div>
       </div>
-      <!-- Brand 4 -->
-      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div class="p-4 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
+      <div class="brand-item">
+        <div class="p-3 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
+          <img src="<?php echo BASE_URL; ?>/images/general/clients/azteca.png" class="img-fluid" alt="Azteca">
+        </div>
+      </div>
+
+      <!-- Set 2 (Duplicate for infinite seamless loop) -->
+      <div class="brand-item" aria-hidden="true">
+        <div class="p-3 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
+          <img src="<?php echo BASE_URL; ?>/images/general/clients/rodd.png" class="img-fluid" alt="Rodd Hotels & Resorts">
+        </div>
+      </div>
+      <div class="brand-item" aria-hidden="true">
+        <div class="p-3 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
+          <img src="<?php echo BASE_URL; ?>/images/general/clients/dynamic.png" class="img-fluid" alt="Dynamic Smart Lawns & Landscaping">
+        </div>
+      </div>
+      <div class="brand-item" aria-hidden="true">
+        <div class="p-3 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
+          <img src="<?php echo BASE_URL; ?>/images/general/clients/haviland.png" class="img-fluid" alt="The Haviland">
+        </div>
+      </div>
+      <div class="brand-item" aria-hidden="true">
+        <div class="p-3 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
+          <img src="<?php echo BASE_URL; ?>/images/general/clients/poutechnologies.png" class="img-fluid" alt="Pou Technologies">
+        </div>
+      </div>
+      <div class="brand-item" aria-hidden="true">
+        <div class="p-3 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
+          <img src="<?php echo BASE_URL; ?>/images/general/clients/connectors.png" class="img-fluid" alt="Connectors">
+        </div>
+      </div>
+      <div class="brand-item" aria-hidden="true">
+        <div class="p-3 border rounded-4 shadow-sm brand-box d-flex align-items-center justify-content-center">
           <img src="<?php echo BASE_URL; ?>/images/general/clients/azteca.png" class="img-fluid" alt="Azteca">
         </div>
       </div>
