@@ -143,6 +143,30 @@ include '../includes/header.php';
           </div>
         </div>
       </div>
+
+      <!-- Omar Alvarado -->
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 team-card">
+          <div class="team-img-wrapper" style="height: 380px;">
+            <img src="<?php echo BASE_URL; ?>/images/team/omar-alvarado.jpg" alt="Omar Alvarado - CNC Specialist & Production" class="w-100 h-100 object-fit-cover">
+          </div>
+          <div class="card-body p-4 text-center d-flex flex-column">
+            <h3 class="h4 fw-bold mb-1 text-dark">Omar Alvarado</h3>
+            <p class="color-font fw-semibold mb-3">CNC Specialist & Production</p>
+            <p class="text-secondary text-sm mb-3 flex-grow-1">
+              Expertly operating CNC machinery and optimizing precision production processes to shape high-standard custom pieces with flawless detail.
+            </p>
+            <div class="pt-3 border-top mt-auto">
+              <a href="mailto:omaralvarado@pixellaserprints.ca" class="team-email-link d-inline-flex align-items-center gap-2 text-decoration-none small">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                </svg>
+                <span>omaralvarado@pixellaserprints.ca</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -193,4 +217,4 @@ include '../includes/header.php';
 <!-- Footer -->
 <?php
 include '../includes/footer.php';
-?>
+?>
