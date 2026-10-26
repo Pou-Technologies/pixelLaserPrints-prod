@@ -35,24 +35,32 @@ if (!empty($heroImage)) {
     $heroStyle .= ' background: url(\'' . htmlspecialchars($heroImage) . '\') no-repeat center center/cover;';
 }
 ?>
-<section class="hero d-flex align-items-center" style="<?php echo $heroStyle; ?>">
-    <div class="container text-white">
-        <div class="row">
-            <div class="col-md-8 col-lg-6 text-left">
+<section class="hero d-flex align-items-center justify-content-center position-relative" style="<?php echo $heroStyle; ?>">
+    <div class="hero-overlay"></div>
+    <div class="container text-white position-relative z-1">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-9 text-center">
                 <?php if (!empty($heroPromotionalText)): ?>
-                <div class="d-inline-flex align-items-center rounded-pill px-4 py-2 mb-3" style="border: 2px solid #D4AF37; color: #D4AF37; background: rgba(0,0,0,0.5);">
+                <div class="d-inline-flex align-items-center rounded-pill px-4 py-2 mb-4 hero-promo-badge">
                     <i class="bi bi-stars me-2"></i>
-                    <span class="text-sm font-weight-medium"><?php echo htmlspecialchars($heroPromotionalText); ?></span>
+                    <span class="small fw-semibold"><?php echo htmlspecialchars($heroPromotionalText); ?></span>
+                </div>
+                <?php else: ?>
+                <div class="d-inline-flex align-items-center rounded-pill px-4 py-2 mb-4 hero-promo-badge">
+                    <i class="bi bi-gem me-2"></i>
+                    <span class="small fw-semibold text-uppercase tracking-wide">Custom Engraving &amp; Design Studio in PEI</span>
                 </div>
                 <?php endif; ?>
-                <h1 class="py-3 hero-title text-white"><?php echo htmlspecialchars($heroTitle); ?></h1>
-                <p class="hero-description text-white"><?php echo htmlspecialchars($heroSubtitle); ?></p>
-                <div class="d-flex justify-content-start gap-3 flex-wrap">
-                    <a href="<?php echo BASE_URL; ?>/views/contact.php" class="btn btn-gold btn-lg">
-                        <i class="bi bi-bag me-2"></i>Get a quote
+                <h1 class="py-2 hero-title text-white mx-auto"><?php echo htmlspecialchars($heroTitle); ?></h1>
+                <p class="hero-description text-white-50 mx-auto mb-5"><?php echo htmlspecialchars($heroSubtitle); ?></p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="<?php echo BASE_URL; ?>/views/contact.php" class="btn btn-gold btn-lg rounded-pill px-5 py-3 fw-semibold shadow">
+                        <i class="bi bi-bag-check me-2"></i>Get a Quote
                     </a>
                     <a href="<?php echo BASE_URL; ?>/views/services.php"
-                        class="btn text-white btn-lg btn-custom-light px-4">Explore Our Work</a>
+                        class="btn text-white btn-lg btn-custom-light rounded-pill px-5 py-3 fw-semibold">
+                        Explore Our Work <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
                 </div>
             </div>
         </div>

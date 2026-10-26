@@ -81,8 +81,38 @@
 
     </div>
 
+    <!-- Payment Methods by Helcim -->
+    <div class="footer-payment-bar mt-3 pt-4 pb-3 border-top border-secondary border-opacity-25">
+      <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-3">
+        <div class="d-flex align-items-center gap-2 text-center text-lg-start">
+          <span class="payment-shield-icon d-inline-flex align-items-center justify-content-center rounded-circle">
+            <i class="bi bi-shield-lock-fill"></i>
+          </span>
+          <div>
+            <span class="small fw-semibold text-white d-block">We Accept All Payment Methods</span>
+            <span class="text-white-50" style="font-size: 0.78rem;">
+              Securely processed by <strong class="text-gold">Helcim</strong> — Credit, Debit, Interac &amp; Digital Wallets
+            </span>
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2">
+          <span class="payment-badge" title="Visa"><i class="fab fa-cc-visa me-1"></i>Visa</span>
+          <span class="payment-badge" title="Mastercard"><i class="fab fa-cc-mastercard me-1"></i>Mastercard</span>
+          <span class="payment-badge" title="American Express"><i class="fab fa-cc-amex me-1"></i>Amex</span>
+          <span class="payment-badge" title="Discover"><i class="fab fa-cc-discover me-1"></i>Discover</span>
+          <span class="payment-badge" title="Apple Pay"><i class="fab fa-apple-pay me-1"></i>Apple Pay</span>
+          <span class="payment-badge" title="Google Pay"><i class="fab fa-google-pay me-1"></i>Google Pay</span>
+          <span class="payment-badge" title="Interac &amp; Debit"><i class="bi bi-credit-card-2-front me-1"></i>Interac / Debit</span>
+          <span class="payment-badge payment-badge-helcim" title="Powered by Helcim">
+            <i class="bi bi-patch-check-fill me-1"></i>Helcim
+          </span>
+        </div>
+      </div>
+    </div>
+
     <!-- Barra inferior -->
-    <div class="text-center mt-4 border-top pt-3">
+    <div class="text-center mt-2 border-top border-secondary border-opacity-25 pt-3">
       <p class="small mb-0">
         © <?php echo date("Y"); ?>
         <?php echo COMPANY_NAME; ?> | All rights reserved
