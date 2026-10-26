@@ -234,20 +234,20 @@ include 'includes/hero.php';
   });
 </script>
 
-<!-- SECTION 3: Our Commitment to Every Project -->
-<section class="modern-section bg-white">
-  <div class="container">
-    <div class="text-center mx-auto mb-5" style="max-width: 720px;">
-      <span class="section-badge mb-2">Craftsmanship</span>
-      <h2 class="section-heading fw-bold text-black mb-3">Our Commitment to Every Project</h2>
-      <p class="text-secondary fs-6 mb-0">Personalized creations crafted with precision and care.</p>
+<!-- SECTION 3: Our Commitment to Every Project (Full Width Black & Gold Gradient) -->
+<section class="modern-section commitment-fullwidth-section text-white position-relative overflow-hidden">
+  <div class="container-fluid px-4 px-lg-5 py-lg-3 position-relative z-1" style="max-width: 1500px;">
+    <div class="text-center mx-auto mb-5" style="max-width: 740px;">
+      <span class="section-badge section-badge-dark mb-2">Craftsmanship</span>
+      <h2 class="section-heading fw-bold text-white mb-3">Our Commitment to Every Project</h2>
+      <p class="text-white-50 fs-5 mb-0">Personalized creations crafted with precision and care.</p>
     </div>
 
-    <div class="commitment-showcase p-4 p-lg-5 rounded-4 shadow-sm border">
+    <div class="commitment-showcase-dark p-4 p-lg-5 rounded-4">
       <div class="row align-items-center g-4 g-lg-5">
         <div class="col-lg-6">
           <div class="position-relative commitment-img-wrapper">
-            <img src="<?php echo BASE_URL; ?>/images/general/index/aztecaIndex.JPG" class="img-fluid rounded-4 shadow"
+            <img src="<?php echo BASE_URL; ?>/images/general/index/aztecaIndex.JPG" class="img-fluid rounded-4 shadow-lg"
               alt="Azteca restaurant in Charlottetown, PEI">
             <div class="commitment-caption-badge">
               <i class="bi bi-geo-alt-fill text-warning me-1"></i>
@@ -257,28 +257,28 @@ include 'includes/hero.php';
         </div>
 
         <div class="col-lg-6">
-          <span class="badge rounded-pill text-bg-warning bg-opacity-10 text-dark border border-warning-subtle px-3 py-2 mb-3">
-            <i class="bi bi-heart-fill text-warning me-1"></i> Dedicated Attention
+          <span class="d-inline-flex align-items-center rounded-pill px-3 py-2 mb-3 hero-promo-badge small fw-semibold">
+            <i class="bi bi-heart-fill text-warning me-2"></i>Dedicated Attention
           </span>
-          <h3 class="fw-bold mb-3 text-black display-6">We Care About Your Product</h3>
-          <p class="text-secondary mb-3">
+          <h3 class="fw-bold mb-3 text-white display-6">We Care About Your Product</h3>
+          <p class="text-white-50 mb-3">
             At Pixel Laser Prints, every project is special.
             From the first idea to the final product, we put our full attention,
             creativity, and dedication into every step of the process.
           </p>
-          <p class="text-secondary mb-3">
+          <p class="text-white-50 mb-3">
             Whether it’s signage for a business, décor for a wedding,
             or a personalized gift, we collaborate closely with our
             clients to ensure their vision is brought to life with
             precision and care.
           </p>
-          <p class="text-secondary mb-4">
+          <p class="text-white-50 mb-4">
             Every detail matters—from material selection to
             engraving accuracy—because we believe the result should not only meet expectations but create a lasting
             impression.
           </p>
-          <div class="p-3 rounded-3 bg-white border-start border-4 border-warning shadow-sm">
-            <p class="fw-semibold text-black mb-0 small">
+          <div class="p-4 rounded-3 commitment-quote-box">
+            <p class="fw-semibold text-white mb-0">
               “For us, it’s not just about making products—it’s about turning ideas into meaningful designs that truly represent our clients.”
             </p>
           </div>
@@ -405,25 +405,23 @@ include 'includes/hero.php';
   </div>
 </section>
 
-<!-- SECTION 6: Call to Action -->
-<section class="py-5 bg-white">
-  <div class="container mb-4">
-    <div class="cta-modern-banner text-center text-white p-5 rounded-4 shadow-lg position-relative overflow-hidden">
-      <div class="position-relative z-1 mx-auto" style="max-width: 720px;">
-        <span class="section-badge mb-3">Ready to Start?</span>
-        <h2 class="fw-bold mb-3 display-6 text-white">Bring Your Ideas to Life with Pixel Laser Prints</h2>
-        <p class="mb-4 text-white-50 fs-5">
-          Whether it’s a personalized gift, wedding décor, or custom signage, we’re here
-          to create something truly unique for you.
-        </p>
-        <div class="d-flex justify-content-center gap-3 flex-wrap">
-          <a href="tel:<?php echo COMPANY_PHONE_TEL; ?>" class="btn btn-lg btn-gold rounded-pill px-5 py-3 fw-semibold shadow">
-            <i class="bi bi-telephone-fill me-2"></i>Call Us
-          </a>
-          <a href="<?php echo BASE_URL; ?>/views/contact.php" class="btn btn-lg btn-custom-light rounded-pill px-5 py-3 fw-semibold">
-            Contact Us Today
-          </a>
-        </div>
+<!-- SECTION 6: Call to Action (Full Width Black & Gold Gradient) -->
+<section class="cta-fullwidth-section text-center text-white position-relative overflow-hidden">
+  <div class="container py-5 position-relative z-1">
+    <div class="mx-auto py-3" style="max-width: 780px;">
+      <span class="section-badge section-badge-dark mb-3">Ready to Start?</span>
+      <h2 class="fw-bold mb-3 display-5 text-white">Bring Your Ideas to Life with Pixel Laser Prints</h2>
+      <p class="mb-4 text-white-50 fs-5">
+        Whether it’s a personalized gift, wedding décor, or custom signage, we’re here
+        to create something truly unique for you.
+      </p>
+      <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+        <a href="tel:<?php echo COMPANY_PHONE_TEL; ?>" class="btn btn-lg btn-gold rounded-pill px-5 py-3 fw-semibold shadow">
+          <i class="bi bi-telephone-fill me-2"></i>Call Us
+        </a>
+        <a href="<?php echo BASE_URL; ?>/views/contact.php" class="btn btn-lg btn-custom-light rounded-pill px-5 py-3 fw-semibold">
+          Contact Us Today <i class="bi bi-arrow-right ms-2"></i>
+        </a>
       </div>
     </div>
   </div>
