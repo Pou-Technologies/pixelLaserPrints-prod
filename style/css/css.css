@@ -1499,4 +1499,33 @@ body {
   font-weight: 600;
 }
 
-
+
+
+
+/* ==============================
+   CANADA BADGE & SPACER
+================================= */
+.canada-flag-icon {
+  width: 20px;
+  height: auto;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  vertical-align: middle;
+}
+
+.canada-trust-pill {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: #ffffff !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.canada-trust-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+.cta-footer-spacer {
+  background-color: #ffffff;
+  position: relative;
+  z-index: 1;
+}

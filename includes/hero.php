@@ -42,13 +42,15 @@ if (!empty($heroImage)) {
             <div class="col-12 col-lg-9 text-center">
                 <?php if (!empty($heroPromotionalText)): ?>
                 <div class="d-inline-flex align-items-center rounded-pill px-4 py-2 mb-4 hero-promo-badge">
-                    <i class="bi bi-stars me-2"></i>
+                    <img src="<?php echo BASE_URL; ?>/images/general/canada-flag.svg" alt="Canada Flag" class="canada-flag-icon me-2">
                     <span class="small fw-semibold"><?php echo htmlspecialchars($heroPromotionalText); ?></span>
+                    <span class="badge-separator mx-2">&bull;</span>
+                    <span class="small fw-semibold">Made in Canada</span>
                 </div>
                 <?php else: ?>
                 <div class="d-inline-flex align-items-center rounded-pill px-4 py-2 mb-4 hero-promo-badge">
-                    <i class="bi bi-gem me-2"></i>
-                    <span class="small fw-semibold text-uppercase tracking-wide">Custom Engraving &amp; Design Studio in PEI</span>
+                    <img src="<?php echo BASE_URL; ?>/images/general/canada-flag.svg" alt="Canada Flag" class="canada-flag-icon me-2">
+                    <span class="small fw-semibold text-uppercase tracking-wide">Made in Canada &bull; PEI Studio</span>
                 </div>
                 <?php endif; ?>
                 <h1 class="py-2 hero-title text-white mx-auto"><?php echo htmlspecialchars($heroTitle); ?></h1>

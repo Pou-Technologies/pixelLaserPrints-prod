@@ -427,6 +427,16 @@ include 'includes/hero.php';
   </div>
 </section>
 
+<!-- White Space Separator & Made in Canada Badge -->
+<div class="cta-footer-spacer bg-white py-4 py-md-5">
+  <div class="container text-center">
+    <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill border bg-light shadow-sm canada-trust-pill">
+      <img src="<?php echo BASE_URL; ?>/images/general/canada-flag.svg" alt="Canada Flag" class="canada-flag-icon">
+      <span class="small fw-semibold text-secondary text-uppercase tracking-wider">Handcrafted with Pride &bull; Made in Canada</span>
+    </div>
+  </div>
+</div>
+
 <!-- Cookie Banner -->
 <div id="cookie-banner" class="cookie-banner">
   <div class="cookie-content">
