@@ -235,6 +235,23 @@ include '../includes/header.php';
     gap: 10px;
   }
 
+  .sintra-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .standoff-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .sintra-selector-muted {
+    opacity: 0.78;
+    transition: opacity 0.2s ease;
+  }
+
   .swatch-single {
     display: inline-block;
     width: 28px;
@@ -479,7 +496,7 @@ include '../includes/header.php';
                     Selected Configuration
                   </div>
                   <div class="fw-bold text-white" id="summary-finish-name">Raised 3D Acrylic &bull; Matte Black ACM + Mirror Gold</div>
-                  <div class="small text-secondary" id="summary-size-dims">Medium (10" &times; 15") &bull; Athletic Block &bull; 2 Lateral Standoffs</div>
+                  <div class="small text-secondary" id="summary-size-dims">Medium (10" &times; 15") &bull; Athletic Block &bull; 2 Lateral Silver Standoffs</div>
                 </div>
                 <div class="col-sm-6">
                   <div class="d-flex flex-column align-items-sm-end">
@@ -672,10 +689,58 @@ include '../includes/header.php';
               </div>
             </div>
 
-            <!-- 7. Size Selector -->
+            <!-- 7. Sintra Backing Color — 6mm PVC -->
+            <div class="mb-4 sintra-selector-muted" id="sintraSelectorWrap">
+              <div class="config-section-label">
+                <span>7. Sintra Backing Color &mdash; 6mm</span>
+                <span class="text-secondary" id="sintra-mode-hint">Selecting enables CNC Cut ACM</span>
+              </div>
+              <div class="sintra-grid">
+                <div class="choice-tile active" data-sintra-color="black">
+                  <span class="swatch-single" style="background: #121215;"></span>
+                  <div class="fw-bold small">Black</div>
+                  <div class="text-secondary" style="font-size: 0.72rem;">6mm matte black PVC</div>
+                </div>
+
+                <div class="choice-tile" data-sintra-color="white">
+                  <span class="swatch-single" style="background: #f4f4f5;"></span>
+                  <div class="fw-bold small">White</div>
+                  <div class="text-secondary" style="font-size: 0.72rem;">6mm matte white PVC</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 8. Standoff Hardware Finish -->
             <div class="mb-4">
               <div class="config-section-label">
-                <span>7. Plaque Size (CAD)</span>
+                <span>8. Standoff Finish</span>
+                <span class="text-secondary">2 Lateral Mounts</span>
+              </div>
+              <div class="standoff-grid">
+                <div class="choice-tile" data-standoff-finish="black">
+                  <span class="swatch-single" style="background: #18181b;"></span>
+                  <div class="fw-bold small">Black</div>
+                  <div class="text-secondary" style="font-size: 0.71rem;">Anodized matte</div>
+                </div>
+
+                <div class="choice-tile" data-standoff-finish="gold">
+                  <span class="swatch-single" style="background: linear-gradient(135deg, #fef08a 0%, #d4af37 50%, #92400e 100%);"></span>
+                  <div class="fw-bold small">Gold</div>
+                  <div class="text-secondary" style="font-size: 0.71rem;">Brushed brass</div>
+                </div>
+
+                <div class="choice-tile active" data-standoff-finish="silver">
+                  <span class="swatch-single" style="background: linear-gradient(135deg, #f8fafc 0%, #a1a1aa 55%, #e4e4e7 100%);"></span>
+                  <div class="fw-bold small">Silver</div>
+                  <div class="text-secondary" style="font-size: 0.71rem;">Brushed steel</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 9. Size Selector -->
+            <div class="mb-4">
+              <div class="config-section-label">
+                <span>9. Plaque Size (CAD)</span>
                 <span class="text-secondary">+15% PEI HST at checkout</span>
               </div>
               <div class="size-grid">
@@ -716,10 +781,10 @@ include '../includes/header.php';
 
             <hr class="border-secondary border-opacity-25 my-4">
 
-            <!-- 8. Customer Information -->
+            <!-- 10. Customer Information -->
             <div class="mb-4">
               <div class="config-section-label">
-                <span>8. Customer &amp; Order Details</span>
+                <span>10. Customer &amp; Order Details</span>
               </div>
               <div class="mb-3">
                 <label for="customerName" class="form-label small text-light mb-1">Full Name <span class="text-danger">*</span></label>
@@ -753,6 +818,14 @@ include '../includes/header.php';
               <div class="d-flex justify-content-between small mb-1 gap-2">
                 <span class="text-secondary">Materials:</span>
                 <span class="text-light fw-semibold text-end" id="review-materials">Matte Black ACM + Mirror Gold Acrylic</span>
+              </div>
+              <div class="d-flex justify-content-between small mb-1 gap-2 d-none" id="review-sintra-row">
+                <span class="text-secondary">Sintra Backing (6mm):</span>
+                <span class="text-light fw-semibold text-end" id="review-sintra">Black Sintra (6mm)</span>
+              </div>
+              <div class="d-flex justify-content-between small mb-1 gap-2">
+                <span class="text-secondary">Standoffs:</span>
+                <span class="text-light fw-semibold text-end" id="review-standoffs">2 Lateral Silver Standoffs</span>
               </div>
               <div class="d-flex justify-content-between small mb-1 gap-2">
                 <span class="text-secondary">Size:</span>
@@ -807,6 +880,8 @@ include '../includes/header.php';
     subtitle_text: 'QUEEN ST',
     acm_finish: 'matte_black',
     acrylic_finish: 'mirror_gold',
+    sintra_color: 'black',
+    standoff_finish: 'silver',
     size: 'medium',
     exploded: false,
     base_price_cad: 60.00,
@@ -944,6 +1019,50 @@ include '../includes/header.php';
         metalness: 0.05,
         roughness: 0.80,
         envMapIntensity: 0.80
+      }
+    },
+    sintra_colors: {
+      black: {
+        name: 'Black Sintra (6mm)',
+        shortName: 'Black Sintra 6mm',
+        color: 0x121215,
+        roughness: 0.88,
+        metalness: 0.04,
+        envMapIntensity: 0.50
+      },
+      white: {
+        name: 'White Sintra (6mm)',
+        shortName: 'White Sintra 6mm',
+        color: 0xf4f4f5,
+        roughness: 0.78,
+        metalness: 0.02,
+        envMapIntensity: 0.65
+      }
+    },
+    standoff_finishes: {
+      black: {
+        name: 'Black Standoffs',
+        shortName: 'Black',
+        color: 0x18181b,
+        metalness: 0.55,
+        roughness: 0.42,
+        envMapIntensity: 0.90
+      },
+      gold: {
+        name: 'Gold Standoffs',
+        shortName: 'Gold',
+        color: 0xd4af37,
+        metalness: 0.94,
+        roughness: 0.18,
+        envMapIntensity: 1.45
+      },
+      silver: {
+        name: 'Silver Standoffs',
+        shortName: 'Silver',
+        color: 0xd4d4d8,
+        metalness: 0.92,
+        roughness: 0.22,
+        envMapIntensity: 1.25
       }
     }
   };
@@ -1579,6 +1698,8 @@ include '../includes/header.php';
     const sizeSpec = CATALOG.sizes[state.size] || CATALOG.sizes.medium;
     const acmSpec = CATALOG.acm_finishes[state.acm_finish] || CATALOG.acm_finishes.matte_black;
     const acrylicSpec = CATALOG.acrylic_finishes[state.acrylic_finish] || CATALOG.acrylic_finishes.mirror_gold;
+    const sintraSpec = CATALOG.sintra_colors[state.sintra_color] || CATALOG.sintra_colors.black;
+    const standoffSpec = CATALOG.standoff_finishes[state.standoff_finish] || CATALOG.standoff_finishes.silver;
     const fontSpec = CATALOG.font_styles[state.font_style] || CATALOG.font_styles.athletic_block;
     const isCncCut = state.construction_style === 'cnc_cut_acm';
     const isVertical = Boolean(sizeSpec.isVertical || state.size === 'vertical');
@@ -1591,10 +1712,10 @@ include '../includes/header.php';
 
     // ─── Materials ───────────────────────────────────────────────────────
     const sintraMat = new THREE.MeshStandardMaterial({
-      color: 0x121215,
-      roughness: 0.88,
-      metalness: 0.04,
-      envMapIntensity: 0.50
+      color: sintraSpec.color,
+      roughness: sintraSpec.roughness,
+      metalness: sintraSpec.metalness,
+      envMapIntensity: sintraSpec.envMapIntensity ?? 0.50
     });
 
     const acmFaceMat = new THREE.MeshStandardMaterial({
@@ -1622,10 +1743,10 @@ include '../includes/header.php';
     });
 
     const standoffMat = new THREE.MeshStandardMaterial({
-      color: 0xd4d4d8,
-      metalness: 0.92,
-      roughness: 0.22,
-      envMapIntensity: 1.20
+      color: standoffSpec.color,
+      metalness: standoffSpec.metalness,
+      roughness: standoffSpec.roughness,
+      envMapIntensity: standoffSpec.envMapIntensity ?? 1.20
     });
 
     // ─── 1. Two Centered Lateral Metallic Standoffs (or Top/Bottom for Vertical) ───
@@ -2010,6 +2131,8 @@ include '../includes/header.php';
     const fontSpec = CATALOG.font_styles[state.font_style] || CATALOG.font_styles.athletic_block;
     const acmSpec = CATALOG.acm_finishes[state.acm_finish] || CATALOG.acm_finishes.matte_black;
     const acrylicSpec = CATALOG.acrylic_finishes[state.acrylic_finish] || CATALOG.acrylic_finishes.mirror_gold;
+    const sintraSpec = CATALOG.sintra_colors[state.sintra_color] || CATALOG.sintra_colors.black;
+    const standoffSpec = CATALOG.standoff_finishes[state.standoff_finish] || CATALOG.standoff_finishes.silver;
     const isCncCut = state.construction_style === 'cnc_cut_acm';
 
     state.base_price_cad = sizeSpec.price;
@@ -2045,19 +2168,47 @@ include '../includes/header.php';
     });
 
     // Update viewer & pre-checkout summaries
+    const backingDetail = isCncCut
+      ? `${sintraSpec.shortName} • 2 Lateral ${standoffSpec.shortName} Standoffs`
+      : `2 Lateral ${standoffSpec.shortName} Standoffs`;
+
     document.getElementById('summary-finish-name').textContent =
       `${constructionSpec.shortName} • ${acmSpec.shortName} ACM + ${acrylicSpec.shortName}`;
     document.getElementById('summary-size-dims').textContent =
-      `${sizeSpec.shortLabel} • ${fontSpec.shortName} • ${constructionSpec.backingSummary}`;
+      `${sizeSpec.shortLabel} • ${fontSpec.shortName} • ${backingDetail}`;
 
     const legendPill = document.getElementById('assemblyLegendPill');
     if (legendPill) {
-      legendPill.innerHTML = `<i class="bi bi-layers-half text-info me-1"></i> ${constructionSpec.legendHtml}`;
+      const legendText = isCncCut
+        ? `1. ${standoffSpec.shortName} Standoffs → 2. ${sintraSpec.shortName} → 3. Acrylic Digits → 4. CNC Cut ACM → 5. Standoff Caps`
+        : `1. ${standoffSpec.shortName} Standoffs → 2. Solid ACM Plate → 3. Raised Acrylic Digits → 4. Standoff Caps`;
+      legendPill.innerHTML = `<i class="bi bi-layers-half text-info me-1"></i> ${legendText}`;
+    }
+
+    const sintraWrap = document.getElementById('sintraSelectorWrap');
+    if (sintraWrap) {
+      sintraWrap.classList.toggle('sintra-selector-muted', !isCncCut);
+    }
+    const sintraHint = document.getElementById('sintra-mode-hint');
+    if (sintraHint) {
+      sintraHint.textContent = isCncCut ? 'Active • 6mm PVC' : 'Selecting enables CNC Cut ACM';
     }
 
     document.getElementById('review-construction').textContent = constructionSpec.name;
     document.getElementById('review-font').textContent = fontSpec.name;
     document.getElementById('review-materials').textContent = `${acmSpec.name} + ${acrylicSpec.name}`;
+    const reviewSintraRow = document.getElementById('review-sintra-row');
+    if (reviewSintraRow) {
+      reviewSintraRow.classList.toggle('d-none', !isCncCut);
+    }
+    const reviewSintra = document.getElementById('review-sintra');
+    if (reviewSintra) {
+      reviewSintra.textContent = sintraSpec.name;
+    }
+    const reviewStandoffs = document.getElementById('review-standoffs');
+    if (reviewStandoffs) {
+      reviewStandoffs.textContent = `2 Lateral ${standoffSpec.name}`;
+    }
     document.getElementById('review-size').textContent =
       isCncCut && state.cnc_surcharge_cad > 0
         ? `${sizeSpec.shortLabel} (+$${state.cnc_surcharge_cad} CNC)`
@@ -2161,6 +2312,35 @@ include '../includes/header.php';
     });
   });
 
+  // 6mm Sintra Backing Color Selection
+  document.querySelectorAll('[data-sintra-color]').forEach(tile => {
+    tile.addEventListener('click', () => {
+      document.querySelectorAll('[data-sintra-color]').forEach(t => t.classList.remove('active'));
+      tile.classList.add('active');
+      state.sintra_color = tile.dataset.sintraColor;
+
+      // Switch to CNC Cut ACM automatically so the 6mm Sintra backing is visible
+      if (state.construction_style !== 'cnc_cut_acm') {
+        state.construction_style = 'cnc_cut_acm';
+        document.querySelectorAll('[data-construction-style]').forEach(c => {
+          c.classList.toggle('active', c.dataset.constructionStyle === 'cnc_cut_acm');
+        });
+      }
+
+      dispatchPlaqueUpdate();
+    });
+  });
+
+  // Standoff Hardware Finish Selection
+  document.querySelectorAll('[data-standoff-finish]').forEach(tile => {
+    tile.addEventListener('click', () => {
+      document.querySelectorAll('[data-standoff-finish]').forEach(t => t.classList.remove('active'));
+      tile.classList.add('active');
+      state.standoff_finish = tile.dataset.standoffFinish;
+      dispatchPlaqueUpdate();
+    });
+  });
+
   // Size Selection
   document.querySelectorAll('[data-size]').forEach(tile => {
     tile.addEventListener('click', () => {
@@ -2239,6 +2419,8 @@ include '../includes/header.php';
       subtitle_text: subtitle,
       acm_finish: state.acm_finish,
       acrylic_finish: state.acrylic_finish,
+      sintra_color: state.sintra_color,
+      standoff_finish: state.standoff_finish,
       size: state.size,
       payment_method: paymentMethod
     };
@@ -2275,6 +2457,8 @@ include '../includes/header.php';
       const fontFallback = (CATALOG.font_styles[payload.font_style] || {}).name || payload.font_style;
       const acmFallback = (CATALOG.acm_finishes[payload.acm_finish] || {}).name || payload.acm_finish;
       const acrylicFallback = (CATALOG.acrylic_finishes[payload.acrylic_finish] || {}).name || payload.acrylic_finish;
+      const sintraFallback = (CATALOG.sintra_colors[payload.sintra_color] || {}).name || payload.sintra_color;
+      const standoffFallback = (CATALOG.standoff_finishes[payload.standoff_finish] || {}).name || payload.standoff_finish;
       const sizeFallback = (CATALOG.sizes[payload.size] || {}).label || payload.size;
 
       activeHelcimOrder = {
@@ -2288,6 +2472,8 @@ include '../includes/header.php';
         font_style_label: result.data.font_style_label || fontFallback,
         acm_finish_label: result.data.acm_finish_label || acmFallback,
         acrylic_finish_label: result.data.acrylic_finish_label || acrylicFallback,
+        sintra_color_label: result.data.sintra_color_label || sintraFallback,
+        standoff_finish_label: result.data.standoff_finish_label || standoffFallback,
         finish_label: result.data.finish_label || `${acmFallback} + ${acrylicFallback}`,
         size_label: result.data.size_label || sizeFallback
       };
@@ -2354,6 +2540,8 @@ include '../includes/header.php';
         const fontLabel = confirmData.data?.font_style_label || activeHelcimOrder.font_style_label;
         const acmLabel = confirmData.data?.acm_finish_label || activeHelcimOrder.acm_finish_label;
         const acrylicLabel = confirmData.data?.acrylic_finish_label || activeHelcimOrder.acrylic_finish_label;
+        const sintraLabel = confirmData.data?.sintra_color_label || activeHelcimOrder.sintra_color_label;
+        const standoffLabel = confirmData.data?.standoff_finish_label || activeHelcimOrder.standoff_finish_label;
 
         confirmPanel.className = 'confirmation-box bg-success bg-opacity-10 border border-success text-light';
         confirmPanel.innerHTML = `
@@ -2371,6 +2559,8 @@ include '../includes/header.php';
             <div><strong>Font Style:</strong> ${fontLabel}</div>
             <div><strong>Front Plate (ACM):</strong> ${acmLabel}</div>
             <div><strong>3D Digits (Acrylic):</strong> ${acrylicLabel}</div>
+            ${activeHelcimOrder.construction_style === 'cnc_cut_acm' ? `<div><strong>Sintra Backing (6mm):</strong> ${sintraLabel}</div>` : ''}
+            <div><strong>Standoffs:</strong> 2 Lateral ${standoffLabel}</div>
             <div><strong>Size:</strong> ${activeHelcimOrder.size_label}</div>
             <div><strong>Total Paid:</strong> $${Number(activeHelcimOrder.total_cad).toFixed(2)} CAD (incl. 15% HST)</div>
           </div>
@@ -2418,6 +2608,8 @@ include '../includes/header.php';
       const fontFallback = (CATALOG.font_styles[payload.font_style] || {}).name || payload.font_style;
       const acmFallback = (CATALOG.acm_finishes[payload.acm_finish] || {}).name || payload.acm_finish;
       const acrylicFallback = (CATALOG.acrylic_finishes[payload.acrylic_finish] || {}).name || payload.acrylic_finish;
+      const sintraFallback = (CATALOG.sintra_colors[payload.sintra_color] || {}).name || payload.sintra_color;
+      const standoffFallback = (CATALOG.standoff_finishes[payload.standoff_finish] || {}).name || payload.standoff_finish;
       const sizeFallback = (CATALOG.sizes[payload.size] || {}).label || payload.size;
 
       confirmPanel.className = 'confirmation-box bg-warning bg-opacity-10 border border-warning text-light';
@@ -2438,6 +2630,8 @@ include '../includes/header.php';
           <div class="mb-1"><span class="text-secondary">Font Style:</span> <strong class="text-light">${d.font_style_label || fontFallback}</strong></div>
           <div class="mb-1"><span class="text-secondary">Front Plate (ACM):</span> <strong class="text-light">${d.acm_finish_label || acmFallback}</strong></div>
           <div class="mb-1"><span class="text-secondary">3D Digits (Acrylic):</span> <strong class="text-light">${d.acrylic_finish_label || acrylicFallback}</strong></div>
+          ${payload.construction_style === 'cnc_cut_acm' ? `<div class="mb-1"><span class="text-secondary">Sintra Backing (6mm):</span> <strong class="text-light">${d.sintra_color_label || sintraFallback}</strong></div>` : ''}
+          <div class="mb-1"><span class="text-secondary">Standoffs:</span> <strong class="text-light">2 Lateral ${d.standoff_finish_label || standoffFallback}</strong></div>
           <div><span class="text-secondary">Size:</span> <strong class="text-light">${d.size_label || sizeFallback}</strong></div>
         </div>
         <div class="small text-secondary">
