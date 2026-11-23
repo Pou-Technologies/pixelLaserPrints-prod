@@ -479,7 +479,7 @@ include '../includes/header.php';
                     Selected Configuration
                   </div>
                   <div class="fw-bold text-white" id="summary-finish-name">Raised 3D Acrylic &bull; Matte Black ACM + Mirror Gold</div>
-                  <div class="small text-secondary" id="summary-size-dims">Medium (10" &times; 15") &bull; Athletic Block &bull; 4 Standoffs</div>
+                  <div class="small text-secondary" id="summary-size-dims">Medium (10" &times; 15") &bull; Athletic Block &bull; 2 Lateral Standoffs</div>
                 </div>
                 <div class="col-sm-6">
                   <div class="d-flex flex-column align-items-sm-end">
@@ -822,13 +822,13 @@ include '../includes/header.php';
         name: 'Raised 3D Acrylic (Solid ACM)',
         shortName: 'Raised 3D Acrylic',
         legendHtml: 'Back &rarr; Front: <strong>1. Rear Standoffs</strong> &rarr; <strong>2. Solid ACM Plate</strong> &rarr; <strong>3. Raised Acrylic Digits</strong> &rarr; <strong>4. Front Caps</strong>',
-        backingSummary: 'Solid ACM Plate & 4 Standoffs'
+        backingSummary: 'Solid ACM Plate & 2 Lateral Standoffs'
       },
       cnc_cut_acm: {
         name: 'CNC Cut ACM + Inlaid Acrylic (Black Sintra Backer)',
         shortName: 'CNC Cut ACM + Inlaid',
         legendHtml: 'Back &rarr; Front: <strong>1. Rear Standoffs</strong> &rarr; <strong>2. Black Sintra</strong> &rarr; <strong>3. Acrylic Digits</strong> &rarr; <strong>4. CNC ACM Plate</strong> &rarr; <strong>5. Front Caps</strong>',
-        backingSummary: 'Black Sintra Base & 4 Standoffs'
+        backingSummary: 'Black Sintra Base & 2 Lateral Standoffs'
       }
     },
     font_styles: {
@@ -1035,17 +1035,18 @@ include '../includes/header.php';
   scene.add(ambientLight);
 
   const keyLight = new THREE.DirectionalLight(0xfffbeb, 1.8);
-  keyLight.position.set(5, 7, 6);
+  keyLight.position.set(4.5, 5.5, 6.5);
   keyLight.castShadow = true;
   keyLight.shadow.mapSize.width = 2048;
   keyLight.shadow.mapSize.height = 2048;
-  keyLight.shadow.bias = -0.0005;
-  keyLight.shadow.camera.near = 0.5;
-  keyLight.shadow.camera.far = 25;
-  keyLight.shadow.camera.left = -6;
-  keyLight.shadow.camera.right = 6;
-  keyLight.shadow.camera.top = 5;
-  keyLight.shadow.camera.bottom = -5;
+  keyLight.shadow.bias = -0.00015;
+  keyLight.shadow.normalBias = 0.008;
+  keyLight.shadow.camera.near = 1.0;
+  keyLight.shadow.camera.far = 22;
+  keyLight.shadow.camera.left = -5.5;
+  keyLight.shadow.camera.right = 5.5;
+  keyLight.shadow.camera.top = 4.5;
+  keyLight.shadow.camera.bottom = -4.5;
   scene.add(keyLight);
 
   const fillLight = new THREE.DirectionalLight(0x93c5fd, 0.75);
@@ -1056,13 +1057,37 @@ include '../includes/header.php';
   rimLight.position.set(0, -5, -4);
   scene.add(rimLight);
 
-  // Subtle architectural wall shadow plane behind the plaque
+  // Subtle architectural wall + standoff contact shadow group behind the plaque
+  function createContactShadowTexture() {
+    const size = 128;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createRadialGradient(size / 2, size / 2, 4, size / 2, size / 2, size / 2);
+    grad.addColorStop(0.0, 'rgba(0, 0, 0, 0.52)');
+    grad.addColorStop(0.45, 'rgba(0, 0, 0, 0.22)');
+    grad.addColorStop(1.0, 'rgba(0, 0, 0, 0.0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, size, size);
+    const tex = new THREE.CanvasTexture(canvas);
+    return tex;
+  }
+
+  const contactShadowTexture = createContactShadowTexture();
+
+  const wallGroup = new THREE.Group();
+  wallGroup.position.z = -0.62;
+  scene.add(wallGroup);
+
   const wallGeo = new THREE.PlaneGeometry(26, 18);
-  const wallMat = new THREE.ShadowMaterial({ opacity: 0.30 });
+  const wallMat = new THREE.ShadowMaterial({ opacity: 0.34 });
   const wallMesh = new THREE.Mesh(wallGeo, wallMat);
-  wallMesh.position.z = -0.56;
   wallMesh.receiveShadow = true;
-  scene.add(wallMesh);
+  wallGroup.add(wallMesh);
+
+  const wallContactShadowsLayer = new THREE.Group();
+  wallGroup.add(wallContactShadowsLayer);
 
   // ─── Multi-Layer Plaque Hierarchy (Back → Front) ───────────────────────
   const rootGroup = new THREE.Group();
@@ -1468,6 +1493,7 @@ include '../includes/header.php';
     bevelSizeMax,
     zAcrylicMount,
     acrylicMaterial,
+    acmDepth,
     acmFaceMat,
     acmEdgeMat,
     safeHalfW,
@@ -1476,8 +1502,6 @@ include '../includes/header.php';
     acmHolesList,
     acmIslandsQueue
   ) {
-    const acmDepth = 0.075;
-
     for (const chEntry of layout.characters) {
       for (const contour of chEntry.contours) {
         // 1. Independent 3D Acrylic Digit/Character Mesh
@@ -1550,6 +1574,7 @@ include '../includes/header.php';
     clearGroup(acrylicDigitsLayer);
     clearGroup(acmFrontLayer);
     clearGroup(standoffsCapLayer);
+    clearGroup(wallContactShadowsLayer);
 
     const sizeSpec = CATALOG.sizes[state.size] || CATALOG.sizes.medium;
     const acmSpec = CATALOG.acm_finishes[state.acm_finish] || CATALOG.acm_finishes.matte_black;
@@ -1584,9 +1609,9 @@ include '../includes/header.php';
 
     const acmEdgeMat = new THREE.MeshStandardMaterial({
       color: acmSpec.edgeColor,
-      roughness: 0.65,
-      metalness: 0.20,
-      envMapIntensity: 0.70
+      roughness: 0.55,
+      metalness: 0.25,
+      envMapIntensity: 0.75
     });
 
     const acrylicMat = new THREE.MeshStandardMaterial({
@@ -1603,27 +1628,26 @@ include '../includes/header.php';
       envMapIntensity: 1.20
     });
 
-    // ─── 1. Four Corner Metallic Standoffs ───────────────────────────────
-    const insetX = width / 2 - (isVertical ? 0.35 : 0.45);
-    const insetY = height / 2 - 0.45;
-    const corners = [
-      [-insetX,  insetY],
-      [ insetX,  insetY],
-      [-insetX, -insetY],
-      [ insetX, -insetY]
-    ];
+    // ─── 1. Two Centered Lateral Metallic Standoffs (or Top/Bottom for Vertical) ───
+    const mountPoints = isVertical
+      ? [[0, height / 2 - 0.38], [0, -(height / 2 - 0.38)]]
+      : [[-(width / 2 - 0.34), 0], [width / 2 - 0.34, 0]];
 
-    const barrelGeo = new THREE.CylinderGeometry(0.11, 0.11, 0.42, 28);
+    const barrelGeo = new THREE.CylinderGeometry(0.11, 0.11, 0.50, 28);
     barrelGeo.rotateX(Math.PI / 2);
 
-    const capGeo = new THREE.CylinderGeometry(0.135, 0.135, 0.08, 28);
+    const capGeo = new THREE.CylinderGeometry(0.135, 0.135, 0.085, 28);
     capGeo.rotateX(Math.PI / 2);
 
-    const frontCapZ = isCncCut ? 0.118 : 0.041; // CNC ACM front is at 0.077; Solid ACM front is at 0.000
+    // CNC mode: ACM front face sits at z = 0.147 -> cap center 0.190
+    // Raised mode: Solid ACM front face sits at z = 0.000 -> cap center 0.043
+    const frontCapZ = isCncCut ? 0.190 : 0.043;
 
-    corners.forEach(([cx, cy]) => {
+    const contactGeo = new THREE.PlaneGeometry(0.55, 0.55);
+
+    mountPoints.forEach(([cx, cy]) => {
       const barrel = new THREE.Mesh(barrelGeo.clone(), standoffMat.clone());
-      barrel.position.set(cx, cy, -0.31); // Spans -0.52 to -0.10 (meets back of Sintra or Solid ACM)
+      barrel.position.set(cx, cy, -0.37); // Spans -0.62 (wall) to -0.12 (rear of Sintra or Solid ACM)
       barrel.castShadow = true;
       standoffsRearLayer.add(barrel);
 
@@ -1631,26 +1655,39 @@ include '../includes/header.php';
       cap.position.set(cx, cy, frontCapZ);
       cap.castShadow = true;
       standoffsCapLayer.add(cap);
+
+      const contactDisc = new THREE.Mesh(
+        contactGeo.clone(),
+        new THREE.MeshBasicMaterial({
+          map: contactShadowTexture,
+          transparent: true,
+          opacity: 0.72,
+          depthWrite: false
+        })
+      );
+      contactDisc.position.set(cx, cy, 0.002); // Sits directly on the wall plane at wallGroup (z = -0.62)
+      wallContactShadowsLayer.add(contactDisc);
     });
 
     barrelGeo.dispose();
     capGeo.dispose();
+    contactGeo.dispose();
     standoffMat.dispose();
 
     // ─── 2. Black Sintra PVC Backing Layer (CNC Cut Mode Only) ───────────
     if (isCncCut) {
       const sintraShape = createRoundedRectShape(width, height, cornerRadius);
-      corners.forEach(([cx, cy]) => {
+      mountPoints.forEach(([cx, cy]) => {
         sintraShape.holes.push(createCirclePath(cx, cy, 0.095, 20));
       });
 
       const sintraGeo = new THREE.ExtrudeGeometry(sintraShape, {
-        depth: 0.10,
+        depth: 0.12,
         bevelEnabled: false,
         curveSegments: 10
       });
       const sintraMesh = new THREE.Mesh(sintraGeo, sintraMat);
-      sintraMesh.position.z = -0.10; // Flush front surface at z = 0.00
+      sintraMesh.position.z = -0.12; // Flush front surface at z = 0.000
       sintraMesh.castShadow = true;
       sintraMesh.receiveShadow = true;
       sintraBackLayer.add(sintraMesh);
@@ -1659,32 +1696,43 @@ include '../includes/header.php';
     }
 
     // ─── 3. Individual 3D Acrylic Digits & Subtitle + ACM Plate ──────────
-    const acmDepth = isCncCut ? 0.075 : 0.100;
-    const acmPosZ = isCncCut ? 0.002 : -0.100;
+    // CNC mode: visible thick 0.145 ACM front plate at z=0.002..0.147 + recessed 0.086 acrylic shadow box
+    // Raised mode: solid 0.120 ACM at z=-0.120..0.000 + bold 0.197 tall protruding acrylic numbers
+    const acmDepth = isCncCut ? 0.145 : 0.120;
+    const acmPosZ = isCncCut ? 0.002 : -0.120;
     const zAcrylicMount = isCncCut ? 0.000 : 0.002;
-    const primaryExtrudeDepth = isCncCut ? 0.116 : 0.088;
-    const subtitleExtrudeDepth = isCncCut ? 0.106 : 0.074;
-    const dividerExtrudeDepth = isCncCut ? 0.104 : 0.070;
+    const primaryExtrudeDepth = isCncCut ? 0.068 : 0.165;
+    const primaryBevelThickness = isCncCut ? 0.009 : 0.016;
+    const subtitleExtrudeDepth = isCncCut ? 0.062 : 0.085;
+    const subtitleBevelThickness = isCncCut ? 0.006 : 0.008;
+    const dividerExtrudeDepth = isCncCut ? 0.060 : 0.065;
+    const dividerBevelThickness = isCncCut ? 0.005 : 0.006;
 
     const acmShape = createRoundedRectShape(width, height, cornerRadius);
     const acmHolesList = [];
     const acmIslandsQueue = [];
 
-    corners.forEach(([cx, cy]) => {
+    mountPoints.forEach(([cx, cy]) => {
       acmHolesList.push(createCirclePath(cx, cy, 0.095, 20));
     });
 
     const primaryStr = (state.primary_text || '428').trim().toUpperCase();
     const subtitleStr = (state.subtitle_text || '').trim().toUpperCase();
 
-    const safeHalfW = width / 2 - 0.18;
-    const safeHalfH = height / 2 - 0.18;
+    const safeHalfW = isVertical ? (width / 2 - 0.14) : (width / 2 - 0.50);
+    const safeHalfH = isVertical ? (height / 2 - 0.54) : (height / 2 - 0.16);
+    const maxTextWidth = isVertical ? (width - 0.38) : (width - 1.24);
 
-    // Primary 3D Raised Text
-    const maxTextWidth = isVertical ? (width - 0.48) : (width - 1.35);
-    const primaryMaxH = isVertical ? 1.25 : (subtitleStr ? 1.15 : 1.65);
-    const primaryTargetY = isVertical ? (subtitleStr ? 0.95 : 0.0) : (subtitleStr ? 0.32 : 0.0);
-    const basePrimarySize = state.plaque_type === 'house' ? (isVertical ? 0.85 : 1.05) : 0.72;
+    // Hero Primary 3D Text (Protagonist Scale)
+    const primaryMaxH = isVertical
+      ? (subtitleStr ? 2.15 : 2.50)
+      : (subtitleStr ? 1.82 : 2.25);
+    const primaryTargetY = isVertical
+      ? (subtitleStr ? 0.85 : 0.0)
+      : (subtitleStr ? 0.36 : 0.0);
+    const basePrimarySize = isVertical
+      ? (state.plaque_type === 'house' ? (subtitleStr ? 1.45 : 1.65) : 0.95)
+      : (state.plaque_type === 'house' ? (subtitleStr ? 1.85 : 2.20) : (subtitleStr ? 1.15 : 1.35));
 
     const primaryLayout = buildCharGlyphLayouts(
       primaryStr,
@@ -1700,11 +1748,12 @@ include '../includes/header.php';
     addLayoutToAcrylicAndAcm(
       primaryLayout,
       primaryExtrudeDepth,
-      0.012,
+      primaryBevelThickness,
       fontSpec.bevelScale,
       fontSpec.maxPrimaryBevel,
       zAcrylicMount,
       acrylicMat,
+      acmDepth,
       acmFaceMat,
       acmEdgeMat,
       safeHalfW,
@@ -1714,11 +1763,11 @@ include '../includes/header.php';
       acmIslandsQueue
     );
 
-    // Optional Subtitle & Divider Bar
+    // Optional Secondary Subtitle & Slim Architectural Divider Bar
     if (subtitleStr) {
-      const subTargetY = isVertical ? -1.15 : -0.68;
-      const subMaxH = 0.42;
-      const baseSubSize = state.plaque_type === 'house' ? (isVertical ? 0.24 : 0.32) : 0.28;
+      const subTargetY = isVertical ? -1.25 : -1.06;
+      const subMaxH = isVertical ? 0.30 : 0.28;
+      const baseSubSize = isVertical ? 0.24 : 0.28;
 
       const subLayout = buildCharGlyphLayouts(
         subtitleStr,
@@ -1734,11 +1783,12 @@ include '../includes/header.php';
       addLayoutToAcrylicAndAcm(
         subLayout,
         subtitleExtrudeDepth,
-        0.007,
+        subtitleBevelThickness,
         fontSpec.bevelScale,
         fontSpec.maxSubBevel,
         zAcrylicMount,
         acrylicMat,
+        acmDepth,
         acmFaceMat,
         acmEdgeMat,
         safeHalfW,
@@ -1748,12 +1798,11 @@ include '../includes/header.php';
         acmIslandsQueue
       );
 
-      // Acrylic Architectural Divider Bar (+ Matching ACM Cutout Slot in CNC mode)
-      const dividerW = isVertical ? Math.min(width * 0.58, 1.05) : Math.min(width * 0.42, 2.2);
-      const dividerH = 0.055;
-      const dividerY = isVertical ? -0.10 : -0.24;
+      const dividerW = isVertical ? Math.min(width * 0.55, 1.0) : Math.min(width * 0.38, 2.0);
+      const dividerH = 0.032;
+      const dividerY = isVertical ? -0.55 : -0.72;
 
-      const divShape = createRoundedRectShape(dividerW, dividerH, 0.02);
+      const divShape = createRoundedRectShape(dividerW, dividerH, 0.015);
       const divPtsRaw = sampleCleanPoints(divShape, 4);
       if (divPtsRaw) {
         const divPtsAcrylic = ensureWinding(
@@ -1766,9 +1815,9 @@ include '../includes/header.php';
         const divGeo = new THREE.ExtrudeGeometry(divAcrylicShape, {
           depth: dividerExtrudeDepth,
           bevelEnabled: true,
-          bevelThickness: 0.006,
-          bevelSize: 0.003,
-          bevelOffset: -0.003,
+          bevelThickness: dividerBevelThickness,
+          bevelSize: 0.0025,
+          bevelOffset: -0.0025,
           bevelSegments: 2
         });
         divGeo.computeBoundingBox();
@@ -1806,7 +1855,7 @@ include '../includes/header.php';
     } catch (err) {
       // Safe fallback to plain ACM with mounting holes if an unusual glyph trips Earcut
       const fallbackAcm = createRoundedRectShape(width, height, cornerRadius);
-      corners.forEach(([cx, cy]) => {
+      mountPoints.forEach(([cx, cy]) => {
         fallbackAcm.holes.push(createCirclePath(cx, cy, 0.095, 20));
       });
       acmGeo = new THREE.ExtrudeGeometry(fallbackAcm, {
@@ -1878,10 +1927,10 @@ include '../includes/header.php';
     if (currentCamKey === 'mounts') {
       const width = isVertical ? sizeSpec.w : (state.plaque_type === 'business' ? sizeSpec.w * 1.08 : sizeSpec.w);
       const height = isVertical ? sizeSpec.h : (state.plaque_type === 'business' ? sizeSpec.h * 0.95 : sizeSpec.h);
-      const cx = width / 2 - (isVertical ? 0.35 : 0.45);
-      const cy = height / 2 - 0.45;
+      const cx = isVertical ? 0 : (width / 2 - 0.34);
+      const cy = isVertical ? (height / 2 - 0.38) : 0;
       targetControlsLook.set(cx, cy, 0);
-      targetCameraPos.set(cx + 1.15, cy + 0.65, 3.35);
+      targetCameraPos.set(cx + 1.15, cy + 0.55, 3.20);
     } else {
       const preset = CAM_PRESETS[currentCamKey] || CAM_PRESETS.front;
       targetCameraPos.set(
@@ -1928,18 +1977,18 @@ include '../includes/header.php';
       // Back → Front: 1. Rear Standoffs → 2. Black Sintra → 3. Acrylic Digits → 4. CNC ACM Plate → 5. Front Caps
       standoffsRearLayer.position.z = -explodeProgress * 1.60;
       sintraBackLayer.position.z    = -explodeProgress * 0.80;
-      acrylicDigitsLayer.position.z =  explodeProgress * 0.05;
-      acmFrontLayer.position.z      =  explodeProgress * 1.05;
-      standoffsCapLayer.position.z  =  explodeProgress * 1.55;
-      wallMesh.position.z           = -0.56 - explodeProgress * 1.65;
+      acrylicDigitsLayer.position.z =  explodeProgress * 0.15;
+      acmFrontLayer.position.z      =  explodeProgress * 1.15;
+      standoffsCapLayer.position.z  =  explodeProgress * 1.65;
+      wallGroup.position.z          = -0.62 - explodeProgress * 1.65;
     } else {
       // Back → Front: 1. Rear Standoffs → 2. Solid ACM Plate → 3. Raised Acrylic Digits → 4. Front Caps
       standoffsRearLayer.position.z = -explodeProgress * 1.45;
       sintraBackLayer.position.z    =  0;
       acmFrontLayer.position.z      = -explodeProgress * 0.45;
       acrylicDigitsLayer.position.z =  explodeProgress * 0.55;
-      standoffsCapLayer.position.z  =  explodeProgress * 1.25;
-      wallMesh.position.z           = -0.56 - explodeProgress * 1.50;
+      standoffsCapLayer.position.z  =  explodeProgress * 1.30;
+      wallGroup.position.z          = -0.62 - explodeProgress * 1.50;
     }
 
     controls.update();

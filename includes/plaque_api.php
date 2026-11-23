@@ -58,8 +58,8 @@ function sendPlaqueNotificationEmail(array $orderInfo): void
     }
 
     $backingDesc = ($orderInfo['construction_style'] ?? '') === 'cnc_cut_acm'
-        ? 'Black Sintra PVC + CNC Cutout ACM Front + 4 Corner Standoffs'
-        : 'Solid ACM Plate + Surface-Mounted Raised Acrylic + 4 Corner Standoffs';
+        ? 'Black Sintra PVC + CNC Cutout ACM Front + 2 Lateral Standoffs'
+        : 'Solid ACM Plate + Surface-Mounted Raised Acrylic + 2 Lateral Standoffs';
 
     $lines[] = "";
     $lines[] = "--- 3D PLAQUE SPECIFICATIONS ---";
