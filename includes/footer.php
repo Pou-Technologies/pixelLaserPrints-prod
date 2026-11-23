@@ -25,6 +25,8 @@
           </li>
           <li><a href="<?php echo BASE_URL; ?>/views/catalog.php" class="text-light text-decoration-none">Catalog</a>
           </li>
+          <li><a href="<?php echo BASE_URL; ?>/views/custom-plaques.php" class="text-light text-decoration-none">copy</a>
+          </li>
           <li><a href="<?php echo BASE_URL; ?>/views/blog.php" class="text-light text-decoration-none">Blog</a>
           </li>
           <li><a href="#" class="text-light text-decoration-none">FAQ</a></li>

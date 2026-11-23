@@ -186,4 +186,18 @@ class PortalApiClient {
     public static function createOrder($orderData) {
         return self::request('POST', '/orders/create', $orderData);
     }
+
+    /**
+     * POST /plaques/order (Create 3D Custom Plaque Order & Initialize Helcim / Interac)
+     */
+    public static function createPlaqueOrder($payload) {
+        return self::request('POST', '/plaques/order', $payload);
+    }
+
+    /**
+     * POST /plaques/confirm-helcim (Confirm HelcimPay.js transaction & mark order paid)
+     */
+    public static function confirmPlaqueHelcim($payload) {
+        return self::request('POST', '/plaques/confirm-helcim', $payload);
+    }
 }

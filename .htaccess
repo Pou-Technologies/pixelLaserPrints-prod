@@ -2,6 +2,9 @@
 RewriteEngine On
 # RewriteBase /
 
+# Custom 3D Plaque Configurator clean route
+RewriteRule ^custom-plaques/?$ views/custom-plaques.php [L,QSA]
+
 # ... (Basic rewrites kept) ...
 
 # Habilitar compresión GZIP
