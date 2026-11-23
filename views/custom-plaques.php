@@ -242,6 +242,12 @@ include '../includes/header.php';
     gap: 10px;
   }
 
+  @media (max-width: 575.98px) {
+    .size-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   .config-input {
     background: rgba(15, 23, 42, 0.9) !important;
     border: 1.5px solid rgba(255, 255, 255, 0.14) !important;
@@ -346,7 +352,7 @@ include '../includes/header.php';
               <div class="viewer-overlay-top">
                 <span class="badge bg-dark bg-opacity-75 border border-secondary border-opacity-50 rounded-pill px-3 py-2" id="viewer-spec-pill">
                   <i class="bi bi-layers me-1 text-info"></i>
-                  <span id="viewer-spec-text">House Plaque &bull; Medium (8" &times; 14")</span>
+                  <span id="viewer-spec-text">House Plaque &bull; Medium (10" &times; 15")</span>
                 </span>
 
                 <label class="assembly-switch-pill" for="assemblyToggle">
@@ -380,21 +386,21 @@ include '../includes/header.php';
                     Selected Configuration
                   </div>
                   <div class="fw-bold text-white" id="summary-finish-name">Matte Black + Brushed Aluminum</div>
-                  <div class="small text-secondary" id="summary-size-dims">Medium (8" &times; 14" / 20 &times; 35 cm) &bull; 4 Corner Standoffs Included</div>
+                  <div class="small text-secondary" id="summary-size-dims">Medium (10" &times; 15" / 25 &times; 38 cm) &bull; 4 Corner Standoffs Included</div>
                 </div>
                 <div class="col-sm-6">
                   <div class="d-flex flex-column align-items-sm-end">
                     <div class="d-flex justify-content-between justify-content-sm-end gap-4 small text-secondary w-100" style="max-width: 260px;">
                       <span>Subtotal (CAD):</span>
-                      <span class="text-light fw-semibold" id="price-subtotal">$85.00</span>
+                      <span class="text-light fw-semibold" id="price-subtotal">$60.00</span>
                     </div>
                     <div class="d-flex justify-content-between justify-content-sm-end gap-4 small text-secondary w-100" style="max-width: 260px;">
                       <span>PEI HST (15%):</span>
-                      <span class="text-light fw-semibold" id="price-hst">$12.75</span>
+                      <span class="text-light fw-semibold" id="price-hst">$9.00</span>
                     </div>
                     <div class="d-flex justify-content-between justify-content-sm-end gap-4 mt-1 pt-1 border-top border-secondary border-opacity-25 w-100" style="max-width: 260px;">
                       <span class="fw-bold text-white">Total (CAD):</span>
-                      <span class="fw-bold text-info fs-5" id="price-total">$97.75 CAD</span>
+                      <span class="fw-bold text-info fs-5" id="price-total">$69.00 CAD</span>
                     </div>
                   </div>
                 </div>
@@ -508,22 +514,37 @@ include '../includes/header.php';
                 <span class="text-secondary">+15% PEI HST at checkout</span>
               </div>
               <div class="size-grid">
-                <div class="choice-tile text-center" data-size="small" data-price="65">
+                <div class="choice-tile text-center" data-size="small" data-price="55">
                   <div class="fw-bold small">Small</div>
-                  <div class="text-secondary" style="font-size: 0.7rem;">6" &times; 10"</div>
-                  <div class="fw-bold text-info mt-1">$65 CAD</div>
+                  <div class="text-secondary" style="font-size: 0.7rem;">10" &times; 13"</div>
+                  <div class="fw-bold text-info mt-1">$55 CAD</div>
                 </div>
 
-                <div class="choice-tile text-center active" data-size="medium" data-price="85">
+                <div class="choice-tile text-center active" data-size="medium" data-price="60">
                   <div class="fw-bold small">Medium</div>
-                  <div class="text-secondary" style="font-size: 0.7rem;">8" &times; 14"</div>
-                  <div class="fw-bold text-info mt-1">$85 CAD</div>
+                  <div class="text-secondary" style="font-size: 0.7rem;">10" &times; 15"</div>
+                  <div class="fw-bold text-info mt-1">$60 CAD</div>
                 </div>
 
-                <div class="choice-tile text-center" data-size="large" data-price="115">
+                <div class="choice-tile text-center" data-size="large" data-price="70">
                   <div class="fw-bold small">Large</div>
-                  <div class="text-secondary" style="font-size: 0.7rem;">10" &times; 18"</div>
-                  <div class="fw-bold text-info mt-1">$115 CAD</div>
+                  <div class="text-secondary" style="font-size: 0.7rem;">10" &times; 17"</div>
+                  <div class="fw-bold text-info mt-1">$70 CAD</div>
+                </div>
+
+                <div class="choice-tile text-center" data-size="extra_large" data-price="80">
+                  <div class="fw-bold small">Extra Large</div>
+                  <div class="text-secondary" style="font-size: 0.7rem;">10" &times; 23.5"</div>
+                  <div class="fw-bold text-info mt-1">$80 CAD</div>
+                </div>
+
+                <div class="choice-tile text-center" data-size="vertical" data-price="55">
+                  <div class="d-flex align-items-center justify-content-center gap-1">
+                    <span class="fw-bold small">Vertical</span>
+                    <i class="bi bi-arrows-vertical text-info" style="font-size: 0.75rem;"></i>
+                  </div>
+                  <div class="text-secondary" style="font-size: 0.7rem;">5" &times; 17"</div>
+                  <div class="fw-bold text-info mt-1">$55 CAD</div>
                 </div>
               </div>
             </div>
@@ -559,7 +580,7 @@ include '../includes/header.php';
               <button type="button" id="btnPayHelcim" class="btn btn-helcim-pay d-flex align-items-center justify-content-center gap-2">
                 <span class="spinner-border spinner-border-sm d-none" id="spinnerHelcim"></span>
                 <i class="bi bi-credit-card-2-front-fill"></i>
-                <span>Pay with Card (Helcim) &mdash; <span id="btn-helcim-total">$97.75 CAD</span></span>
+                <span>Pay with Card (Helcim) &mdash; <span id="btn-helcim-total">$69.00 CAD</span></span>
               </button>
 
               <button type="button" id="btnOrderInterac" class="btn btn-interac-pay d-flex align-items-center justify-content-center gap-2">
@@ -592,16 +613,18 @@ include '../includes/header.php';
     finish: 'matte_black_aluminum',
     size: 'medium',
     exploded: false,
-    subtotal_cad: 85.00,
-    hst_cad: 12.75,
-    total_cad: 97.75
+    subtotal_cad: 60.00,
+    hst_cad: 9.00,
+    total_cad: 69.00
   };
 
   const CATALOG = {
     sizes: {
-      small:  { price: 65.00,  label: 'Small (6" × 10" / 15 × 25 cm)',  shortLabel: 'Small (6" × 10")',  w: 4.4, h: 2.75 },
-      medium: { price: 85.00,  label: 'Medium (8" × 14" / 20 × 35 cm)', shortLabel: 'Medium (8" × 14")', w: 5.4, h: 3.25 },
-      large:  { price: 115.00, label: 'Large (10" × 18" / 25 × 45 cm)', shortLabel: 'Large (10" × 18")', w: 6.4, h: 3.75 }
+      small:       { price: 55.00, label: 'Small (10" × 13" / 25 × 33 cm)',       shortLabel: 'Small (10" × 13")',       w: 4.20, h: 3.20 },
+      medium:      { price: 60.00, label: 'Medium (10" × 15" / 25 × 38 cm)',      shortLabel: 'Medium (10" × 15")',      w: 4.80, h: 3.20 },
+      large:       { price: 70.00, label: 'Large (10" × 17" / 25 × 43 cm)',       shortLabel: 'Large (10" × 17")',       w: 5.44, h: 3.20 },
+      extra_large: { price: 80.00, label: 'Extra Large (10" × 23.5" / 25 × 60 cm)', shortLabel: 'XL (10" × 23.5")',        w: 7.52, h: 3.20 },
+      vertical:    { price: 55.00, label: 'Vertical (5" × 17" / 13 × 43 cm)',    shortLabel: 'Vertical (5" × 17")',    w: 2.10, h: 6.40, isVertical: true }
     },
     finishes: {
       matte_black_aluminum: {
@@ -799,9 +822,10 @@ include '../includes/header.php';
 
     const sizeSpec = CATALOG.sizes[state.size] || CATALOG.sizes.medium;
     const finishSpec = CATALOG.finishes[state.finish] || CATALOG.finishes.matte_black_aluminum;
+    const isVertical = Boolean(sizeSpec.isVertical || state.size === 'vertical');
 
-    const width = state.plaque_type === 'business' ? sizeSpec.w * 1.08 : sizeSpec.w;
-    const height = state.plaque_type === 'business' ? sizeSpec.h * 0.95 : sizeSpec.h;
+    const width = isVertical ? sizeSpec.w : (state.plaque_type === 'business' ? sizeSpec.w * 1.08 : sizeSpec.w);
+    const height = isVertical ? sizeSpec.h : (state.plaque_type === 'business' ? sizeSpec.h * 0.95 : sizeSpec.h);
     const cornerRadius = 0.28;
 
     // Materials
@@ -863,7 +887,7 @@ include '../includes/header.php';
     trimFrameLayer.add(frameMesh);
 
     // 3. Four Corner Metallic Standoffs
-    const insetX = width / 2 - 0.45;
+    const insetX = width / 2 - (isVertical ? 0.35 : 0.45);
     const insetY = height / 2 - 0.45;
     const corners = [
       [-insetX,  insetY],
@@ -896,10 +920,10 @@ include '../includes/header.php';
 
     if (loadedFont) {
       // Dynamic font sizing so long business names fit gracefully inside the plaque
-      const maxTextWidth = width - 1.15;
-      let primaryFontSize = state.plaque_type === 'house' ? 0.92 : 0.62;
+      const maxTextWidth = isVertical ? (width - 0.48) : (width - 1.15);
+      let primaryFontSize = state.plaque_type === 'house' ? (isVertical ? 0.72 : 0.92) : 0.62;
       if (primaryStr.length > 6) {
-        primaryFontSize = Math.max(0.28, primaryFontSize * (6.2 / primaryStr.length));
+        primaryFontSize = Math.max(0.24, primaryFontSize * (6.2 / primaryStr.length));
       }
 
       const primaryGeo = new TextGeometry(primaryStr, {
@@ -922,15 +946,15 @@ include '../includes/header.php';
       primaryGeo.center();
 
       const primaryMesh = new THREE.Mesh(primaryGeo, accentMaterial);
-      primaryMesh.position.y = subtitleStr ? 0.28 : 0.0;
+      primaryMesh.position.y = isVertical ? (subtitleStr ? 0.95 : 0.0) : (subtitleStr ? 0.28 : 0.0);
       primaryMesh.position.z = 0.14;
       primaryMesh.castShadow = true;
       textReliefLayer.add(primaryMesh);
 
       if (subtitleStr) {
-        let subSize = state.plaque_type === 'house' ? 0.27 : 0.24;
+        let subSize = state.plaque_type === 'house' ? (isVertical ? 0.20 : 0.27) : 0.24;
         if (subtitleStr.length > 14) {
-          subSize = Math.max(0.15, subSize * (14 / subtitleStr.length));
+          subSize = Math.max(0.12, subSize * (14 / subtitleStr.length));
         }
 
         const subGeo = new TextGeometry(subtitleStr, {
@@ -953,17 +977,18 @@ include '../includes/header.php';
         subGeo.center();
 
         const subMesh = new THREE.Mesh(subGeo, accentMaterial);
-        subMesh.position.y = -0.62;
+        subMesh.position.y = isVertical ? -1.15 : -0.62;
         subMesh.position.z = 0.13;
         subMesh.castShadow = true;
         textReliefLayer.add(subMesh);
 
         // Decorative divider bar between primary & subtitle
-        const dividerShape = createRoundedRectShape(Math.min(width * 0.45, 2.4), 0.045, 0.02);
+        const dividerWidth = isVertical ? Math.min(width * 0.65, 1.1) : Math.min(width * 0.45, 2.4);
+        const dividerShape = createRoundedRectShape(dividerWidth, 0.045, 0.02);
         const dividerGeo = new THREE.ExtrudeGeometry(dividerShape, { depth: 0.05, bevelEnabled: false });
         dividerGeo.center();
         const dividerMesh = new THREE.Mesh(dividerGeo, accentMaterial);
-        dividerMesh.position.set(0, -0.24, 0.12);
+        dividerMesh.position.set(0, isVertical ? -0.10 : -0.24, 0.12);
         textReliefLayer.add(dividerMesh);
       }
     }
