@@ -498,25 +498,25 @@ include '../includes/header.php';
             <div class="viewer-env-bar d-flex align-items-center justify-content-between flex-wrap gap-2">
               <div class="d-flex align-items-center gap-2 flex-wrap">
                 <span class="small text-secondary text-uppercase fw-bold d-flex align-items-center" style="font-size: 0.69rem; letter-spacing: 0.8px;">
-                  <i class="bi bi-eye-fill text-info me-1"></i> Entorno Real:
+                  <i class="bi bi-eye-fill text-info me-1"></i> Real Environment:
                 </span>
-                <div class="env-btn-group" role="group" aria-label="Visualizar en entorno real">
-                  <button type="button" class="env-btn active" data-env="studio" title="Fondo neutro de estudio 3D">
-                    <i class="bi bi-display me-1"></i> Estudio
+                <div class="env-btn-group" role="group" aria-label="Preview in real-world environment">
+                  <button type="button" class="env-btn active" data-env="studio" title="Neutral 3D studio backdrop">
+                    <i class="bi bi-display me-1"></i> Studio
                   </button>
-                  <button type="button" class="env-btn" data-env="casa" title="Fachada residencial con siding y lámpara exterior">
-                    <i class="bi bi-house-door-fill me-1"></i> Casa
+                  <button type="button" class="env-btn" data-env="casa" title="Modern residential siding facade with wall sconce">
+                    <i class="bi bi-house-door-fill me-1"></i> House Facade
                   </button>
-                  <button type="button" class="env-btn" data-env="barda" title="Muro perimetral de piedra con remate de concreto">
-                    <i class="bi bi-bricks me-1"></i> Barda
+                  <button type="button" class="env-btn" data-env="barda" title="Stacked stone perimeter wall with concrete coping">
+                    <i class="bi bi-bricks me-1"></i> Stone Wall
                   </button>
-                  <button type="button" class="env-btn" data-env="entrada" title="Entrada principal junto a puerta residencial y timbre">
-                    <i class="bi bi-door-closed-fill me-1"></i> Entrada
+                  <button type="button" class="env-btn" data-env="entrada" title="Modern entrance door with stainless pull bar & doorbell">
+                    <i class="bi bi-door-closed-fill me-1"></i> Front Entry
                   </button>
                 </div>
               </div>
               <span class="small text-secondary d-none d-md-inline" id="env-description-hint" style="font-size: 0.72rem;">
-                Fondo neutro de estudio
+                Neutral 3D studio backdrop
               </span>
             </div>
 
@@ -1106,20 +1106,20 @@ include '../includes/header.php';
     },
     environments: {
       studio: {
-        name: 'Estudio',
-        hint: 'Fondo neutro de estudio'
+        name: 'Studio',
+        hint: 'Neutral 3D studio backdrop with balanced lighting'
       },
       casa: {
-        name: 'Casa (Fachada)',
-        hint: 'Fachada residencial con revestimiento de siding y lámpara exterior'
+        name: 'House Facade',
+        hint: 'Modern residential siding facade with warm exterior wall sconce'
       },
       barda: {
-        name: 'Barda (Muro)',
-        hint: 'Muro perimetral exterior de mampostería de piedra con remate de concreto'
+        name: 'Stone Wall',
+        hint: 'Exterior stacked stone masonry wall with concrete coping cap'
       },
       entrada: {
-        name: 'Entrada (Puerta)',
-        hint: 'Entrada principal con puerta residencial contemporánea, manillón y timbre'
+        name: 'Front Entry',
+        hint: 'Modern front door entryway with tall pull bar handle & smart doorbell'
       }
     }
   };
