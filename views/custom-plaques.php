@@ -3604,6 +3604,7 @@ include '../includes/header.php';
   const spinnerSubmitOrder = document.getElementById('spinnerSubmitOrder');
 
   let activeHelcimOrder = null;
+  let isSubmittingOrder = false;
 
   function showAlert(type, message) {
     alertBox.className = `alert alert-${type} py-2 small rounded-3 mb-3`;
@@ -3718,30 +3719,33 @@ include '../includes/header.php';
 
   // Single Action Button: Trigger Payment with Card (Helcim) or Order with Interac
   btnSubmitOrder?.addEventListener('click', async () => {
+    if (isSubmittingOrder) return;
     hideAlert();
     const method = state.payment_method || 'helcim';
     const payload = getCustomerPayload(method);
     if (!payload) return;
 
+    isSubmittingOrder = true;
     btnSubmitOrder.disabled = true;
     spinnerSubmitOrder?.classList.remove('d-none');
 
-    if (method === 'helcim') {
-      try {
-        const response = await fetch(apiEndpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const result = await response.json();
+    try {
+      if (method === 'helcim') {
+        try {
+          const response = await fetch(apiEndpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const result = await response.json();
 
-        spinnerSubmitOrder?.classList.add('d-none');
-        btnSubmitOrder.disabled = false;
+          spinnerSubmitOrder?.classList.add('d-none');
+          btnSubmitOrder.disabled = false;
 
-        if (!result.success || !result.data?.checkout_token) {
-          showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> ' + (result.message || 'Could not initialize Helcim card checkout. You can also select Interac e-Transfer.'));
-          return;
-        }
+          if (!result.success || !result.data?.checkout_token) {
+            showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> ' + (result.message || 'Could not initialize Helcim card checkout. You can also select Interac e-Transfer.'));
+            return;
+          }
 
         const constructionFallback = (CATALOG.construction_styles[payload.construction_style] || {}).name || payload.construction_style;
         const fontFallback = (CATALOG.font_styles[payload.font_style] || {}).name || payload.font_style;
@@ -3849,6 +3853,9 @@ include '../includes/header.php';
         btnSubmitOrder.disabled = false;
         showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> Network error submitting your order. Please try again.');
       }
+    }
+    } finally {
+      isSubmittingOrder = false;
     }
   });
 
@@ -3983,7 +3990,8 @@ include '../includes/header.php';
       || eventName === 'helcimPayTransactionSuccess'
       || eventStatus === 'APPROVED';
 
-    if (isSuccess) {
+    if (isSuccess && !activeHelcimOrder._confirming) {
+      activeHelcimOrder._confirming = true;
       if (typeof removeHelcimPayIframe === 'function') {
         try { removeHelcimPayIframe(); } catch (_) {}
       }

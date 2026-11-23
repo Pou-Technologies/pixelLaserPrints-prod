@@ -213,12 +213,8 @@ if ($action === 'create_order') {
     if (!empty($res['success']) && !empty($res['data']['success'])) {
         $apiData = $res['data']['data'] ?? [];
 
-        // If Interac e-Transfer, also send local server notification to test@poutechnologies.com
-        if ($payload['payment_method'] === 'interac') {
-            sendPlaqueNotificationEmail(array_merge($payload, $apiData, [
-                'payment_status' => 'pending (Interac e-Transfer)',
-            ]));
-        }
+        // Note: Pou Technologies Client Portal API already dispatches CustomPlaqueOrderMail
+        // with the embedded & attached 3D design image. Do not send a duplicate email here.
 
         echo json_encode([
             'success' => true,
@@ -306,10 +302,8 @@ if ($action === 'confirm_helcim') {
     if (!empty($res['success']) && !empty($res['data']['success'])) {
         $apiData = $res['data']['data'] ?? [];
 
-        sendPlaqueNotificationEmail(array_merge($input, $apiData, [
-            'payment_method' => 'helcim',
-            'payment_status' => 'paid',
-        ]));
+        // Note: Pou Technologies Client Portal API already dispatches CustomPlaqueOrderMail
+        // upon Helcim payment confirmation. Do not send a duplicate email here.
 
         echo json_encode([
             'success' => true,
