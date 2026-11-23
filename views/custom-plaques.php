@@ -26,8 +26,8 @@ include '../includes/header.php';
   .plaque-config-page {
     background: radial-gradient(circle at 15% 15%, #1e293b 0%, #0b0f19 60%, #060911 100%);
     min-height: 100vh;
-    padding-top: 120px;
-    padding-bottom: 80px;
+    padding-top: 100px;
+    padding-bottom: 64px;
     color: #f8fafc;
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
   }
@@ -49,7 +49,7 @@ include '../includes/header.php';
 
   .viewer-sticky-wrap {
     position: sticky;
-    top: 100px;
+    top: 96px;
   }
 
   .viewer-card {
@@ -63,7 +63,7 @@ include '../includes/header.php';
   #plaque-canvas-container {
     position: relative;
     width: 100%;
-    height: 480px;
+    height: 510px;
     background: radial-gradient(circle at 50% 42%, #263248 0%, #111827 65%, #090d16 100%);
     cursor: grab;
     overflow: hidden;
@@ -208,41 +208,225 @@ include '../includes/header.php';
   .price-breakdown-bar {
     background: rgba(15, 23, 42, 0.96);
     border-top: 1px solid rgba(255, 255, 255, 0.09);
-    padding: 20px 24px;
+    padding: 18px 22px;
   }
 
+  /* ─── 4-Step Studio Right Panel Card ────────────────────────────────── */
   .design-panel-card {
-    background: rgba(15, 23, 42, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(160deg, rgba(15, 23, 42, 0.9), rgba(11, 16, 30, 0.95));
+    border: 1px solid rgba(255, 255, 255, 0.11);
     border-radius: 24px;
-    padding: 28px;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
     backdrop-filter: blur(14px);
-    box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 24px 50px -15px rgba(0, 0, 0, 0.65);
+  }
+
+  .studio-stepper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    background: rgba(9, 13, 24, 0.72);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 10px 12px;
+  }
+
+  .studio-step-tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    background: rgba(30, 41, 59, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    padding: 8px 6px;
+    color: #94a3b8;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+
+  .studio-step-tab:hover {
+    color: #e2e8f0;
+    border-color: rgba(96, 165, 250, 0.4);
+    background: rgba(30, 41, 59, 0.7);
+  }
+
+  .studio-step-tab .step-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 700;
+    background: rgba(148, 163, 184, 0.16);
+    color: #cbd5e1;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+
+  .studio-step-tab.visited .step-num {
+    background: rgba(56, 189, 248, 0.22);
+    color: #7dd3fc;
+  }
+
+  .studio-step-tab.active {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.24), rgba(14, 165, 233, 0.18));
+    border-color: #3b82f6;
+    color: #ffffff;
+    box-shadow: 0 4px 14px -4px rgba(59, 130, 246, 0.45);
+  }
+
+  .studio-step-tab.active .step-num {
+    background: #3b82f6;
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.7);
+  }
+
+  .studio-step-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 20%;
+    right: 20%;
+    height: 2px;
+    background: linear-gradient(90deg, #38bdf8, #3b82f6);
+    border-radius: 999px;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.75);
+  }
+
+  .studio-alert-slot {
+    padding: 0 22px;
+  }
+
+  .studio-alert-slot .alert {
+    margin-top: 14px;
+    margin-bottom: 0 !important;
+  }
+
+  .studio-step-body {
+    padding: 20px 22px;
+  }
+
+  .studio-step-pane {
+    animation: stepFadeIn 0.2s ease-out;
+  }
+
+  @keyframes stepFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .studio-step-footer {
+    background: rgba(9, 13, 24, 0.85);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 14px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn-step-prev {
+    background: rgba(30, 41, 59, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #cbd5e1;
+    border-radius: 12px;
+    padding: 9px 15px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-step-prev:hover {
+    background: rgba(51, 65, 85, 0.85);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .btn-step-next {
+    background: linear-gradient(135deg, #2563eb 0%, #0284c7 100%);
+    border: none;
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    box-shadow: 0 8px 20px -6px rgba(37, 99, 235, 0.55);
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-step-next:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
+    color: #ffffff;
   }
 
   .config-section-label {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     text-transform: uppercase;
-    letter-spacing: 1.1px;
+    letter-spacing: 1px;
     color: #94a3b8;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  .type-toggle-grid {
+  .type-segmented-pill {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 8px;
+    background: rgba(9, 13, 24, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 5px;
+  }
+
+  .type-segmented-pill .choice-tile {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border-color: transparent;
+    background: transparent;
+  }
+
+  .type-segmented-pill .choice-tile:hover {
+    background: rgba(30, 41, 59, 0.65);
+    border-color: rgba(96, 165, 250, 0.3);
+  }
+
+  .type-segmented-pill .choice-tile.active {
+    background: rgba(37, 99, 235, 0.22);
+    border-color: #3b82f6;
   }
 
   .choice-tile {
     background: rgba(30, 41, 59, 0.65);
     border: 1.5px solid rgba(255, 255, 255, 0.1);
     border-radius: 14px;
-    padding: 14px 16px;
+    padding: 12px 14px;
     color: #e2e8f0;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -261,49 +445,64 @@ include '../includes/header.php';
     box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4);
   }
 
-  .finish-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
   .acm-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 8px;
   }
 
   .acrylic-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 8px;
   }
 
   .sintra-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 8px;
   }
 
   .standoff-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .swatch-tile-compact {
+    display: flex;
+    align-items: center;
     gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .swatch-single {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.28);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+    flex-shrink: 0;
+    margin-bottom: 0;
+  }
+
+  .materials-live-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(56, 189, 248, 0.24);
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    color: #cbd5e1;
+    margin-bottom: 14px;
   }
 
   .sintra-selector-muted {
     opacity: 0.78;
     transition: opacity 0.2s ease;
-  }
-
-  .swatch-single {
-    display: inline-block;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.28);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-    margin-bottom: 8px;
   }
 
   .assembly-legend-pill {
@@ -323,37 +522,100 @@ include '../includes/header.php';
     max-width: calc(100% - 32px);
   }
 
-  @media (max-width: 575.98px) {
-    .acm-grid {
-      gap: 8px;
-    }
-    .acm-grid .choice-tile {
-      padding: 12px 10px;
-    }
-  }
-
   .construction-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 8px;
   }
 
   .font-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .font-tile-compact {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+  }
+
+  .font-preview-sample {
+    font-size: 1.45rem;
+    line-height: 1;
+    color: #f8fafc;
+    letter-spacing: 1px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  /* Step 3: Proportional 2-Column Size Grid + Craft Highlights */
+  .size-grid-studio {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
+  }
+
+  .size-grid-studio .choice-tile[data-size="vertical"] {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    text-align: left;
+  }
+
+  .size-ratio-wrap {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 6px;
+  }
+
+  .size-grid-studio .choice-tile[data-size="vertical"] .size-ratio-wrap {
+    margin-bottom: 0;
+    height: 36px;
+    width: 32px;
+  }
+
+  .size-ratio-box {
+    border: 1.5px solid rgba(148, 163, 184, 0.55);
+    background: rgba(15, 23, 42, 0.65);
+    border-radius: 3px;
+    transition: all 0.2s ease;
+  }
+
+  .choice-tile.active .size-ratio-box {
+    border-color: #38bdf8;
+    background: rgba(56, 189, 248, 0.2);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.35);
+  }
+
+  .craft-highlights-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .craft-highlight-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 9px 11px;
+    font-size: 0.72rem;
+    color: #cbd5e1;
   }
 
   .delivery-toggle-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-  }
-
-  @media (max-width: 575.98px) {
-    .delivery-toggle-grid {
-      grid-template-columns: 1fr;
-    }
   }
 
   .shipping-fields-panel {
@@ -371,20 +633,41 @@ include '../includes/header.php';
     }
   }
 
-  .font-preview-sample {
-    font-size: 1.55rem;
-    line-height: 1.1;
-    color: #f8fafc;
-    letter-spacing: 1px;
-    margin-bottom: 6px;
-  }
-
   .precheckout-summary-card {
     background: rgba(15, 23, 42, 0.72);
     border: 1px solid rgba(59, 130, 246, 0.25);
     border-radius: 14px;
-    padding: 14px 16px;
-    margin-bottom: 16px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+  }
+
+  @media (max-width: 575.98px) {
+    .studio-step-tab {
+      font-size: 0.72rem;
+      padding: 7px 4px;
+      gap: 4px;
+    }
+    .studio-step-tab .step-num {
+      width: 18px;
+      height: 18px;
+      font-size: 0.64rem;
+    }
+    .studio-step-body {
+      padding: 16px;
+    }
+    .studio-step-footer {
+      padding: 12px 16px;
+    }
+    .acm-grid,
+    .standoff-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .delivery-toggle-grid,
+    .type-segmented-pill,
+    .craft-highlights-grid,
+    .font-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media (max-width: 479.98px) {
@@ -393,43 +676,13 @@ include '../includes/header.php';
     }
   }
 
-  .swatch-duo {
-    display: inline-flex;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-
-  .swatch-circle {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-  }
-
-  .swatch-circle.secondary {
-    margin-left: -9px;
-  }
-
-  .size-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-
-  @media (max-width: 575.98px) {
-    .size-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
   .config-input {
     background: rgba(15, 23, 42, 0.9) !important;
     border: 1.5px solid rgba(255, 255, 255, 0.14) !important;
     color: #ffffff !important;
     border-radius: 12px !important;
-    padding: 11px 14px !important;
-    font-size: 0.95rem !important;
+    padding: 10px 13px !important;
+    font-size: 0.92rem !important;
   }
 
   .config-input:focus {
@@ -446,9 +699,9 @@ include '../includes/header.php';
     color: #ffffff;
     border: none;
     border-radius: 14px;
-    padding: 14px 20px;
+    padding: 13px 20px;
     font-weight: 700;
-    font-size: 0.98rem;
+    font-size: 0.96rem;
     transition: all 0.2s ease;
     box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.5);
   }
@@ -464,9 +717,9 @@ include '../includes/header.php';
     color: #f8fafc;
     border: 1.5px solid rgba(255, 255, 255, 0.2);
     border-radius: 14px;
-    padding: 13px 20px;
+    padding: 12px 20px;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.94rem;
     transition: all 0.2s ease;
   }
 
@@ -478,8 +731,8 @@ include '../includes/header.php';
 
   .confirmation-box {
     border-radius: 16px;
-    padding: 20px;
-    margin-top: 18px;
+    padding: 18px;
+    margin-top: 16px;
   }
 
   @media (max-width: 991.98px) {
@@ -505,7 +758,7 @@ include '../includes/header.php';
           3D Architectural Plaque &amp; Signage Studio
         </h1>
         <p class="text-secondary mb-0 small">
-          Real 3-layer architectural signage: CNC-cut ACM front plate, Black Sintra PVC backer &amp; 3D laser-cut acrylic lettering with floating standoffs.
+          Real multi-layer architectural signage: ACM front plate, 6mm Sintra PVC backer &amp; 3D laser-cut acrylic lettering with 2 lateral standoffs.
         </p>
       </div>
       <div class="text-md-end">
@@ -617,429 +870,565 @@ include '../includes/header.php';
         </div>
       </div>
 
-      <!-- RIGHT COLUMN: Design & Checkout Panel -->
+      <!-- RIGHT COLUMN: 4-Step Interactive Studio Panel -->
       <div class="col-lg-5">
         <div class="design-panel-card">
+          <!-- Sticky 4-Step Navigation Bar -->
+          <div class="studio-stepper" role="tablist" aria-label="Configuration Steps">
+            <button type="button" class="studio-step-tab active" data-step="1" role="tab" aria-selected="true">
+              <span class="step-num">1</span>
+              <span>Design</span>
+            </button>
+            <button type="button" class="studio-step-tab" data-step="2" role="tab" aria-selected="false">
+              <span class="step-num">2</span>
+              <span>Materials</span>
+            </button>
+            <button type="button" class="studio-step-tab" data-step="3" role="tab" aria-selected="false">
+              <span class="step-num">3</span>
+              <span>Size</span>
+            </button>
+            <button type="button" class="studio-step-tab" data-step="4" role="tab" aria-selected="false">
+              <span class="step-num">4</span>
+              <span>Order</span>
+            </button>
+          </div>
+
+          <!-- Global Validation / Status Alert (Always visible across step switches) -->
+          <div class="studio-alert-slot">
+            <div id="checkoutAlertBox" class="alert d-none py-2 small rounded-3"></div>
+          </div>
+
           <form id="plaqueConfigForm" onsubmit="return false;">
-            <!-- 1. Plaque Type -->
-            <div class="mb-4">
-              <div class="config-section-label">
-                <span>1. Plaque Style</span>
-                <span class="text-info">Laser-Cut Multi-Layer</span>
-              </div>
-              <div class="type-toggle-grid">
-                <div class="choice-tile active" data-type="house" id="tile-type-house">
-                  <div class="d-flex align-items-center justify-content-between mb-1">
-                    <i class="bi bi-house-door-fill text-info fs-5"></i>
-                    <span class="badge bg-info bg-opacity-10 text-info small">Residential</span>
+            <div class="studio-step-body">
+
+              <!-- ══ STEP 1: DESIGN & TYPOGRAPHY ══════════════════════════════ -->
+              <div class="studio-step-pane" data-step-pane="1">
+                <!-- Plaque Style (Compact Segmented Pill) -->
+                <div class="mb-3">
+                  <div class="config-section-label">
+                    <span>Plaque Style</span>
+                    <span class="text-info">Laser-Cut Multi-Layer</span>
                   </div>
-                  <div class="fw-bold small">House Number</div>
-                  <div class="text-secondary" style="font-size: 0.73rem;">Civic number + street name</div>
-                </div>
-
-                <div class="choice-tile" data-type="business" id="tile-type-business">
-                  <div class="d-flex align-items-center justify-content-between mb-1">
-                    <i class="bi bi-building-fill text-info fs-5"></i>
-                    <span class="badge bg-primary bg-opacity-25 text-light small">Commercial</span>
-                  </div>
-                  <div class="fw-bold small">Business / Office</div>
-                  <div class="text-secondary" style="font-size: 0.73rem;">Company title + suite / city</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 2. Construction Style -->
-            <div class="mb-4">
-              <div class="config-section-label">
-                <span>2. Construction Style</span>
-                <span class="text-secondary">Fabrication Method</span>
-              </div>
-              <div class="construction-grid">
-                <div class="choice-tile active" data-construction-style="raised_acrylic">
-                  <div class="d-flex align-items-center justify-content-between mb-1 gap-1">
-                    <i class="bi bi-box-fill text-info"></i>
-                    <span class="badge bg-secondary bg-opacity-25 text-light" style="font-size: 0.65rem;">Base Price</span>
-                  </div>
-                  <div class="fw-bold small">Raised 3D Acrylic</div>
-                  <div class="text-secondary" style="font-size: 0.71rem;">Solid ACM plate + surface-mounted 3D digits</div>
-                </div>
-
-                <div class="choice-tile" data-construction-style="cnc_cut_acm">
-                  <div class="d-flex align-items-center justify-content-between mb-1 gap-1">
-                    <i class="bi bi-layers-fill text-warning"></i>
-                    <span class="badge bg-warning bg-opacity-25 text-warning" id="cnc-surcharge-badge" style="font-size: 0.65rem;">+$10 CAD</span>
-                  </div>
-                  <div class="fw-bold small">CNC Cut ACM + Inlaid</div>
-                  <div class="text-secondary" style="font-size: 0.71rem;">Black Sintra backer + CNC cutouts in ACM</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 3. Custom Text -->
-            <div class="mb-4">
-              <div class="config-section-label">
-                <span>3. 3D Raised Lettering</span>
-                <span id="char-counter" class="text-secondary">3 / 24</span>
-              </div>
-              <div class="mb-3">
-                <label for="primaryTextInput" class="form-label small text-light mb-1">Primary 3D Text <span class="text-danger">*</span></label>
-                <input type="text" id="primaryTextInput" class="form-control config-input fw-bold"
-                       value="428" maxlength="24" placeholder="e.g. 428 or POU TECH" required>
-              </div>
-              <div>
-                <label for="subtitleTextInput" class="form-label small text-light mb-1">Subtitle / Street / Suite (Optional)</label>
-                <input type="text" id="subtitleTextInput" class="form-control config-input"
-                       value="QUEEN ST" maxlength="32" placeholder="e.g. QUEEN ST or CHARLOTTETOWN">
-              </div>
-            </div>
-
-            <!-- 4. Typography / Font Style -->
-            <div class="mb-4">
-              <div class="config-section-label">
-                <span>4. Typography / Font Style</span>
-                <span class="text-secondary">Laser / CNC Font</span>
-              </div>
-              <div class="font-grid">
-                <div class="choice-tile active" data-font-style="athletic_block">
-                  <div class="font-preview-sample" style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; letter-spacing: 2px;">428</div>
-                  <div class="fw-bold small">Athletic Block</div>
-                  <div class="text-secondary" style="font-size: 0.71rem;">45&deg; beveled octagonal block</div>
-                </div>
-
-                <div class="choice-tile" data-font-style="modern_sans">
-                  <div class="font-preview-sample" style="font-family: 'Montserrat', sans-serif; font-weight: 700;">428</div>
-                  <div class="fw-bold small">Modern Sans</div>
-                  <div class="text-secondary" style="font-size: 0.71rem;">Bold geometric architectural</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 5. Front Plate Finish — ACM (Aluminum Composite) -->
-            <div class="mb-4">
-              <div class="config-section-label">
-                <span>5. Front Plate Finish &mdash; ACM</span>
-                <span class="text-secondary">Architectural Panel</span>
-              </div>
-              <div class="acm-grid">
-                <div class="choice-tile active" data-acm-finish="matte_black">
-                  <span class="swatch-single" style="background: #18181b;"></span>
-                  <div class="fw-bold small">Matte Black</div>
-                  <div class="text-secondary" style="font-size: 0.72rem;">Deep matte ACM</div>
-                </div>
-
-                <div class="choice-tile" data-acm-finish="brushed_silver">
-                  <span class="swatch-single" style="background: linear-gradient(135deg, #e4e4e7 0%, #a1a1aa 50%, #e4e4e7 100%);"></span>
-                  <div class="fw-bold small">Brushed Silver</div>
-                  <div class="text-secondary" style="font-size: 0.72rem;">Brushed aluminum</div>
-                </div>
-
-                <div class="choice-tile" data-acm-finish="white">
-                  <span class="swatch-single" style="background: #f8fafc;"></span>
-                  <div class="fw-bold small">White</div>
-                  <div class="text-secondary" style="font-size: 0.72rem;">Satin architectural</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 6. 3D Digits & Text Finish — Laser Acrylic -->
-            <div class="mb-4">
-              <div class="config-section-label">
-                <span>6. 3D Digits &amp; Text &mdash; Acrylic</span>
-                <span class="text-secondary">3mm/6mm Laser Acrylic</span>
-              </div>
-              <div class="acrylic-grid">
-                <div class="choice-tile active" data-acrylic-finish="mirror_gold">
-                  <span class="swatch-single" style="background: linear-gradient(135deg, #fef08a 0%, #eab308 45%, #a16207 75%, #fde047 100%);"></span>
-                  <div class="fw-bold small">Mirror Gold</div>
-                  <div class="text-secondary" style="font-size: 0.72rem;">High-gloss gold mirror</div>
-                </div>
-
-                <div class="choice-tile" data-acrylic-finish="mirror_silver">
-                  <span class="swatch-single" style="background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 45%, #64748b 70%, #f8fafc 100%);"></span>
-                  <div class="fw-bold small">Mirror Silver</div>
-                  <div class="text-secondary" style="font-size: 0.72rem;">Chrome mirror acrylic</div>
-                </div>
-
-                <div class="choice-tile" data-acrylic-finish="matte_white">
-                  <span class="swatch-single" style="background: #ffffff;"></span>
-                  <div class="fw-bold small">Matte White</div>
-                  <div class="text-secondary" style="font-size: 0.72rem;">Crisp matte white</div>
-                </div>
-
-                <div class="choice-tile" data-acrylic-finish="matte_black">
-                  <span class="swatch-single" style="background: #111111;"></span>
-                  <div class="fw-bold small">Matte Black</div>
-                  <div class="text-secondary" style="font-size: 0.72rem;">Deep matte black</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 7. Sintra Backing Color — 6mm PVC -->
-            <div class="mb-4 sintra-selector-muted" id="sintraSelectorWrap">
-              <div class="config-section-label">
-                <span>7. Sintra Backing Color &mdash; 6mm</span>
-                <span class="text-secondary" id="sintra-mode-hint">Selecting enables CNC Cut ACM</span>
-              </div>
-              <div class="sintra-grid">
-                <div class="choice-tile active" data-sintra-color="black">
-                  <span class="swatch-single" style="background: #121215;"></span>
-                  <div class="fw-bold small">Black</div>
-                  <div class="text-secondary" style="font-size: 0.72rem;">6mm matte black PVC</div>
-                </div>
-
-                <div class="choice-tile" data-sintra-color="white">
-                  <span class="swatch-single" style="background: #f4f4f5;"></span>
-                  <div class="fw-bold small">White</div>
-                  <div class="text-secondary" style="font-size: 0.72rem;">6mm matte white PVC</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 8. Standoff Hardware Finish -->
-            <div class="mb-4">
-              <div class="config-section-label">
-                <span>8. Standoff Finish</span>
-                <span class="text-secondary">2 Lateral Mounts</span>
-              </div>
-              <div class="standoff-grid">
-                <div class="choice-tile" data-standoff-finish="black">
-                  <span class="swatch-single" style="background: #18181b;"></span>
-                  <div class="fw-bold small">Black</div>
-                  <div class="text-secondary" style="font-size: 0.71rem;">Anodized matte</div>
-                </div>
-
-                <div class="choice-tile" data-standoff-finish="gold">
-                  <span class="swatch-single" style="background: linear-gradient(135deg, #fef08a 0%, #d4af37 50%, #92400e 100%);"></span>
-                  <div class="fw-bold small">Gold</div>
-                  <div class="text-secondary" style="font-size: 0.71rem;">Brushed brass</div>
-                </div>
-
-                <div class="choice-tile active" data-standoff-finish="silver">
-                  <span class="swatch-single" style="background: linear-gradient(135deg, #f8fafc 0%, #a1a1aa 55%, #e4e4e7 100%);"></span>
-                  <div class="fw-bold small">Silver</div>
-                  <div class="text-secondary" style="font-size: 0.71rem;">Brushed steel</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 9. Size Selector -->
-            <div class="mb-4">
-              <div class="config-section-label">
-                <span>9. Plaque Size (CAD)</span>
-                <span class="text-secondary">+15% PEI HST at checkout</span>
-              </div>
-              <div class="size-grid">
-                <div class="choice-tile text-center" data-size="small" data-price="55">
-                  <div class="fw-bold small">Small</div>
-                  <div class="text-secondary" style="font-size: 0.7rem;">10" &times; 13"</div>
-                  <div class="fw-bold text-info mt-1 size-tile-price">$55 CAD</div>
-                </div>
-
-                <div class="choice-tile text-center active" data-size="medium" data-price="60">
-                  <div class="fw-bold small">Medium</div>
-                  <div class="text-secondary" style="font-size: 0.7rem;">10" &times; 15"</div>
-                  <div class="fw-bold text-info mt-1 size-tile-price">$60 CAD</div>
-                </div>
-
-                <div class="choice-tile text-center" data-size="large" data-price="70">
-                  <div class="fw-bold small">Large</div>
-                  <div class="text-secondary" style="font-size: 0.7rem;">10" &times; 17"</div>
-                  <div class="fw-bold text-info mt-1 size-tile-price">$70 CAD</div>
-                </div>
-
-                <div class="choice-tile text-center" data-size="extra_large" data-price="80">
-                  <div class="fw-bold small">Extra Large</div>
-                  <div class="text-secondary" style="font-size: 0.7rem;">10" &times; 23.5"</div>
-                  <div class="fw-bold text-info mt-1 size-tile-price">$80 CAD</div>
-                </div>
-
-                <div class="choice-tile text-center" data-size="vertical" data-price="55">
-                  <div class="d-flex align-items-center justify-content-center gap-1">
-                    <span class="fw-bold small">Vertical</span>
-                    <i class="bi bi-arrows-vertical text-info" style="font-size: 0.75rem;"></i>
-                  </div>
-                  <div class="text-secondary" style="font-size: 0.7rem;">5" &times; 17"</div>
-                  <div class="fw-bold text-info mt-1 size-tile-price">$55 CAD</div>
-                </div>
-              </div>
-            </div>
-
-            <hr class="border-secondary border-opacity-25 my-4">
-
-            <!-- 10. Customer Information -->
-            <div class="mb-4">
-              <div class="config-section-label">
-                <span>10. Customer &amp; Order Details</span>
-              </div>
-              <div class="mb-3">
-                <label for="customerName" class="form-label small text-light mb-1">Full Name <span class="text-danger">*</span></label>
-                <input type="text" id="customerName" class="form-control config-input" placeholder="Jane Doe" required>
-              </div>
-              <div class="row g-2 mb-3">
-                <div class="col-sm-7">
-                  <label for="customerEmail" class="form-label small text-light mb-1">Email Address <span class="text-danger">*</span></label>
-                  <input type="email" id="customerEmail" class="form-control config-input" placeholder="jane@example.com" required>
-                </div>
-                <div class="col-sm-5">
-                  <label for="customerPhone" class="form-label small text-light mb-1">Phone</label>
-                  <input type="tel" id="customerPhone" class="form-control config-input" placeholder="902-555-0199">
-                </div>
-              </div>
-
-              <!-- Fulfillment Method: Store Pickup vs Shipping -->
-              <div class="pt-2 border-top border-secondary border-opacity-25">
-                <label class="form-label small text-light fw-bold mb-2 d-flex justify-content-between align-items-center">
-                  <span>Fulfillment / Delivery Method</span>
-                  <span class="text-info small fw-normal"><i class="bi bi-geo-alt me-1"></i> Charlottetown, PEI</span>
-                </label>
-
-                <div class="delivery-toggle-grid mb-3">
-                  <div class="choice-tile active" data-delivery="pickup" id="tile-delivery-pickup">
-                    <div class="d-flex align-items-center justify-content-between mb-1">
-                      <div class="d-flex align-items-center gap-2">
-                        <i class="bi bi-shop-window text-info fs-5"></i>
-                        <span class="fw-bold small">Pick Up in Store</span>
+                  <div class="type-segmented-pill">
+                    <div class="choice-tile active" data-type="house" id="tile-type-house">
+                      <div class="d-flex align-items-center justify-content-between mb-1">
+                        <span class="fw-bold small d-flex align-items-center gap-2">
+                          <i class="bi bi-house-door-fill text-info"></i> House Number
+                        </span>
+                        <span class="badge bg-info bg-opacity-10 text-info" style="font-size: 0.65rem;">Residential</span>
                       </div>
-                      <span class="badge bg-success bg-opacity-25 text-success small">Free</span>
+                      <div class="text-secondary" style="font-size: 0.71rem;">Civic number + street name</div>
                     </div>
-                    <div class="text-light opacity-75" style="font-size: 0.72rem; line-height: 1.35;">
-                      <strong>180 Belvedere Ave</strong>, Charlottetown, PEI, C1A 2Z1, Canada
-                    </div>
-                    <div class="text-secondary mt-1" style="font-size: 0.68rem;">Ready for pickup once fabricated</div>
-                  </div>
 
-                  <div class="choice-tile" data-delivery="shipping" id="tile-delivery-shipping">
-                    <div class="d-flex align-items-center justify-content-between mb-1">
-                      <div class="d-flex align-items-center gap-2">
-                        <i class="bi bi-truck text-info fs-5"></i>
-                        <span class="fw-bold small">Direct Shipping</span>
+                    <div class="choice-tile" data-type="business" id="tile-type-business">
+                      <div class="d-flex align-items-center justify-content-between mb-1">
+                        <span class="fw-bold small d-flex align-items-center gap-2">
+                          <i class="bi bi-building-fill text-info"></i> Business / Office
+                        </span>
+                        <span class="badge bg-primary bg-opacity-25 text-light" style="font-size: 0.65rem;">Commercial</span>
                       </div>
-                      <span class="badge bg-primary bg-opacity-25 text-info small">To Address</span>
+                      <div class="text-secondary" style="font-size: 0.71rem;">Company title + suite / city</div>
                     </div>
-                    <div class="text-light opacity-75" style="font-size: 0.72rem;">
-                      Delivered directly to your home or office address
-                    </div>
-                    <div class="text-secondary mt-1" style="font-size: 0.68rem;">Enter destination address below</div>
                   </div>
                 </div>
 
-                <!-- Collapsible Shipping Address Form -->
-                <div id="shippingFieldsContainer" class="shipping-fields-panel d-none">
-                  <div class="p-3 rounded-3 mb-2" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.25);">
-                    <div class="text-info small fw-bold mb-2 d-flex align-items-center" style="font-size: 0.75rem;">
-                      <i class="bi bi-pin-map-fill me-1"></i> Shipping Destination Address
-                    </div>
-                    <div class="mb-2">
-                      <label for="shippingAddress1" class="form-label small text-light mb-1">Street Address <span class="text-danger">*</span></label>
-                      <input type="text" id="shippingAddress1" class="form-control config-input" placeholder="e.g. 428 Queen St">
-                    </div>
-                    <div class="mb-2">
-                      <label for="shippingAddress2" class="form-label small text-light mb-1">Apt, Suite, Unit <span class="text-secondary fw-normal">(Optional)</span></label>
-                      <input type="text" id="shippingAddress2" class="form-control config-input" placeholder="e.g. Suite 200 or Apt 4B">
-                    </div>
-                    <div class="row g-2 mb-2">
-                      <div class="col-sm-6">
-                        <label for="shippingCity" class="form-label small text-light mb-1">City <span class="text-danger">*</span></label>
-                        <input type="text" id="shippingCity" class="form-control config-input" placeholder="e.g. Charlottetown">
+                <!-- Construction Style -->
+                <div class="mb-3">
+                  <div class="config-section-label">
+                    <span>Construction Style</span>
+                    <span class="text-secondary">Fabrication Method</span>
+                  </div>
+                  <div class="construction-grid">
+                    <div class="choice-tile active" data-construction-style="raised_acrylic">
+                      <div class="d-flex align-items-center justify-content-between mb-1 gap-1">
+                        <i class="bi bi-box-fill text-info"></i>
+                        <span class="badge bg-secondary bg-opacity-25 text-light" style="font-size: 0.65rem;">Base Price</span>
                       </div>
-                      <div class="col-sm-3 col-6">
-                        <label for="shippingProvince" class="form-label small text-light mb-1">Province <span class="text-danger">*</span></label>
-                        <select id="shippingProvince" class="form-select config-input">
-                          <option value="PE" selected>PE</option>
-                          <option value="NS">NS</option>
-                          <option value="NB">NB</option>
-                          <option value="ON">ON</option>
-                          <option value="QC">QC</option>
-                          <option value="BC">BC</option>
-                          <option value="AB">AB</option>
-                          <option value="SK">SK</option>
-                          <option value="MB">MB</option>
-                          <option value="NL">NL</option>
-                          <option value="YT">YT</option>
-                          <option value="NT">NT</option>
-                          <option value="NU">NU</option>
-                        </select>
+                      <div class="fw-bold small">Raised 3D Acrylic</div>
+                      <div class="text-secondary" style="font-size: 0.7rem;">Solid ACM plate + surface 3D digits</div>
+                    </div>
+
+                    <div class="choice-tile" data-construction-style="cnc_cut_acm">
+                      <div class="d-flex align-items-center justify-content-between mb-1 gap-1">
+                        <i class="bi bi-layers-fill text-warning"></i>
+                        <span class="badge bg-warning bg-opacity-25 text-warning" id="cnc-surcharge-badge" style="font-size: 0.65rem;">+$10 CAD</span>
                       </div>
-                      <div class="col-sm-3 col-6">
-                        <label for="shippingPostal" class="form-label small text-light mb-1">Postal Code <span class="text-danger">*</span></label>
-                        <input type="text" id="shippingPostal" class="form-control config-input" placeholder="e.g. C1A 2Z1">
+                      <div class="fw-bold small">CNC Cut ACM + Inlaid</div>
+                      <div class="text-secondary" style="font-size: 0.7rem;">6mm Sintra backer + CNC cutouts</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Custom 3D Lettering -->
+                <div class="mb-3">
+                  <div class="config-section-label">
+                    <span>3D Raised Lettering</span>
+                    <span id="char-counter" class="text-secondary">3 / 24</span>
+                  </div>
+                  <div class="mb-2">
+                    <label for="primaryTextInput" class="form-label small text-light mb-1">Primary 3D Text <span class="text-danger">*</span></label>
+                    <input type="text" id="primaryTextInput" class="form-control config-input fw-bold"
+                           value="428" maxlength="24" placeholder="e.g. 428 or POU TECH" required>
+                  </div>
+                  <div>
+                    <label for="subtitleTextInput" class="form-label small text-light mb-1">Subtitle / Street / Suite <span class="text-secondary fw-normal">(Optional)</span></label>
+                    <input type="text" id="subtitleTextInput" class="form-control config-input"
+                           value="QUEEN ST" maxlength="32" placeholder="e.g. QUEEN ST or CHARLOTTETOWN">
+                  </div>
+                </div>
+
+                <!-- Typography / Font Style -->
+                <div>
+                  <div class="config-section-label">
+                    <span>Typography / Font Style</span>
+                    <span class="text-secondary">Laser / CNC Font</span>
+                  </div>
+                  <div class="font-grid">
+                    <div class="choice-tile font-tile-compact active" data-font-style="athletic_block">
+                      <div class="font-preview-sample" style="font-family: 'Chakra Petch', sans-serif; font-weight: 700;">428</div>
+                      <div>
+                        <div class="fw-bold small">Athletic Block</div>
+                        <div class="text-secondary" style="font-size: 0.69rem;">45&deg; octagonal block</div>
                       </div>
                     </div>
-                    <div class="row g-2">
-                      <div class="col-sm-5">
-                        <label for="shippingCountry" class="form-label small text-light mb-1">Country</label>
-                        <input type="text" id="shippingCountry" class="form-control config-input" value="Canada" readonly>
-                      </div>
-                      <div class="col-sm-7">
-                        <label for="shippingNotes" class="form-label small text-light mb-1">Delivery Notes <span class="text-secondary fw-normal">(Optional)</span></label>
-                        <input type="text" id="shippingNotes" class="form-control config-input" placeholder="e.g. Leave by side door">
+
+                    <div class="choice-tile font-tile-compact" data-font-style="modern_sans">
+                      <div class="font-preview-sample" style="font-family: 'Montserrat', sans-serif; font-weight: 700;">428</div>
+                      <div>
+                        <div class="fw-bold small">Modern Sans</div>
+                        <div class="text-secondary" style="font-size: 0.69rem;">Bold architectural</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Pre-Checkout Order Review Summary -->
-            <div class="precheckout-summary-card" id="precheckoutSummary">
-              <div class="text-info small text-uppercase fw-bold mb-2" style="font-size: 0.68rem; letter-spacing: 1px;">
-                <i class="bi bi-receipt me-1"></i> Order Summary Preview
-              </div>
-              <div class="d-flex justify-content-between small mb-1 gap-2">
-                <span class="text-secondary">Construction:</span>
-                <span class="text-light fw-semibold text-end" id="review-construction">Raised 3D Acrylic (Solid ACM)</span>
-              </div>
-              <div class="d-flex justify-content-between small mb-1 gap-2">
-                <span class="text-secondary">Font Style:</span>
-                <span class="text-light fw-semibold text-end" id="review-font">Athletic Octagonal Block</span>
-              </div>
-              <div class="d-flex justify-content-between small mb-1 gap-2">
-                <span class="text-secondary">Materials:</span>
-                <span class="text-light fw-semibold text-end" id="review-materials">Matte Black ACM + Mirror Gold Acrylic</span>
-              </div>
-              <div class="d-flex justify-content-between small mb-1 gap-2 d-none" id="review-sintra-row">
-                <span class="text-secondary">Sintra Backing (6mm):</span>
-                <span class="text-light fw-semibold text-end" id="review-sintra">Black Sintra (6mm)</span>
-              </div>
-              <div class="d-flex justify-content-between small mb-1 gap-2">
-                <span class="text-secondary">Standoffs:</span>
-                <span class="text-light fw-semibold text-end" id="review-standoffs">2 Lateral Silver Standoffs</span>
-              </div>
-              <div class="d-flex justify-content-between small mb-1 gap-2">
-                <span class="text-secondary">Fulfillment:</span>
-                <span class="text-light fw-semibold text-end" id="review-fulfillment">Pick Up in Store (Charlottetown, PEI)</span>
-              </div>
-              <div class="d-flex justify-content-between small mb-1 gap-2">
-                <span class="text-secondary">Size:</span>
-                <span class="text-light fw-semibold text-end" id="review-size">Medium (10" &times; 15")</span>
-              </div>
-              <div class="d-flex justify-content-between align-items-center small pt-2 mt-2 border-top border-secondary border-opacity-25">
-                <span class="text-white fw-bold">Total incl. 15% PEI HST:</span>
-                <span class="text-info fw-bold fs-6" id="review-total">$69.00 CAD</span>
-              </div>
-            </div>
+              <!-- ══ STEP 2: MATERIALS & HARDWARE ═════════════════════════════ -->
+              <div class="studio-step-pane d-none" data-step-pane="2">
+                <div class="materials-live-bar">
+                  <i class="bi bi-palette-fill text-info"></i>
+                  <span class="text-secondary">Active Stack:</span>
+                  <strong class="text-light text-truncate" id="materials-live-pill">Matte Black ACM &bull; Mirror Gold &bull; Silver Standoffs</strong>
+                </div>
 
-            <!-- Alert / Error Feedback -->
-            <div id="checkoutAlertBox" class="alert d-none py-2 small rounded-3 mb-3"></div>
+                <!-- Front Plate Finish — ACM -->
+                <div class="mb-3">
+                  <div class="config-section-label">
+                    <span>Front Plate &mdash; ACM</span>
+                    <span class="text-secondary">Architectural Panel</span>
+                  </div>
+                  <div class="acm-grid">
+                    <div class="choice-tile swatch-tile-compact active" data-acm-finish="matte_black">
+                      <span class="swatch-single" style="background: #18181b;"></span>
+                      <div class="min-w-0">
+                        <div class="fw-bold small text-truncate">Matte Black</div>
+                        <div class="text-secondary text-truncate" style="font-size: 0.69rem;">Deep matte</div>
+                      </div>
+                    </div>
 
-            <!-- Payment Action Buttons -->
-            <div class="d-grid gap-2">
-              <button type="button" id="btnPayHelcim" class="btn btn-helcim-pay d-flex align-items-center justify-content-center gap-2">
-                <span class="spinner-border spinner-border-sm d-none" id="spinnerHelcim"></span>
-                <i class="bi bi-credit-card-2-front-fill"></i>
-                <span>Pay with Card (Helcim) &mdash; <span id="btn-helcim-total">$69.00 CAD</span></span>
-              </button>
+                    <div class="choice-tile swatch-tile-compact" data-acm-finish="brushed_silver">
+                      <span class="swatch-single" style="background: linear-gradient(135deg, #e4e4e7 0%, #a1a1aa 50%, #e4e4e7 100%);"></span>
+                      <div class="min-w-0">
+                        <div class="fw-bold small text-truncate">Brushed Silver</div>
+                        <div class="text-secondary text-truncate" style="font-size: 0.69rem;">Aluminum</div>
+                      </div>
+                    </div>
 
-              <button type="button" id="btnOrderInterac" class="btn btn-interac-pay d-flex align-items-center justify-content-center gap-2">
-                <span class="spinner-border spinner-border-sm d-none" id="spinnerInterac"></span>
-                <i class="bi bi-bank2 text-warning"></i>
-                <span>Order via Interac e-Transfer</span>
-              </button>
+                    <div class="choice-tile swatch-tile-compact" data-acm-finish="white">
+                      <span class="swatch-single" style="background: #f8fafc;"></span>
+                      <div class="min-w-0">
+                        <div class="fw-bold small text-truncate">White</div>
+                        <div class="text-secondary text-truncate" style="font-size: 0.69rem;">Satin white</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3D Digits & Text Finish — Laser Acrylic -->
+                <div class="mb-3">
+                  <div class="config-section-label">
+                    <span>3D Digits &amp; Text &mdash; Acrylic</span>
+                    <span class="text-secondary">3mm/6mm Laser Acrylic</span>
+                  </div>
+                  <div class="acrylic-grid">
+                    <div class="choice-tile swatch-tile-compact active" data-acrylic-finish="mirror_gold">
+                      <span class="swatch-single" style="background: linear-gradient(135deg, #fef08a 0%, #eab308 45%, #a16207 75%, #fde047 100%);"></span>
+                      <div class="min-w-0">
+                        <div class="fw-bold small">Mirror Gold</div>
+                        <div class="text-secondary" style="font-size: 0.69rem;">High-gloss mirror</div>
+                      </div>
+                    </div>
+
+                    <div class="choice-tile swatch-tile-compact" data-acrylic-finish="mirror_silver">
+                      <span class="swatch-single" style="background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 45%, #64748b 70%, #f8fafc 100%);"></span>
+                      <div class="min-w-0">
+                        <div class="fw-bold small">Mirror Silver</div>
+                        <div class="text-secondary" style="font-size: 0.69rem;">Chrome mirror</div>
+                      </div>
+                    </div>
+
+                    <div class="choice-tile swatch-tile-compact" data-acrylic-finish="matte_white">
+                      <span class="swatch-single" style="background: #ffffff;"></span>
+                      <div class="min-w-0">
+                        <div class="fw-bold small">Matte White</div>
+                        <div class="text-secondary" style="font-size: 0.69rem;">Crisp satin matte</div>
+                      </div>
+                    </div>
+
+                    <div class="choice-tile swatch-tile-compact" data-acrylic-finish="matte_black">
+                      <span class="swatch-single" style="background: #111111;"></span>
+                      <div class="min-w-0">
+                        <div class="fw-bold small">Matte Black</div>
+                        <div class="text-secondary" style="font-size: 0.69rem;">Deep matte black</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Sintra Backing Color — 6mm PVC -->
+                <div class="mb-3 sintra-selector-muted" id="sintraSelectorWrap">
+                  <div class="config-section-label">
+                    <span>Sintra Backing &mdash; 6mm PVC</span>
+                    <span class="text-secondary" id="sintra-mode-hint">Selecting enables CNC Cut ACM</span>
+                  </div>
+                  <div class="sintra-grid">
+                    <div class="choice-tile swatch-tile-compact active" data-sintra-color="black">
+                      <span class="swatch-single" style="background: #121215;"></span>
+                      <div class="min-w-0">
+                        <div class="fw-bold small">Black Sintra</div>
+                        <div class="text-secondary" style="font-size: 0.69rem;">6mm matte black PVC</div>
+                      </div>
+                    </div>
+
+                    <div class="choice-tile swatch-tile-compact" data-sintra-color="white">
+                      <span class="swatch-single" style="background: #f4f4f5;"></span>
+                      <div class="min-w-0">
+                        <div class="fw-bold small">White Sintra</div>
+                        <div class="text-secondary" style="font-size: 0.69rem;">6mm matte white PVC</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Standoff Hardware Finish -->
+                <div>
+                  <div class="config-section-label">
+                    <span>Standoff Hardware Finish</span>
+                    <span class="text-secondary">2 Lateral Mounts</span>
+                  </div>
+                  <div class="standoff-grid">
+                    <div class="choice-tile swatch-tile-compact" data-standoff-finish="black">
+                      <span class="swatch-single" style="background: #18181b;"></span>
+                      <div class="min-w-0">
+                        <div class="fw-bold small">Black</div>
+                        <div class="text-secondary" style="font-size: 0.68rem;">Anodized</div>
+                      </div>
+                    </div>
+
+                    <div class="choice-tile swatch-tile-compact" data-standoff-finish="gold">
+                      <span class="swatch-single" style="background: linear-gradient(135deg, #fef08a 0%, #d4af37 50%, #92400e 100%);"></span>
+                      <div class="min-w-0">
+                        <div class="fw-bold small">Gold</div>
+                        <div class="text-secondary" style="font-size: 0.68rem;">Brushed</div>
+                      </div>
+                    </div>
+
+                    <div class="choice-tile swatch-tile-compact active" data-standoff-finish="silver">
+                      <span class="swatch-single" style="background: linear-gradient(135deg, #f8fafc 0%, #a1a1aa 55%, #e4e4e7 100%);"></span>
+                      <div class="min-w-0">
+                        <div class="fw-bold small">Silver</div>
+                        <div class="text-secondary" style="font-size: 0.68rem;">Stainless</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ══ STEP 3: SIZE & DIMENSIONS ════════════════════════════════ -->
+              <div class="studio-step-pane d-none" data-step-pane="3">
+                <div class="config-section-label">
+                  <span>Select Plaque Dimensions (CAD)</span>
+                  <span class="text-secondary">+15% PEI HST at checkout</span>
+                </div>
+
+                <div class="size-grid-studio">
+                  <div class="choice-tile text-center" data-size="small" data-price="55">
+                    <div class="size-ratio-wrap">
+                      <div class="size-ratio-box" style="width: 28px; height: 21px;"></div>
+                    </div>
+                    <div class="fw-bold small">Small</div>
+                    <div class="text-secondary" style="font-size: 0.72rem;">10" &times; 13" (25 &times; 33 cm)</div>
+                    <div class="fw-bold text-info mt-1 size-tile-price">$55 CAD</div>
+                  </div>
+
+                  <div class="choice-tile text-center active" data-size="medium" data-price="60">
+                    <div class="size-ratio-wrap">
+                      <div class="size-ratio-box" style="width: 33px; height: 22px;"></div>
+                    </div>
+                    <div class="fw-bold small">Medium</div>
+                    <div class="text-secondary" style="font-size: 0.72rem;">10" &times; 15" (25 &times; 38 cm)</div>
+                    <div class="fw-bold text-info mt-1 size-tile-price">$60 CAD</div>
+                  </div>
+
+                  <div class="choice-tile text-center" data-size="large" data-price="70">
+                    <div class="size-ratio-wrap">
+                      <div class="size-ratio-box" style="width: 38px; height: 22px;"></div>
+                    </div>
+                    <div class="fw-bold small">Large</div>
+                    <div class="text-secondary" style="font-size: 0.72rem;">10" &times; 17" (25 &times; 43 cm)</div>
+                    <div class="fw-bold text-info mt-1 size-tile-price">$70 CAD</div>
+                  </div>
+
+                  <div class="choice-tile text-center" data-size="extra_large" data-price="80">
+                    <div class="size-ratio-wrap">
+                      <div class="size-ratio-box" style="width: 48px; height: 20px;"></div>
+                    </div>
+                    <div class="fw-bold small">Extra Large</div>
+                    <div class="text-secondary" style="font-size: 0.72rem;">10" &times; 23.5" (25 &times; 60 cm)</div>
+                    <div class="fw-bold text-info mt-1 size-tile-price">$80 CAD</div>
+                  </div>
+
+                  <div class="choice-tile" data-size="vertical" data-price="55">
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="size-ratio-wrap">
+                        <div class="size-ratio-box" style="width: 11px; height: 34px;"></div>
+                      </div>
+                      <div>
+                        <div class="d-flex align-items-center gap-1">
+                          <span class="fw-bold small">Vertical Column</span>
+                          <i class="bi bi-arrows-vertical text-info" style="font-size: 0.75rem;"></i>
+                        </div>
+                        <div class="text-secondary" style="font-size: 0.72rem;">5" &times; 17" (13 &times; 43 cm) &bull; Slim pillars &amp; trim</div>
+                      </div>
+                    </div>
+                    <div class="fw-bold text-info size-tile-price">$55 CAD</div>
+                  </div>
+                </div>
+
+                <!-- Included Architectural Spec Badges -->
+                <div class="craft-highlights-grid">
+                  <div class="craft-highlight-pill">
+                    <i class="bi bi-cloud-sun-fill text-info"></i>
+                    <span>Weatherproof exterior grade</span>
+                  </div>
+                  <div class="craft-highlight-pill">
+                    <i class="bi bi-nut-fill text-info"></i>
+                    <span>2 lateral standoffs included</span>
+                  </div>
+                  <div class="craft-highlight-pill">
+                    <i class="bi bi-stars text-info"></i>
+                    <span>Precision CNC &amp; laser cut</span>
+                  </div>
+                  <div class="craft-highlight-pill">
+                    <i class="bi bi-geo-alt-fill text-danger"></i>
+                    <span>Crafted in Charlottetown, PEI</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ══ STEP 4: CUSTOMER, FULFILLMENT & CHECKOUT ═════════════════ -->
+              <div class="studio-step-pane d-none" data-step-pane="4">
+                <!-- Customer Information -->
+                <div class="mb-3">
+                  <div class="config-section-label">
+                    <span>Customer Details</span>
+                    <span class="text-danger">* Required</span>
+                  </div>
+                  <div class="mb-2">
+                    <label for="customerName" class="form-label small text-light mb-1">Full Name <span class="text-danger">*</span></label>
+                    <input type="text" id="customerName" class="form-control config-input" placeholder="Jane Doe" required>
+                  </div>
+                  <div class="row g-2 mb-3">
+                    <div class="col-sm-7">
+                      <label for="customerEmail" class="form-label small text-light mb-1">Email Address <span class="text-danger">*</span></label>
+                      <input type="email" id="customerEmail" class="form-control config-input" placeholder="jane@example.com" required>
+                    </div>
+                    <div class="col-sm-5">
+                      <label for="customerPhone" class="form-label small text-light mb-1">Phone</label>
+                      <input type="tel" id="customerPhone" class="form-control config-input" placeholder="902-555-0199">
+                    </div>
+                  </div>
+
+                  <!-- Fulfillment Method: Store Pickup vs Shipping -->
+                  <div class="pt-2 border-top border-secondary border-opacity-25">
+                    <label class="form-label small text-light fw-bold mb-2 d-flex justify-content-between align-items-center">
+                      <span>Fulfillment / Delivery Method</span>
+                      <span class="text-info small fw-normal"><i class="bi bi-geo-alt me-1"></i> Charlottetown, PEI</span>
+                    </label>
+
+                    <div class="delivery-toggle-grid mb-2">
+                      <div class="choice-tile active" data-delivery="pickup" id="tile-delivery-pickup">
+                        <div class="d-flex align-items-center justify-content-between mb-1">
+                          <span class="fw-bold small d-flex align-items-center gap-2">
+                            <i class="bi bi-shop-window text-info"></i> Pick Up in Store
+                          </span>
+                          <span class="badge bg-success bg-opacity-25 text-success" style="font-size: 0.65rem;">Free</span>
+                        </div>
+                        <div class="text-light opacity-75" style="font-size: 0.71rem; line-height: 1.35;">
+                          <strong>180 Belvedere Ave</strong>, Charlottetown, PEI, C1A 2Z1, Canada
+                        </div>
+                      </div>
+
+                      <div class="choice-tile" data-delivery="shipping" id="tile-delivery-shipping">
+                        <div class="d-flex align-items-center justify-content-between mb-1">
+                          <span class="fw-bold small d-flex align-items-center gap-2">
+                            <i class="bi bi-truck text-info"></i> Direct Shipping
+                          </span>
+                          <span class="badge bg-primary bg-opacity-25 text-info" style="font-size: 0.65rem;">To Address</span>
+                        </div>
+                        <div class="text-light opacity-75" style="font-size: 0.71rem; line-height: 1.35;">
+                          Delivered directly to your home or office address
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Collapsible Shipping Address Form -->
+                    <div id="shippingFieldsContainer" class="shipping-fields-panel d-none mt-2">
+                      <div class="p-3 rounded-3" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.25);">
+                        <div class="text-info small fw-bold mb-2 d-flex align-items-center" style="font-size: 0.75rem;">
+                          <i class="bi bi-pin-map-fill me-1"></i> Shipping Destination Address
+                        </div>
+                        <div class="mb-2">
+                          <label for="shippingAddress1" class="form-label small text-light mb-1">Street Address <span class="text-danger">*</span></label>
+                          <input type="text" id="shippingAddress1" class="form-control config-input" placeholder="e.g. 428 Queen St">
+                        </div>
+                        <div class="mb-2">
+                          <label for="shippingAddress2" class="form-label small text-light mb-1">Apt, Suite, Unit <span class="text-secondary fw-normal">(Optional)</span></label>
+                          <input type="text" id="shippingAddress2" class="form-control config-input" placeholder="e.g. Suite 200 or Apt 4B">
+                        </div>
+                        <div class="row g-2 mb-2">
+                          <div class="col-sm-6">
+                            <label for="shippingCity" class="form-label small text-light mb-1">City <span class="text-danger">*</span></label>
+                            <input type="text" id="shippingCity" class="form-control config-input" placeholder="e.g. Charlottetown">
+                          </div>
+                          <div class="col-sm-3 col-6">
+                            <label for="shippingProvince" class="form-label small text-light mb-1">Province <span class="text-danger">*</span></label>
+                            <select id="shippingProvince" class="form-select config-input">
+                              <option value="PE" selected>PE</option>
+                              <option value="NS">NS</option>
+                              <option value="NB">NB</option>
+                              <option value="ON">ON</option>
+                              <option value="QC">QC</option>
+                              <option value="BC">BC</option>
+                              <option value="AB">AB</option>
+                              <option value="SK">SK</option>
+                              <option value="MB">MB</option>
+                              <option value="NL">NL</option>
+                              <option value="YT">YT</option>
+                              <option value="NT">NT</option>
+                              <option value="NU">NU</option>
+                            </select>
+                          </div>
+                          <div class="col-sm-3 col-6">
+                            <label for="shippingPostal" class="form-label small text-light mb-1">Postal Code <span class="text-danger">*</span></label>
+                            <input type="text" id="shippingPostal" class="form-control config-input" placeholder="e.g. C1A 2Z1">
+                          </div>
+                        </div>
+                        <div class="row g-2">
+                          <div class="col-sm-5">
+                            <label for="shippingCountry" class="form-label small text-light mb-1">Country</label>
+                            <input type="text" id="shippingCountry" class="form-control config-input" value="Canada" readonly>
+                          </div>
+                          <div class="col-sm-7">
+                            <label for="shippingNotes" class="form-label small text-light mb-1">Delivery Notes <span class="text-secondary fw-normal">(Optional)</span></label>
+                            <input type="text" id="shippingNotes" class="form-control config-input" placeholder="e.g. Leave by side door">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Pre-Checkout Order Review Summary -->
+                <div class="precheckout-summary-card" id="precheckoutSummary">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="text-info small text-uppercase fw-bold" style="font-size: 0.68rem; letter-spacing: 1px;">
+                      <i class="bi bi-receipt me-1"></i> Order Summary Preview
+                    </div>
+                    <button type="button" class="btn btn-link btn-sm p-0 text-info text-decoration-none" style="font-size: 0.72rem;" data-goto-step="1">
+                      <i class="bi bi-pencil-square me-1"></i>Edit
+                    </button>
+                  </div>
+                  <div class="d-flex justify-content-between small mb-1 gap-2">
+                    <span class="text-secondary">Construction:</span>
+                    <span class="text-light fw-semibold text-end" id="review-construction">Raised 3D Acrylic (Solid ACM)</span>
+                  </div>
+                  <div class="d-flex justify-content-between small mb-1 gap-2">
+                    <span class="text-secondary">Font Style:</span>
+                    <span class="text-light fw-semibold text-end" id="review-font">Athletic Octagonal Block</span>
+                  </div>
+                  <div class="d-flex justify-content-between small mb-1 gap-2">
+                    <span class="text-secondary">Materials:</span>
+                    <span class="text-light fw-semibold text-end" id="review-materials">Matte Black ACM + Mirror Gold Acrylic</span>
+                  </div>
+                  <div class="d-flex justify-content-between small mb-1 gap-2 d-none" id="review-sintra-row">
+                    <span class="text-secondary">Sintra Backing (6mm):</span>
+                    <span class="text-light fw-semibold text-end" id="review-sintra">Black Sintra (6mm)</span>
+                  </div>
+                  <div class="d-flex justify-content-between small mb-1 gap-2">
+                    <span class="text-secondary">Standoffs:</span>
+                    <span class="text-light fw-semibold text-end" id="review-standoffs">2 Lateral Silver Standoffs</span>
+                  </div>
+                  <div class="d-flex justify-content-between small mb-1 gap-2">
+                    <span class="text-secondary">Fulfillment:</span>
+                    <span class="text-light fw-semibold text-end" id="review-fulfillment">Pick Up in Store (Charlottetown, PEI)</span>
+                  </div>
+                  <div class="d-flex justify-content-between small mb-1 gap-2">
+                    <span class="text-secondary">Size:</span>
+                    <span class="text-light fw-semibold text-end" id="review-size">Medium (10" &times; 15")</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center small pt-2 mt-2 border-top border-secondary border-opacity-25">
+                    <span class="text-white fw-bold">Total incl. 15% PEI HST:</span>
+                    <span class="text-info fw-bold fs-6" id="review-total">$69.00 CAD</span>
+                  </div>
+                </div>
+
+                <!-- Payment Action Buttons -->
+                <div class="d-grid gap-2">
+                  <button type="button" id="btnPayHelcim" class="btn btn-helcim-pay d-flex align-items-center justify-content-center gap-2">
+                    <span class="spinner-border spinner-border-sm d-none" id="spinnerHelcim"></span>
+                    <i class="bi bi-credit-card-2-front-fill"></i>
+                    <span>Pay with Card (Helcim) &mdash; <span id="btn-helcim-total">$69.00 CAD</span></span>
+                  </button>
+
+                  <button type="button" id="btnOrderInterac" class="btn btn-interac-pay d-flex align-items-center justify-content-center gap-2">
+                    <span class="spinner-border spinner-border-sm d-none" id="spinnerInterac"></span>
+                    <i class="bi bi-bank2 text-warning"></i>
+                    <span>Order via Interac e-Transfer</span>
+                  </button>
+                </div>
+
+                <!-- Order Confirmation / Interac Instructions Panel -->
+                <div id="orderConfirmationPanel" class="confirmation-box d-none"></div>
+              </div>
+
             </div>
           </form>
 
-          <!-- Order Confirmation / Interac Instructions Panel -->
-          <div id="orderConfirmationPanel" class="confirmation-box d-none"></div>
+          <!-- Persistent Footer Dock -->
+          <div class="studio-step-footer" id="studioNavSteps">
+            <div class="d-flex align-items-center gap-2">
+              <button type="button" class="btn-step-prev d-none" id="btnStepPrev">
+                <i class="bi bi-arrow-left"></i> Back
+              </button>
+              <div class="small">
+                <span class="text-secondary d-block" style="font-size: 0.65rem; line-height: 1.1;">Est. Total</span>
+                <strong class="text-info" id="footer-step-total" style="font-size: 0.85rem;">$69.00 CAD</strong>
+              </div>
+            </div>
+            <button type="button" class="btn-step-next" id="btnStepNext">
+              <span>Next: Materials</span> <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+
+          <div class="studio-step-footer d-none" id="studioNavCheckout">
+            <button type="button" class="btn-step-prev" data-goto-step="3">
+              <i class="bi bi-arrow-left"></i> Back to Size
+            </button>
+            <button type="button" class="btn-step-prev" data-goto-step="1">
+              <i class="bi bi-sliders"></i> Edit Design
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -2762,6 +3151,17 @@ include '../includes/header.php';
     document.getElementById('price-total').textContent = fmtTot;
     document.getElementById('btn-helcim-total').textContent = fmtTot;
 
+    const footerTotal = document.getElementById('footer-step-total');
+    if (footerTotal) {
+      footerTotal.textContent = fmtTot;
+    }
+
+    const materialsPill = document.getElementById('materials-live-pill');
+    if (materialsPill) {
+      materialsPill.textContent =
+        `${acmSpec.shortName} ACM • ${acrylicSpec.shortName}${isCncCut ? ' • ' + sintraSpec.shortName : ''} • ${standoffSpec.shortName} Standoffs`;
+    }
+
     // Update dynamic CNC surcharge badge for currently selected plaque size
     const cncBadge = document.getElementById('cnc-surcharge-badge');
     if (cncBadge) {
@@ -3017,6 +3417,66 @@ include '../includes/header.php';
     }
   });
 
+  // ─── 4-Step Studio Panel Controller ────────────────────────────────────
+  let currentStep = 1;
+  const visitedSteps = new Set([1]);
+  const STEP_NEXT_LABELS = {
+    1: 'Next: Materials',
+    2: 'Next: Size',
+    3: 'Continue to Order'
+  };
+
+  function setActiveStep(stepNum, shouldScroll = false) {
+    const target = Math.min(4, Math.max(1, Number(stepNum) || 1));
+    currentStep = target;
+    visitedSteps.add(target);
+
+    document.querySelectorAll('[data-step]').forEach(tab => {
+      const s = Number(tab.dataset.step);
+      const isActive = s === target;
+      tab.classList.toggle('active', isActive);
+      tab.classList.toggle('visited', visitedSteps.has(s) && !isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    document.querySelectorAll('[data-step-pane]').forEach(pane => {
+      pane.classList.toggle('d-none', Number(pane.dataset.stepPane) !== target);
+    });
+
+    const navSteps = document.getElementById('studioNavSteps');
+    const navCheckout = document.getElementById('studioNavCheckout');
+    if (navSteps) navSteps.classList.toggle('d-none', target === 4);
+    if (navCheckout) navCheckout.classList.toggle('d-none', target !== 4);
+
+    const btnPrev = document.getElementById('btnStepPrev');
+    if (btnPrev) btnPrev.classList.toggle('d-none', target <= 1);
+
+    const btnNext = document.getElementById('btnStepNext');
+    if (btnNext && STEP_NEXT_LABELS[target]) {
+      btnNext.innerHTML = `<span>${STEP_NEXT_LABELS[target]}</span> <i class="bi bi-arrow-right"></i>`;
+    }
+
+    if (shouldScroll && window.innerWidth < 992) {
+      document.querySelector('.design-panel-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  document.querySelectorAll('[data-step]').forEach(tab => {
+    tab.addEventListener('click', () => setActiveStep(tab.dataset.step, true));
+  });
+
+  document.querySelectorAll('[data-goto-step]').forEach(btn => {
+    btn.addEventListener('click', () => setActiveStep(btn.dataset.gotoStep, true));
+  });
+
+  document.getElementById('btnStepPrev')?.addEventListener('click', () => {
+    setActiveStep(currentStep - 1, true);
+  });
+
+  document.getElementById('btnStepNext')?.addEventListener('click', () => {
+    setActiveStep(currentStep + 1, true);
+  });
+
   // ─── Checkout & HelcimPay.js / Interac e-Transfer Integration ──────────
   const apiEndpoint = "<?php echo BASE_URL; ?>/includes/plaque_api.php";
   const alertBox = document.getElementById('checkoutAlertBox');
@@ -3046,11 +3506,13 @@ include '../includes/header.php';
     const subtitle = document.getElementById('subtitleTextInput').value.trim();
 
     if (!primary) {
+      setActiveStep(1, true);
       showAlert('warning', '<i class="bi bi-exclamation-triangle-fill me-1"></i> Please enter the primary 3D text for your plaque.');
       document.getElementById('primaryTextInput').focus();
       return null;
     }
     if (!name || !email) {
+      setActiveStep(4, true);
       showAlert('warning', '<i class="bi bi-exclamation-triangle-fill me-1"></i> Please enter your Full Name and Email Address.');
       if (!name) document.getElementById('customerName').focus();
       else document.getElementById('customerEmail').focus();
@@ -3068,6 +3530,7 @@ include '../includes/header.php';
 
     if (deliveryMethod === 'shipping') {
       if (!shipAddr1 || !shipCity || !shipProv || !shipPostal) {
+        setActiveStep(4, true);
         showAlert('warning', '<i class="bi bi-exclamation-triangle-fill me-1"></i> Please complete your shipping street address, city, province, and postal code.');
         if (!shipAddr1) document.getElementById('shippingAddress1')?.focus();
         else if (!shipCity) document.getElementById('shippingCity')?.focus();
