@@ -700,6 +700,48 @@ include '../includes/header.php';
     color: #64748b !important;
   }
 
+  .payment-method-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  @media (max-width: 575.98px) {
+    .payment-method-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .btn-primary-checkout {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 20px;
+    font-weight: 700;
+    font-size: 0.98rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.5);
+  }
+
+  .btn-primary-checkout:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    box-shadow: 0 14px 28px -5px rgba(59, 130, 246, 0.6);
+    color: #ffffff;
+  }
+
+  .btn-primary-checkout.mode-interac {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    box-shadow: 0 10px 25px -5px rgba(217, 119, 6, 0.45);
+  }
+
+  .btn-primary-checkout.mode-interac:hover:not(:disabled) {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    box-shadow: 0 14px 28px -5px rgba(245, 158, 11, 0.55);
+    color: #ffffff;
+  }
+
   .btn-helcim-pay {
     background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
     color: #ffffff;
@@ -1339,6 +1381,40 @@ include '../includes/header.php';
                       </div>
                     </div>
                   </div>
+
+                  <!-- Payment Method Selector -->
+                  <div class="pt-2 border-top border-secondary border-opacity-25 mb-3">
+                    <label class="form-label small text-light fw-bold mb-2 d-flex justify-content-between align-items-center">
+                      <span>Payment Method</span>
+                      <span class="text-info small fw-normal"><i class="bi bi-shield-check me-1"></i> Secure Checkout</span>
+                    </label>
+
+                    <div class="payment-method-grid mb-1">
+                      <div class="choice-tile active" data-payment-method="helcim" id="tile-payment-helcim">
+                        <div class="d-flex align-items-center justify-content-between mb-1">
+                          <span class="fw-bold small d-flex align-items-center gap-2">
+                            <i class="bi bi-credit-card-2-front-fill text-info"></i> Credit / Debit Card
+                          </span>
+                          <span class="badge bg-success bg-opacity-25 text-success" style="font-size: 0.65rem;">Instant</span>
+                        </div>
+                        <div class="text-light opacity-75" style="font-size: 0.71rem; line-height: 1.35;">
+                          Visa, Mastercard &amp; Amex via secure HelcimPay
+                        </div>
+                      </div>
+
+                      <div class="choice-tile" data-payment-method="interac" id="tile-payment-interac">
+                        <div class="d-flex align-items-center justify-content-between mb-1">
+                          <span class="fw-bold small d-flex align-items-center gap-2">
+                            <i class="bi bi-bank2 text-warning"></i> Interac e-Transfer
+                          </span>
+                          <span class="badge bg-primary bg-opacity-25 text-info" style="font-size: 0.65rem;">Bank Transfer</span>
+                        </div>
+                        <div class="text-light opacity-75" style="font-size: 0.71rem; line-height: 1.35;">
+                          Pay via online Canadian banking e-Transfer
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <!-- Pre-Checkout Order Review Summary -->
@@ -1376,6 +1452,10 @@ include '../includes/header.php';
                     <span class="text-light fw-semibold text-end" id="review-fulfillment">Pick Up in Store (Charlottetown, PEI)</span>
                   </div>
                   <div class="d-flex justify-content-between small mb-1 gap-2">
+                    <span class="text-secondary">Payment Method:</span>
+                    <span class="text-light fw-semibold text-end" id="review-payment-method">Credit / Debit Card (Instant)</span>
+                  </div>
+                  <div class="d-flex justify-content-between small mb-1 gap-2">
                     <span class="text-secondary">Size:</span>
                     <span class="text-light fw-semibold text-end" id="review-size">Medium (10" &times; 15")</span>
                   </div>
@@ -1385,18 +1465,12 @@ include '../includes/header.php';
                   </div>
                 </div>
 
-                <!-- Payment Action Buttons -->
+                <!-- Single Primary Action Button -->
                 <div class="d-grid gap-2">
-                  <button type="button" id="btnPayHelcim" class="btn btn-helcim-pay d-flex align-items-center justify-content-center gap-2">
-                    <span class="spinner-border spinner-border-sm d-none" id="spinnerHelcim"></span>
-                    <i class="bi bi-credit-card-2-front-fill"></i>
-                    <span>Pay with Card (Helcim) &mdash; <span id="btn-helcim-total">$69.00 CAD</span></span>
-                  </button>
-
-                  <button type="button" id="btnOrderInterac" class="btn btn-interac-pay d-flex align-items-center justify-content-center gap-2">
-                    <span class="spinner-border spinner-border-sm d-none" id="spinnerInterac"></span>
-                    <i class="bi bi-bank2 text-warning"></i>
-                    <span>Order via Interac e-Transfer</span>
+                  <button type="button" id="btnSubmitOrder" class="btn btn-primary-checkout d-flex align-items-center justify-content-center gap-2">
+                    <span class="spinner-border spinner-border-sm d-none" id="spinnerSubmitOrder"></span>
+                    <i class="bi bi-lock-fill" id="btnSubmitIcon"></i>
+                    <span id="btnSubmitLabel">Proceed to Secure Payment &mdash; <strong id="btn-submit-total">$69.00 CAD</strong></span>
                   </button>
                 </div>
 
@@ -1455,6 +1529,7 @@ include '../includes/header.php';
   // ─── Reactive Configurator State ───────────────────────────────────────
   const state = {
     delivery_method: 'pickup',
+    payment_method: 'helcim',
     environment: 'studio',
     plaque_type: 'house',
     construction_style: 'raised_acrylic',
@@ -3159,7 +3234,25 @@ include '../includes/header.php';
     document.getElementById('price-subtotal').textContent = fmtSub;
     document.getElementById('price-hst').textContent = fmtHst;
     document.getElementById('price-total').textContent = fmtTot;
-    document.getElementById('btn-helcim-total').textContent = fmtTot;
+
+    const submitBtn = document.getElementById('btnSubmitOrder');
+    const submitLabel = document.getElementById('btnSubmitLabel');
+    const submitIcon = document.getElementById('btnSubmitIcon');
+    const submitTotal = document.getElementById('btn-submit-total');
+    if (submitTotal) {
+      submitTotal.textContent = fmtTot;
+    }
+    if (submitLabel && submitIcon && submitBtn) {
+      if (state.payment_method === 'interac') {
+        submitBtn.classList.add('mode-interac');
+        submitIcon.className = 'bi bi-bank2 text-warning';
+        submitLabel.innerHTML = `Place Order via Interac e-Transfer &mdash; <strong id="btn-submit-total">${fmtTot}</strong>`;
+      } else {
+        submitBtn.classList.remove('mode-interac');
+        submitIcon.className = 'bi bi-lock-fill';
+        submitLabel.innerHTML = `Proceed to Secure Payment &mdash; <strong id="btn-submit-total">${fmtTot}</strong>`;
+      }
+    }
 
     const footerTotal = document.getElementById('footer-step-total');
     if (footerTotal) {
@@ -3245,6 +3338,12 @@ include '../includes/header.php';
       } else {
         reviewFulfillment.textContent = 'Pick Up in Store (Charlottetown, PEI)';
       }
+    }
+    const reviewPayment = document.getElementById('review-payment-method');
+    if (reviewPayment) {
+      reviewPayment.textContent = state.payment_method === 'interac'
+        ? 'Interac e-Transfer'
+        : 'Credit / Debit Card (Instant)';
     }
     document.getElementById('review-size').textContent =
       isCncCut && state.cnc_surcharge_cad > 0
@@ -3487,14 +3586,22 @@ include '../includes/header.php';
     setActiveStep(currentStep + 1, true);
   });
 
-  // ─── Checkout & HelcimPay.js / Interac e-Transfer Integration ──────────
+  // ─── Payment Method Selector ──────────────────────────────────────────
+  document.querySelectorAll('[data-payment-method]').forEach(tile => {
+    tile.addEventListener('click', () => {
+      document.querySelectorAll('[data-payment-method]').forEach(t => t.classList.remove('active'));
+      tile.classList.add('active');
+      state.payment_method = tile.dataset.paymentMethod;
+      updatePricingAndSummaryUI();
+    });
+  });
+
+  // ─── Checkout & Unified Order Submission ──────────────────────────────
   const apiEndpoint = "<?php echo BASE_URL; ?>/includes/plaque_api.php";
   const alertBox = document.getElementById('checkoutAlertBox');
   const confirmPanel = document.getElementById('orderConfirmationPanel');
-  const btnHelcim = document.getElementById('btnPayHelcim');
-  const btnInterac = document.getElementById('btnOrderInterac');
-  const spinnerHelcim = document.getElementById('spinnerHelcim');
-  const spinnerInterac = document.getElementById('spinnerInterac');
+  const btnSubmitOrder = document.getElementById('btnSubmitOrder');
+  const spinnerSubmitOrder = document.getElementById('spinnerSubmitOrder');
 
   let activeHelcimOrder = null;
 
@@ -3576,73 +3683,139 @@ include '../includes/header.php';
     };
   }
 
-  // 1. Pay with Card (HelcimPay.js Modal)
-  btnHelcim.addEventListener('click', async () => {
+  // Single Action Button: Trigger Payment with Card (Helcim) or Order with Interac
+  btnSubmitOrder?.addEventListener('click', async () => {
     hideAlert();
-    const payload = getCustomerPayload('helcim');
+    const method = state.payment_method || 'helcim';
+    const payload = getCustomerPayload(method);
     if (!payload) return;
 
-    btnHelcim.disabled = true;
-    btnInterac.disabled = true;
-    spinnerHelcim.classList.remove('d-none');
+    btnSubmitOrder.disabled = true;
+    spinnerSubmitOrder?.classList.remove('d-none');
 
-    try {
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const result = await response.json();
+    if (method === 'helcim') {
+      try {
+        const response = await fetch(apiEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
 
-      spinnerHelcim.classList.add('d-none');
-      btnHelcim.disabled = false;
-      btnInterac.disabled = false;
+        spinnerSubmitOrder?.classList.add('d-none');
+        btnSubmitOrder.disabled = false;
 
-      if (!result.success || !result.data?.checkout_token) {
-        showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> ' + (result.message || 'Could not initialize Helcim card checkout. You can also place your order via Interac e-Transfer below.'));
-        return;
+        if (!result.success || !result.data?.checkout_token) {
+          showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> ' + (result.message || 'Could not initialize Helcim card checkout. You can also select Interac e-Transfer.'));
+          return;
+        }
+
+        const constructionFallback = (CATALOG.construction_styles[payload.construction_style] || {}).name || payload.construction_style;
+        const fontFallback = (CATALOG.font_styles[payload.font_style] || {}).name || payload.font_style;
+        const acmFallback = (CATALOG.acm_finishes[payload.acm_finish] || {}).name || payload.acm_finish;
+        const acrylicFallback = (CATALOG.acrylic_finishes[payload.acrylic_finish] || {}).name || payload.acrylic_finish;
+        const sintraFallback = (CATALOG.sintra_colors[payload.sintra_color] || {}).name || payload.sintra_color;
+        const standoffFallback = (CATALOG.standoff_finishes[payload.standoff_finish] || {}).name || payload.standoff_finish;
+        const sizeFallback = (CATALOG.sizes[payload.size] || {}).label || payload.size;
+        const deliveryFallback = payload.delivery_method === 'shipping'
+          ? `Direct Shipping to ${payload.shipping_address_line1}, ${payload.shipping_city}, ${payload.shipping_province} ${payload.shipping_postal_code}, Canada`
+          : 'Pick up in Store — 180 Belvedere Ave, Charlottetown, PEI, C1A 2Z1, Canada';
+
+        activeHelcimOrder = {
+          ...payload,
+          order_id: result.data.order_id,
+          order_number: result.data.order_number,
+          subtotal_cad: result.data.subtotal_cad,
+          hst_cad: result.data.hst_cad,
+          total_cad: result.data.total_cad,
+          delivery_method: payload.delivery_method,
+          delivery_summary: result.data.delivery_summary || deliveryFallback,
+          construction_style_label: result.data.construction_style_label || constructionFallback,
+          font_style_label: result.data.font_style_label || fontFallback,
+          acm_finish_label: result.data.acm_finish_label || acmFallback,
+          acrylic_finish_label: result.data.acrylic_finish_label || acrylicFallback,
+          sintra_color_label: result.data.sintra_color_label || sintraFallback,
+          standoff_finish_label: result.data.standoff_finish_label || standoffFallback,
+          finish_label: result.data.finish_label || `${acmFallback} + ${acrylicFallback}`,
+          size_label: result.data.size_label || sizeFallback
+        };
+
+        // Dispatch open-helcim-checkout custom event and invoke official HelcimPay.js iframe
+        window.dispatchEvent(new CustomEvent('open-helcim-checkout', {
+          detail: { checkoutToken: result.data.checkout_token }
+        }));
+
+      } catch (err) {
+        spinnerSubmitOrder?.classList.add('d-none');
+        btnSubmitOrder.disabled = false;
+        showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> Network error while initializing checkout. Please try again.');
       }
+    } else {
+      // Interac e-Transfer Submission
+      try {
+        const response = await fetch(apiEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
 
-      const constructionFallback = (CATALOG.construction_styles[payload.construction_style] || {}).name || payload.construction_style;
-      const fontFallback = (CATALOG.font_styles[payload.font_style] || {}).name || payload.font_style;
-      const acmFallback = (CATALOG.acm_finishes[payload.acm_finish] || {}).name || payload.acm_finish;
-      const acrylicFallback = (CATALOG.acrylic_finishes[payload.acrylic_finish] || {}).name || payload.acrylic_finish;
-      const sintraFallback = (CATALOG.sintra_colors[payload.sintra_color] || {}).name || payload.sintra_color;
-      const standoffFallback = (CATALOG.standoff_finishes[payload.standoff_finish] || {}).name || payload.standoff_finish;
-      const sizeFallback = (CATALOG.sizes[payload.size] || {}).label || payload.size;
-      const deliveryFallback = payload.delivery_method === 'shipping'
-        ? `Direct Shipping to ${payload.shipping_address_line1}, ${payload.shipping_city}, ${payload.shipping_province} ${payload.shipping_postal_code}, Canada`
-        : 'Pick up in Store — 180 Belvedere Ave, Charlottetown, PEI, C1A 2Z1, Canada';
+        spinnerSubmitOrder?.classList.add('d-none');
+        btnSubmitOrder.disabled = false;
 
-      activeHelcimOrder = {
-        ...payload,
-        order_id: result.data.order_id,
-        order_number: result.data.order_number,
-        subtotal_cad: result.data.subtotal_cad,
-        hst_cad: result.data.hst_cad,
-        total_cad: result.data.total_cad,
-        delivery_method: payload.delivery_method,
-        delivery_summary: result.data.delivery_summary || deliveryFallback,
-        construction_style_label: result.data.construction_style_label || constructionFallback,
-        font_style_label: result.data.font_style_label || fontFallback,
-        acm_finish_label: result.data.acm_finish_label || acmFallback,
-        acrylic_finish_label: result.data.acrylic_finish_label || acrylicFallback,
-        sintra_color_label: result.data.sintra_color_label || sintraFallback,
-        standoff_finish_label: result.data.standoff_finish_label || standoffFallback,
-        finish_label: result.data.finish_label || `${acmFallback} + ${acrylicFallback}`,
-        size_label: result.data.size_label || sizeFallback
-      };
+        if (!result.success) {
+          showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> ' + (result.message || 'Unable to submit order.'));
+          return;
+        }
 
-      // Dispatch open-helcim-checkout custom event and invoke official HelcimPay.js iframe
-      window.dispatchEvent(new CustomEvent('open-helcim-checkout', {
-        detail: { checkoutToken: result.data.checkout_token }
-      }));
+        const d = result.data;
+        const constructionFallback = (CATALOG.construction_styles[payload.construction_style] || {}).name || payload.construction_style;
+        const fontFallback = (CATALOG.font_styles[payload.font_style] || {}).name || payload.font_style;
+        const acmFallback = (CATALOG.acm_finishes[payload.acm_finish] || {}).name || payload.acm_finish;
+        const acrylicFallback = (CATALOG.acrylic_finishes[payload.acrylic_finish] || {}).name || payload.acrylic_finish;
+        const sintraFallback = (CATALOG.sintra_colors[payload.sintra_color] || {}).name || payload.sintra_color;
+        const standoffFallback = (CATALOG.standoff_finishes[payload.standoff_finish] || {}).name || payload.standoff_finish;
+        const sizeFallback = (CATALOG.sizes[payload.size] || {}).label || payload.size;
+        const deliveryFallback = payload.delivery_method === 'shipping'
+          ? `Direct Shipping to ${payload.shipping_address_line1}, ${payload.shipping_city}, ${payload.shipping_province} ${payload.shipping_postal_code}, Canada`
+          : 'Pick up in Store — 180 Belvedere Ave, Charlottetown, PEI, C1A 2Z1, Canada';
 
-    } catch (err) {
-      spinnerHelcim.classList.add('d-none');
-      btnHelcim.disabled = false;
-      btnInterac.disabled = false;
-      showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> Network error while initializing checkout. Please try again.');
+        confirmPanel.className = 'confirmation-box bg-warning bg-opacity-10 border border-warning text-light';
+        confirmPanel.innerHTML = `
+          <div class="d-flex align-items-center gap-2 text-warning fw-bold mb-2">
+            <i class="bi bi-bank2 fs-4"></i>
+            <span>Order Reserved &mdash; Interac e-Transfer Instructions</span>
+          </div>
+          <p class="small text-light mb-2">
+            Your custom 3D plaque order has been registered in our production portal. To start fabrication, please send an <strong>Interac e-Transfer</strong> with the details below:
+          </p>
+          <div class="p-3 rounded-3 bg-dark bg-opacity-75 small mb-2">
+            <div class="mb-1"><span class="text-secondary">Recipient Email:</span> <strong class="text-warning font-monospace">${d.interac_email || 'contact@pixellaserprints.ca'}</strong></div>
+            <div class="mb-1"><span class="text-secondary">Amount (incl. 15% PEI HST):</span> <strong class="text-info fs-6">$${Number(d.total_cad).toFixed(2)} CAD</strong></div>
+            <div class="mb-1"><span class="text-secondary">Message / Reference #:</span> <strong class="text-white font-monospace">${d.order_number}</strong></div>
+            <hr class="border-secondary border-opacity-25 my-2">
+            <div class="mb-1"><span class="text-secondary">Construction:</span> <strong class="text-light">${d.construction_style_label || constructionFallback}</strong></div>
+            <div class="mb-1"><span class="text-secondary">Font Style:</span> <strong class="text-light">${d.font_style_label || fontFallback}</strong></div>
+            <div class="mb-1"><span class="text-secondary">Front Plate (ACM):</span> <strong class="text-light">${d.acm_finish_label || acmFallback}</strong></div>
+            <div class="mb-1"><span class="text-secondary">3D Digits (Acrylic):</span> <strong class="text-light">${d.acrylic_finish_label || acrylicFallback}</strong></div>
+            ${payload.construction_style === 'cnc_cut_acm' ? `<div class="mb-1"><span class="text-secondary">Sintra Backing (6mm):</span> <strong class="text-light">${d.sintra_color_label || sintraFallback}</strong></div>` : ''}
+            <div class="mb-1"><span class="text-secondary">Standoffs:</span> <strong class="text-light">2 Lateral ${d.standoff_finish_label || standoffFallback}</strong></div>
+            <div class="mb-1"><span class="text-secondary">Fulfillment:</span> <strong class="text-light">${d.delivery_summary || deliveryFallback}</strong></div>
+            <div><span class="text-secondary">Size:</span> <strong class="text-light">${d.size_label || sizeFallback}</strong></div>
+          </div>
+          <div class="small text-secondary">
+            <i class="bi bi-info-circle me-1"></i> Auto-deposit is enabled. Include your order number <strong>${d.order_number}</strong> in the transfer message.
+          </div>
+        `;
+        confirmPanel.classList.remove('d-none');
+        btnSubmitOrder.classList.add('d-none');
+        confirmPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      } catch (err) {
+        spinnerSubmitOrder?.classList.add('d-none');
+        btnSubmitOrder.disabled = false;
+        showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> Network error submitting your order. Please try again.');
+      }
     }
   });
 
@@ -3654,7 +3827,7 @@ include '../includes/header.php';
     if (typeof appendHelcimPayIframe === 'function') {
       appendHelcimPayIframe(token);
     } else {
-      showAlert('warning', 'HelcimPay.js script could not be loaded by your browser. Please disable any ad-blocker or use Interac e-Transfer.');
+      showAlert('warning', 'HelcimPay.js script could not be loaded by your browser. Please disable any ad-blocker or select Interac e-Transfer.');
     }
   });
 
@@ -3725,87 +3898,11 @@ include '../includes/header.php';
           </div>
         `;
         confirmPanel.classList.remove('d-none');
+        btnSubmitOrder?.classList.add('d-none');
         activeHelcimOrder = null;
       } catch (err) {
         showAlert('warning', 'Payment completed, please save your order reference: <strong>' + activeHelcimOrder.order_number + '</strong>.');
       }
-    }
-  });
-
-  // 2. Order via Interac e-Transfer
-  btnInterac.addEventListener('click', async () => {
-    hideAlert();
-    const payload = getCustomerPayload('interac');
-    if (!payload) return;
-
-    btnHelcim.disabled = true;
-    btnInterac.disabled = true;
-    spinnerInterac.classList.remove('d-none');
-
-    try {
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const result = await response.json();
-
-      spinnerInterac.classList.add('d-none');
-      btnHelcim.disabled = false;
-      btnInterac.disabled = false;
-
-      if (!result.success) {
-        showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> ' + (result.message || 'Unable to submit order.'));
-        return;
-      }
-
-      const d = result.data;
-      const constructionFallback = (CATALOG.construction_styles[payload.construction_style] || {}).name || payload.construction_style;
-      const fontFallback = (CATALOG.font_styles[payload.font_style] || {}).name || payload.font_style;
-      const acmFallback = (CATALOG.acm_finishes[payload.acm_finish] || {}).name || payload.acm_finish;
-      const acrylicFallback = (CATALOG.acrylic_finishes[payload.acrylic_finish] || {}).name || payload.acrylic_finish;
-      const sintraFallback = (CATALOG.sintra_colors[payload.sintra_color] || {}).name || payload.sintra_color;
-      const standoffFallback = (CATALOG.standoff_finishes[payload.standoff_finish] || {}).name || payload.standoff_finish;
-      const sizeFallback = (CATALOG.sizes[payload.size] || {}).label || payload.size;
-      const deliveryFallback = payload.delivery_method === 'shipping'
-        ? `Direct Shipping to ${payload.shipping_address_line1}, ${payload.shipping_city}, ${payload.shipping_province} ${payload.shipping_postal_code}, Canada`
-        : 'Pick up in Store — 180 Belvedere Ave, Charlottetown, PEI, C1A 2Z1, Canada';
-
-      confirmPanel.className = 'confirmation-box bg-warning bg-opacity-10 border border-warning text-light';
-      confirmPanel.innerHTML = `
-        <div class="d-flex align-items-center gap-2 text-warning fw-bold mb-2">
-          <i class="bi bi-bank2 fs-4"></i>
-          <span>Order Reserved &mdash; Interac e-Transfer Instructions</span>
-        </div>
-        <p class="small text-light mb-2">
-          Your custom 3D plaque order has been registered in our production portal. To start fabrication, please send an <strong>Interac e-Transfer</strong> with the details below:
-        </p>
-        <div class="p-3 rounded-3 bg-dark bg-opacity-75 small mb-2">
-          <div class="mb-1"><span class="text-secondary">Recipient Email:</span> <strong class="text-warning font-monospace">${d.interac_email || 'contact@pixellaserprints.ca'}</strong></div>
-          <div class="mb-1"><span class="text-secondary">Amount (incl. 15% PEI HST):</span> <strong class="text-info fs-6">$${Number(d.total_cad).toFixed(2)} CAD</strong></div>
-          <div class="mb-1"><span class="text-secondary">Message / Reference #:</span> <strong class="text-white font-monospace">${d.order_number}</strong></div>
-          <hr class="border-secondary border-opacity-25 my-2">
-          <div class="mb-1"><span class="text-secondary">Construction:</span> <strong class="text-light">${d.construction_style_label || constructionFallback}</strong></div>
-          <div class="mb-1"><span class="text-secondary">Font Style:</span> <strong class="text-light">${d.font_style_label || fontFallback}</strong></div>
-          <div class="mb-1"><span class="text-secondary">Front Plate (ACM):</span> <strong class="text-light">${d.acm_finish_label || acmFallback}</strong></div>
-          <div class="mb-1"><span class="text-secondary">3D Digits (Acrylic):</span> <strong class="text-light">${d.acrylic_finish_label || acrylicFallback}</strong></div>
-          ${payload.construction_style === 'cnc_cut_acm' ? `<div class="mb-1"><span class="text-secondary">Sintra Backing (6mm):</span> <strong class="text-light">${d.sintra_color_label || sintraFallback}</strong></div>` : ''}
-          <div class="mb-1"><span class="text-secondary">Standoffs:</span> <strong class="text-light">2 Lateral ${d.standoff_finish_label || standoffFallback}</strong></div>
-          <div class="mb-1"><span class="text-secondary">Fulfillment:</span> <strong class="text-light">${d.delivery_summary || deliveryFallback}</strong></div>
-          <div><span class="text-secondary">Size:</span> <strong class="text-light">${d.size_label || sizeFallback}</strong></div>
-        </div>
-        <div class="small text-secondary">
-          <i class="bi bi-info-circle me-1"></i> Auto-deposit is enabled. Include your order number <strong>${d.order_number}</strong> in the transfer message.
-        </div>
-      `;
-      confirmPanel.classList.remove('d-none');
-      confirmPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-    } catch (err) {
-      spinnerInterac.classList.add('d-none');
-      btnHelcim.disabled = false;
-      btnInterac.disabled = false;
-      showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> Network error submitting your order. Please try again.');
     }
   });
 </script>
