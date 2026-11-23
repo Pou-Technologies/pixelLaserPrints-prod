@@ -24,15 +24,12 @@ $action = $input['action'] ?? '';
 
 /**
  * Helper to send direct notification email from Pixel Laser Prints server
- * to pixelcharlottetown@gmail.com as an immediate notification backup.
+ * for 3D Custom Plaque orders (currently routing to test@poutechnologies.com for test/review).
  */
 function sendPlaqueNotificationEmail(array $orderInfo): void
 {
-    $to = 'pixelcharlottetown@gmail.com';
-    $host = $_SERVER['HTTP_HOST'] ?? '';
-    if (strpos($host, 'qa404') !== false || strpos(__FILE__, 'pixelLaserPrints-qa') !== false) {
-        $to = 'test@poutechnologies.com';
-    }
+    // Test mode: Send all order notifications to test@poutechnologies.com
+    $to = getenv('PLAQUE_NOTIFICATION_EMAIL') ?: 'test@poutechnologies.com';
 
     $orderNum = $orderInfo['order_number'] ?? ('#' . ($orderInfo['order_id'] ?? 'N/A'));
     $customerName = $orderInfo['customer_name'] ?? 'Customer';
