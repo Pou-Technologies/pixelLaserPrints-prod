@@ -218,6 +218,54 @@ include '../includes/header.php';
     gap: 12px;
   }
 
+  .acm-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .acrylic-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .swatch-single {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.28);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+    margin-bottom: 8px;
+  }
+
+  .assembly-legend-pill {
+    position: absolute;
+    top: 56px;
+    right: 16px;
+    background: rgba(15, 23, 42, 0.88);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #e2e8f0;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    z-index: 5;
+    pointer-events: none;
+    max-width: calc(100% - 32px);
+  }
+
+  @media (max-width: 575.98px) {
+    .acm-grid {
+      gap: 8px;
+    }
+    .acm-grid .choice-tile {
+      padding: 12px 10px;
+    }
+  }
+
   .swatch-duo {
     display: inline-flex;
     align-items: center;
@@ -330,7 +378,7 @@ include '../includes/header.php';
           3D Architectural Plaque &amp; Signage Studio
         </h1>
         <p class="text-secondary mb-0 small">
-          Interactive multi-layer laser-cut acrylic, brushed metal &amp; hardwood signage with floating standoffs.
+          Real 3-layer architectural signage: CNC-cut ACM front plate, Black Sintra PVC backer &amp; 3D laser-cut acrylic lettering with floating standoffs.
         </p>
       </div>
       <div class="text-md-end">
@@ -363,6 +411,12 @@ include '../includes/header.php';
                 </label>
               </div>
 
+              <!-- Exploded Layer Order Legend (shown in Assembly View) -->
+              <div id="assemblyLegendPill" class="assembly-legend-pill d-none">
+                <i class="bi bi-layers-half text-info me-1"></i>
+                Back &rarr; Front: <strong>1. Rear Standoffs</strong> &rarr; <strong>2. Black Sintra</strong> &rarr; <strong>3. Acrylic Digits</strong> &rarr; <strong>4. CNC ACM Plate</strong>
+              </div>
+
               <!-- Bottom Overlay: Quick Camera Angle Presets -->
               <div class="viewer-overlay-bottom">
                 <div class="cam-btn-group" role="group" aria-label="Camera Angles">
@@ -385,8 +439,8 @@ include '../includes/header.php';
                   <div class="text-secondary small text-uppercase fw-bold" style="font-size: 0.7rem; letter-spacing: 1px;">
                     Selected Configuration
                   </div>
-                  <div class="fw-bold text-white" id="summary-finish-name">Matte Black + Brushed Aluminum</div>
-                  <div class="small text-secondary" id="summary-size-dims">Medium (10" &times; 15" / 25 &times; 38 cm) &bull; 4 Corner Standoffs Included</div>
+                  <div class="fw-bold text-white" id="summary-finish-name">ACM: Matte Black &bull; Digits: Mirror Gold</div>
+                  <div class="small text-secondary" id="summary-size-dims">Medium (10" &times; 15" / 25 &times; 38 cm) &bull; Black Sintra Base &amp; 4 Standoffs</div>
                 </div>
                 <div class="col-sm-6">
                   <div class="d-flex flex-column align-items-sm-end">
@@ -459,58 +513,70 @@ include '../includes/header.php';
               </div>
             </div>
 
-            <!-- 3. PBR Finishes -->
+            <!-- 3. Front Plate Finish — ACM (Aluminum Composite) -->
             <div class="mb-4">
               <div class="config-section-label">
-                <span>3. Architectural Material &amp; Finish</span>
+                <span>3. Front Plate Finish &mdash; ACM</span>
+                <span class="text-secondary">CNC Cutout Panel</span>
               </div>
-              <div class="finish-grid">
-                <!-- Finish 1 -->
-                <div class="choice-tile active" data-finish="matte_black_aluminum">
-                  <div class="swatch-duo">
-                    <span class="swatch-circle" style="background: #18181b;"></span>
-                    <span class="swatch-circle secondary" style="background: linear-gradient(135deg, #f1f5f9, #94a3b8);"></span>
-                  </div>
-                  <div class="fw-bold small">Matte Black + Aluminum</div>
-                  <div class="text-secondary" style="font-size: 0.72rem;">Brushed silver 3D relief</div>
+              <div class="acm-grid">
+                <div class="choice-tile active" data-acm-finish="matte_black">
+                  <span class="swatch-single" style="background: #18181b;"></span>
+                  <div class="fw-bold small">Matte Black</div>
+                  <div class="text-secondary" style="font-size: 0.72rem;">Deep matte ACM</div>
                 </div>
 
-                <!-- Finish 2 -->
-                <div class="choice-tile" data-finish="walnut_black">
-                  <div class="swatch-duo">
-                    <span class="swatch-circle" style="background: linear-gradient(135deg, #7c4a21, #4a2c11);"></span>
-                    <span class="swatch-circle secondary" style="background: #141417;"></span>
-                  </div>
-                  <div class="fw-bold small">Natural Walnut + Black</div>
-                  <div class="text-secondary" style="font-size: 0.72rem;">Hardwood base &amp; black acrylic</div>
+                <div class="choice-tile" data-acm-finish="brushed_silver">
+                  <span class="swatch-single" style="background: linear-gradient(135deg, #e4e4e7 0%, #a1a1aa 50%, #e4e4e7 100%);"></span>
+                  <div class="fw-bold small">Brushed Silver</div>
+                  <div class="text-secondary" style="font-size: 0.72rem;">Brushed aluminum</div>
                 </div>
 
-                <!-- Finish 3 -->
-                <div class="choice-tile" data-finish="stainless_black">
-                  <div class="swatch-duo">
-                    <span class="swatch-circle" style="background: linear-gradient(135deg, #e2e8f0, #64748b);"></span>
-                    <span class="swatch-circle secondary" style="background: #0f172a;"></span>
-                  </div>
-                  <div class="fw-bold small">Brushed Stainless + Black</div>
-                  <div class="text-secondary" style="font-size: 0.72rem;">Steel base &amp; matte black letters</div>
-                </div>
-
-                <!-- Finish 4 -->
-                <div class="choice-tile" data-finish="frosted_brass">
-                  <div class="swatch-duo">
-                    <span class="swatch-circle" style="background: rgba(241, 245, 249, 0.75);"></span>
-                    <span class="swatch-circle secondary" style="background: linear-gradient(135deg, #fde047, #b45309);"></span>
-                  </div>
-                  <div class="fw-bold small">Frosted Acrylic + Brass</div>
-                  <div class="text-secondary" style="font-size: 0.72rem;">Translucent glass look &amp; gold brass</div>
+                <div class="choice-tile" data-acm-finish="white">
+                  <span class="swatch-single" style="background: #f8fafc;"></span>
+                  <div class="fw-bold small">White</div>
+                  <div class="text-secondary" style="font-size: 0.72rem;">Satin architectural</div>
                 </div>
               </div>
             </div>
 
-            <!-- 4. Size Selector -->
+            <!-- 4. 3D Digits & Text Finish — Laser Acrylic -->
             <div class="mb-4">
               <div class="config-section-label">
-                <span>4. Plaque Size (CAD)</span>
+                <span>4. 3D Digits &amp; Text &mdash; Acrylic</span>
+                <span class="text-secondary">3mm/6mm Raised Inlay</span>
+              </div>
+              <div class="acrylic-grid">
+                <div class="choice-tile active" data-acrylic-finish="mirror_gold">
+                  <span class="swatch-single" style="background: linear-gradient(135deg, #fef08a 0%, #eab308 45%, #a16207 75%, #fde047 100%);"></span>
+                  <div class="fw-bold small">Mirror Gold</div>
+                  <div class="text-secondary" style="font-size: 0.72rem;">High-gloss gold mirror</div>
+                </div>
+
+                <div class="choice-tile" data-acrylic-finish="mirror_silver">
+                  <span class="swatch-single" style="background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 45%, #64748b 70%, #f8fafc 100%);"></span>
+                  <div class="fw-bold small">Mirror Silver</div>
+                  <div class="text-secondary" style="font-size: 0.72rem;">Chrome mirror acrylic</div>
+                </div>
+
+                <div class="choice-tile" data-acrylic-finish="matte_white">
+                  <span class="swatch-single" style="background: #ffffff;"></span>
+                  <div class="fw-bold small">Matte White</div>
+                  <div class="text-secondary" style="font-size: 0.72rem;">Crisp matte white</div>
+                </div>
+
+                <div class="choice-tile" data-acrylic-finish="matte_black">
+                  <span class="swatch-single" style="background: #111111;"></span>
+                  <div class="fw-bold small">Matte Black</div>
+                  <div class="text-secondary" style="font-size: 0.72rem;">Deep matte black</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Size Selector -->
+            <div class="mb-4">
+              <div class="config-section-label">
+                <span>5. Plaque Size (CAD)</span>
                 <span class="text-secondary">+15% PEI HST at checkout</span>
               </div>
               <div class="size-grid">
@@ -551,10 +617,10 @@ include '../includes/header.php';
 
             <hr class="border-secondary border-opacity-25 my-4">
 
-            <!-- 5. Customer Information -->
+            <!-- 6. Customer Information -->
             <div class="mb-4">
               <div class="config-section-label">
-                <span>5. Customer &amp; Order Details</span>
+                <span>6. Customer &amp; Order Details</span>
               </div>
               <div class="mb-3">
                 <label for="customerName" class="form-label small text-light mb-1">Full Name <span class="text-danger">*</span></label>
@@ -603,14 +669,15 @@ include '../includes/header.php';
   import * as THREE from 'three';
   import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
   import { FontLoader } from 'three/addons/loaders/FontLoader.js';
-  import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+  import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
   // ─── Reactive Configurator State ───────────────────────────────────────
   const state = {
     plaque_type: 'house',
     primary_text: '428',
     subtitle_text: 'QUEEN ST',
-    finish: 'matte_black_aluminum',
+    acm_finish: 'matte_black',
+    acrylic_finish: 'mirror_gold',
     size: 'medium',
     exploded: false,
     subtotal_cad: 60.00,
@@ -620,111 +687,137 @@ include '../includes/header.php';
 
   const CATALOG = {
     sizes: {
-      small:       { price: 55.00, label: 'Small (10" × 13" / 25 × 33 cm)',       shortLabel: 'Small (10" × 13")',       w: 4.20, h: 3.20 },
-      medium:      { price: 60.00, label: 'Medium (10" × 15" / 25 × 38 cm)',      shortLabel: 'Medium (10" × 15")',      w: 4.80, h: 3.20 },
-      large:       { price: 70.00, label: 'Large (10" × 17" / 25 × 43 cm)',       shortLabel: 'Large (10" × 17")',       w: 5.44, h: 3.20 },
-      extra_large: { price: 80.00, label: 'Extra Large (10" × 23.5" / 25 × 60 cm)', shortLabel: 'XL (10" × 23.5")',        w: 7.52, h: 3.20 },
-      vertical:    { price: 55.00, label: 'Vertical (5" × 17" / 13 × 43 cm)',    shortLabel: 'Vertical (5" × 17")',    w: 2.10, h: 6.40, isVertical: true }
+      small:       { price: 55.00, label: 'Small (10" × 13" / 25 × 33 cm)',         shortLabel: 'Small (10" × 13")',    w: 4.20, h: 3.20, camScale: 0.96 },
+      medium:      { price: 60.00, label: 'Medium (10" × 15" / 25 × 38 cm)',        shortLabel: 'Medium (10" × 15")',   w: 4.80, h: 3.20, camScale: 1.00 },
+      large:       { price: 70.00, label: 'Large (10" × 17" / 25 × 43 cm)',         shortLabel: 'Large (10" × 17")',    w: 5.44, h: 3.20, camScale: 1.08 },
+      extra_large: { price: 80.00, label: 'Extra Large (10" × 23.5" / 25 × 60 cm)', shortLabel: 'XL (10" × 23.5")',     w: 7.52, h: 3.20, camScale: 1.28 },
+      vertical:    { price: 55.00, label: 'Vertical (5" × 17" / 13 × 43 cm)',      shortLabel: 'Vertical (5" × 17")',  w: 2.10, h: 6.40, isVertical: true, camScale: 1.40 }
     },
-    finishes: {
-      matte_black_aluminum: {
-        name: 'Matte Black + Brushed Aluminum',
-        baseColor: 0x16181d,
-        baseRoughness: 0.72,
-        baseMetalness: 0.12,
-        baseTransmission: 0,
-        baseOpacity: 1.0,
-        accentColor: 0xe2e8f0,
-        accentRoughness: 0.24,
-        accentMetalness: 0.90,
-        standoffColor: 0xdbeafe
+    acm_finishes: {
+      matte_black: {
+        name: 'Matte Black ACM',
+        shortName: 'Matte Black',
+        color: 0x18181b,
+        metalness: 0.15,
+        roughness: 0.78,
+        edgeColor: 0x0f0f12,
+        envMapIntensity: 0.85,
+        isBrushed: false
       },
-      walnut_black: {
-        name: 'Natural Walnut + Matte Black',
-        baseColor: 0x6e4726,
-        baseRoughness: 0.55,
-        baseMetalness: 0.05,
-        baseTransmission: 0,
-        baseOpacity: 1.0,
-        isWood: true,
-        accentColor: 0x141619,
-        accentRoughness: 0.38,
-        accentMetalness: 0.15,
-        standoffColor: 0x1f242d
+      brushed_silver: {
+        name: 'Brushed Silver ACM',
+        shortName: 'Brushed Silver',
+        color: 0xd4d4d8,
+        metalness: 0.85,
+        roughness: 0.32,
+        edgeColor: 0x27272a,
+        envMapIntensity: 1.15,
+        isBrushed: true
       },
-      stainless_black: {
-        name: 'Brushed Stainless + Black',
-        baseColor: 0xcbd5e1,
-        baseRoughness: 0.24,
-        baseMetalness: 0.92,
-        baseTransmission: 0,
-        baseOpacity: 1.0,
-        isBrushedMetal: true,
-        accentColor: 0x111827,
-        accentRoughness: 0.42,
-        accentMetalness: 0.15,
-        standoffColor: 0xe2e8f0
+      white: {
+        name: 'White ACM',
+        shortName: 'White',
+        color: 0xf8fafc,
+        metalness: 0.05,
+        roughness: 0.65,
+        edgeColor: 0x3f3f46,
+        envMapIntensity: 0.80,
+        isBrushed: false
+      }
+    },
+    acrylic_finishes: {
+      mirror_gold: {
+        name: 'Mirror Gold Acrylic',
+        shortName: 'Mirror Gold',
+        color: 0xeab308,
+        metalness: 0.96,
+        roughness: 0.06,
+        envMapIntensity: 1.55
       },
-      frosted_brass: {
-        name: 'Frosted Acrylic + Brass',
-        baseColor: 0xf1f5f9,
-        baseRoughness: 0.25,
-        baseMetalness: 0.05,
-        baseTransmission: 0.55,
-        baseOpacity: 0.86,
-        accentColor: 0xd4af37,
-        accentRoughness: 0.22,
-        accentMetalness: 0.94,
-        standoffColor: 0xd4af37
+      mirror_silver: {
+        name: 'Mirror Silver Acrylic',
+        shortName: 'Mirror Silver',
+        color: 0xf1f5f9,
+        metalness: 0.98,
+        roughness: 0.05,
+        envMapIntensity: 1.55
+      },
+      matte_white: {
+        name: 'Matte White Acrylic',
+        shortName: 'Matte White',
+        color: 0xffffff,
+        metalness: 0.02,
+        roughness: 0.75,
+        envMapIntensity: 0.75
+      },
+      matte_black: {
+        name: 'Matte Black Acrylic',
+        shortName: 'Matte Black',
+        color: 0x111111,
+        metalness: 0.05,
+        roughness: 0.80,
+        envMapIntensity: 0.80
       }
     }
   };
 
-  // ─── Procedural Textures (Wood Grain & Brushed Metal) ──────────────────
-  function createWoodTexture() {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#6e4726';
-    ctx.fillRect(0, 0, 512, 512);
-    for (let i = 0; i < 160; i++) {
-      ctx.fillStyle = i % 2 === 0 ? 'rgba(55, 30, 12, 0.16)' : 'rgba(145, 95, 50, 0.12)';
-      const y = Math.random() * 512;
-      const h = 2 + Math.random() * 8;
-      ctx.fillRect(0, y, 512, h);
+  // ─── Procedural Brushed Aluminum Maps (Color & Directional Bump) ───────
+  function createBrushedAluminumMaps() {
+    const size = 512;
+
+    const colorCanvas = document.createElement('canvas');
+    colorCanvas.width = size;
+    colorCanvas.height = size;
+    const cCtx = colorCanvas.getContext('2d');
+    cCtx.fillStyle = '#f2f2f5';
+    cCtx.fillRect(0, 0, size, size);
+
+    const bumpCanvas = document.createElement('canvas');
+    bumpCanvas.width = size;
+    bumpCanvas.height = size;
+    const bCtx = bumpCanvas.getContext('2d');
+    bCtx.fillStyle = '#808080';
+    bCtx.fillRect(0, 0, size, size);
+
+    // Subtle directional horizontal grain
+    for (let i = 0; i < 1100; i++) {
+      const y = (i * 73) % size;
+      const x = (i * 137) % size;
+      const w = 120 + (i % 260);
+      const isHighlight = i % 2 === 0;
+      const tone = isHighlight ? 255 : 210;
+      cCtx.fillStyle = `rgba(${tone}, ${tone}, ${Math.min(255, tone + 2)}, 0.16)`;
+      cCtx.fillRect(0, y, size, 1);
+      cCtx.fillRect(x, y, w, 1);
+
+      const bumpTone = isHighlight ? 180 : 95;
+      bCtx.fillStyle = `rgba(${bumpTone}, ${bumpTone}, ${bumpTone}, 0.28)`;
+      bCtx.fillRect(0, y, size, 1);
+      bCtx.fillRect(x, y, w, 1);
     }
-    const tex = new THREE.CanvasTexture(canvas);
-    tex.wrapS = THREE.RepeatWrapping;
-    tex.wrapT = THREE.RepeatWrapping;
-    return tex;
+
+    const colorMap = new THREE.CanvasTexture(colorCanvas);
+    colorMap.wrapS = THREE.RepeatWrapping;
+    colorMap.wrapT = THREE.RepeatWrapping;
+    colorMap.repeat.set(0.28, 0.28);
+    colorMap.colorSpace = THREE.SRGBColorSpace;
+
+    const bumpMap = new THREE.CanvasTexture(bumpCanvas);
+    bumpMap.wrapS = THREE.RepeatWrapping;
+    bumpMap.wrapT = THREE.RepeatWrapping;
+    bumpMap.repeat.set(0.28, 0.28);
+
+    return { colorMap, bumpMap };
   }
 
-  function createBrushedMetalTexture() {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#cbd5e1';
-    ctx.fillRect(0, 0, 512, 512);
-    for (let i = 0; i < 400; i++) {
-      const shade = 185 + Math.floor(Math.random() * 55);
-      ctx.fillStyle = `rgba(${shade}, ${shade}, ${shade + 5}, 0.22)`;
-      ctx.fillRect(0, Math.random() * 512, 512, 1 + Math.random() * 2);
-    }
-    const tex = new THREE.CanvasTexture(canvas);
-    return tex;
-  }
+  const brushedMaps = createBrushedAluminumMaps();
 
-  const woodTexture = createWoodTexture();
-  const brushedTexture = createBrushedMetalTexture();
-
-  // ─── Three.js Scene Setup ──────────────────────────────────────────────
+  // ─── Three.js Scene & Studio Reflection Environment Setup ──────────────
   const container = document.getElementById('plaque-canvas-container');
   const scene = new THREE.Scene();
 
   const camera = new THREE.PerspectiveCamera(36, container.clientWidth / container.clientHeight, 0.1, 100);
-  camera.position.set(0, 0.15, 8.8);
+  camera.position.set(0, 0.05, 8.6);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setSize(container.clientWidth, container.clientHeight);
@@ -732,161 +825,364 @@ include '../includes/header.php';
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.15;
+  renderer.toneMappingExposure = 1.05;
   container.appendChild(renderer.domElement);
+
+  // PMREM + RoomEnvironment for realistic metallic & mirror acrylic reflections
+  const pmremGenerator = new THREE.PMREMGenerator(renderer);
+  pmremGenerator.compileEquirectangularShader();
+  const roomEnv = new RoomEnvironment(renderer);
+  scene.environment = pmremGenerator.fromScene(roomEnv, 0.04).texture;
+  roomEnv.dispose();
+  pmremGenerator.dispose();
 
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.06;
-  controls.minDistance = 4.2;
-  controls.maxDistance = 14.5;
+  controls.minDistance = 3.8;
+  controls.maxDistance = 19.0;
   controls.maxPolarAngle = Math.PI * 0.85;
 
-  // Studio Lighting
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+  // Balanced Studio Lighting complementing RoomEnvironment IBL
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.35);
   scene.add(ambientLight);
 
-  const keyLight = new THREE.DirectionalLight(0xfffbeb, 2.2);
+  const keyLight = new THREE.DirectionalLight(0xfffbeb, 1.8);
   keyLight.position.set(5, 7, 6);
   keyLight.castShadow = true;
   keyLight.shadow.mapSize.width = 2048;
   keyLight.shadow.mapSize.height = 2048;
   keyLight.shadow.bias = -0.0005;
+  keyLight.shadow.camera.near = 0.5;
+  keyLight.shadow.camera.far = 25;
+  keyLight.shadow.camera.left = -6;
+  keyLight.shadow.camera.right = 6;
+  keyLight.shadow.camera.top = 5;
+  keyLight.shadow.camera.bottom = -5;
   scene.add(keyLight);
 
-  const fillLight = new THREE.DirectionalLight(0x93c5fd, 1.1);
+  const fillLight = new THREE.DirectionalLight(0x93c5fd, 0.75);
   fillLight.position.set(-6, 3, 4);
   scene.add(fillLight);
 
-  const rimLight = new THREE.DirectionalLight(0xfde047, 0.75);
+  const rimLight = new THREE.DirectionalLight(0xfde047, 0.55);
   rimLight.position.set(0, -5, -4);
   scene.add(rimLight);
 
   // Subtle architectural wall shadow plane behind the plaque
-  const wallGeo = new THREE.PlaneGeometry(24, 16);
-  const wallMat = new THREE.ShadowMaterial({ opacity: 0.28 });
+  const wallGeo = new THREE.PlaneGeometry(26, 18);
+  const wallMat = new THREE.ShadowMaterial({ opacity: 0.30 });
   const wallMesh = new THREE.Mesh(wallGeo, wallMat);
-  wallMesh.position.z = -0.55;
+  wallMesh.position.z = -0.56;
   wallMesh.receiveShadow = true;
   scene.add(wallMesh);
 
-  // ─── Multi-Layer Plaque Hierarchy ──────────────────────────────────────
+  // ─── Multi-Layer Plaque Hierarchy (Back → Front) ───────────────────────
   const rootGroup = new THREE.Group();
   scene.add(rootGroup);
 
-  const backplateLayer = new THREE.Group();
-  const standoffsRearLayer = new THREE.Group();
-  const trimFrameLayer = new THREE.Group();
-  const textReliefLayer = new THREE.Group();
-  const standoffsCapLayer = new THREE.Group();
+  const standoffsRearLayer = new THREE.Group();  // 1. Rear Standoff Barrels
+  const sintraBackLayer    = new THREE.Group();  // 2. Black Sintra PVC Backing
+  const acrylicDigitsLayer = new THREE.Group();  // 3. Individual 3D Acrylic Digits & Subtitle
+  const acmFrontLayer      = new THREE.Group();  // 4. CNC-Cut ACM Front Plate + Counter Islands
+  const standoffsCapLayer  = new THREE.Group();  // 5. Front Metallic Standoff Caps
 
-  rootGroup.add(backplateLayer);
   rootGroup.add(standoffsRearLayer);
-  rootGroup.add(trimFrameLayer);
-  rootGroup.add(textReliefLayer);
+  rootGroup.add(sintraBackLayer);
+  rootGroup.add(acrylicDigitsLayer);
+  rootGroup.add(acmFrontLayer);
   rootGroup.add(standoffsCapLayer);
 
   let loadedFont = null;
 
-  // Rounded rectangle helper shape
+  // Canonical counter-clockwise rounded rectangle Shape (outer boundary)
   function createRoundedRectShape(width, height, radius) {
     const shape = new THREE.Shape();
     const x = -width / 2;
     const y = -height / 2;
-    shape.moveTo(x, y + radius);
-    shape.lineTo(x, y + height - radius);
-    shape.quadraticCurveTo(x, y + height, x + radius, y + height);
-    shape.lineTo(x + width - radius, y + height);
-    shape.quadraticCurveTo(x + width, y + height, x + width, y + height - radius);
-    shape.lineTo(x + width, y + radius);
-    shape.quadraticCurveTo(x + width, y, x + width - radius, y);
-    shape.lineTo(x + radius, y);
-    shape.quadraticCurveTo(x, y, x, y + radius);
+    shape.moveTo(x + radius, y);
+    shape.lineTo(x + width - radius, y);
+    shape.quadraticCurveTo(x + width, y, x + width, y + radius);
+    shape.lineTo(x + width, y + height - radius);
+    shape.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    shape.lineTo(x + radius, y + height);
+    shape.quadraticCurveTo(x, y + height, x, y + height - radius);
+    shape.lineTo(x, y + radius);
+    shape.quadraticCurveTo(x, y, x + radius, y);
     return shape;
+  }
+
+  function ensureWinding(pts, wantClockwise) {
+    const cloned = pts.map(p => new THREE.Vector2(p.x, p.y));
+    if (THREE.ShapeUtils.isClockWise(cloned) !== wantClockwise) {
+      cloned.reverse();
+    }
+    return cloned;
+  }
+
+  // Canonical clockwise circular Path (for mounting standoff cutouts)
+  function createCirclePath(cx, cy, radius, segments = 24) {
+    const pts = [];
+    for (let i = 0; i < segments; i++) {
+      const theta = (i / segments) * Math.PI * 2;
+      pts.push(new THREE.Vector2(
+        cx + Math.cos(theta) * radius,
+        cy - Math.sin(theta) * radius
+      ));
+    }
+    const cwPts = ensureWinding(pts, true);
+    const path = new THREE.Path(cwPts);
+    path.closePath();
+    return path;
+  }
+
+  function sampleCleanPoints(curvePath, divisions = 8) {
+    const raw = curvePath.getPoints(divisions);
+    const cleaned = [];
+    for (let i = 0; i < raw.length; i++) {
+      const pt = raw[i];
+      if (!Number.isFinite(pt.x) || !Number.isFinite(pt.y)) continue;
+      const prev = cleaned[cleaned.length - 1];
+      if (prev && Math.hypot(pt.x - prev.x, pt.y - prev.y) < 1e-4) continue;
+      cleaned.push(new THREE.Vector2(pt.x, pt.y));
+    }
+    if (cleaned.length > 2) {
+      const first = cleaned[0];
+      const last = cleaned[cleaned.length - 1];
+      if (Math.hypot(first.x - last.x, first.y - last.y) < 1e-4) {
+        cleaned.pop();
+      }
+    }
+    if (cleaned.length < 3) return null;
+    if (Math.abs(THREE.ShapeUtils.area(cleaned)) <= 1e-5) return null;
+    return cleaned;
+  }
+
+  // Builds centered & auto-fitted per-character 2D contours in plaque XY coordinates
+  function buildCharGlyphLayouts(text, fontSize, maxWidth, maxHeight, targetY, curveDivisions = 8) {
+    if (!loadedFont || !text) {
+      return { characters: [], effectiveFontSize: fontSize };
+    }
+
+    const chars = Array.from(text);
+    const extraSpacing = fontSize * 0.045;
+    const resolution = loadedFont.data?.resolution || 1000;
+    const glyphs = loadedFont.data?.glyphs || {};
+
+    let cursorX = 0;
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    const rawChars = [];
+
+    for (const ch of chars) {
+      if (ch === ' ') {
+        const sp = glyphs[' '];
+        const spAdv = sp && typeof sp.ha === 'number' ? (sp.ha / resolution) * fontSize : fontSize * 0.35;
+        cursorX += spAdv + extraSpacing;
+        continue;
+      }
+
+      const glyphShapes = loadedFont.generateShapes(ch, fontSize) || [];
+      const glyphMeta = glyphs[ch] || glyphs['?'];
+      const advance = glyphMeta && typeof glyphMeta.ha === 'number'
+        ? (glyphMeta.ha / resolution) * fontSize
+        : fontSize * 0.65;
+
+      const contours = [];
+      for (const shape of glyphShapes) {
+        const outerRaw = sampleCleanPoints(shape, curveDivisions);
+        if (!outerRaw) continue;
+
+        const outerShifted = outerRaw.map(p => {
+          const sx = p.x + cursorX;
+          const sy = p.y;
+          if (sx < minX) minX = sx;
+          if (sx > maxX) maxX = sx;
+          if (sy < minY) minY = sy;
+          if (sy > maxY) maxY = sy;
+          return new THREE.Vector2(sx, sy);
+        });
+
+        const holePtsList = [];
+        for (const hole of (shape.holes || [])) {
+          const holeRaw = sampleCleanPoints(hole, curveDivisions);
+          if (!holeRaw) continue;
+          holePtsList.push(holeRaw.map(p => new THREE.Vector2(p.x + cursorX, p.y)));
+        }
+
+        contours.push({ outerPts: outerShifted, holePtsList });
+      }
+
+      if (contours.length > 0) {
+        rawChars.push({ char: ch, contours });
+      }
+      cursorX += advance + extraSpacing;
+    }
+
+    if (rawChars.length === 0 || !Number.isFinite(minX)) {
+      return { characters: [], effectiveFontSize: fontSize };
+    }
+
+    const rawW = Math.max(maxX - minX, 1e-4);
+    const rawH = Math.max(maxY - minY, 1e-4);
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
+    const fitScale = Math.min(1, maxWidth / rawW, maxHeight / rawH);
+
+    const characters = rawChars.map(entry => ({
+      char: entry.char,
+      contours: entry.contours.map(c => ({
+        outerPts: ensureWinding(
+          c.outerPts.map(p => new THREE.Vector2((p.x - centerX) * fitScale, (p.y - centerY) * fitScale + targetY)),
+          false
+        ),
+        holePtsList: c.holePtsList.map(h => ensureWinding(
+          h.map(p => new THREE.Vector2((p.x - centerX) * fitScale, (p.y - centerY) * fitScale + targetY)),
+          true
+        ))
+      }))
+    }));
+
+    return { characters, effectiveFontSize: fontSize * fitScale };
   }
 
   function clearGroup(group) {
     while (group.children.length > 0) {
       const child = group.children[0];
       if (child.geometry) child.geometry.dispose();
+      if (child.material) {
+        if (Array.isArray(child.material)) {
+          child.material.forEach(m => m && m.dispose());
+        } else {
+          child.material.dispose();
+        }
+      }
       group.remove(child);
     }
   }
 
+  function addLayoutToAcrylicAndAcm(layout, extrusionDepth, bevelThickness, bevelSizeMax, acrylicMaterial, acmFaceMat, acmEdgeMat, safeHalfW, safeHalfH, acmHolesList, acmIslandsQueue) {
+    const acmDepth = 0.075;
+
+    for (const chEntry of layout.characters) {
+      for (const contour of chEntry.contours) {
+        // 1. Independent 3D Acrylic Digit/Character Mesh
+        const charShape = new THREE.Shape(contour.outerPts);
+        charShape.closePath();
+        for (const holePts of contour.holePtsList) {
+          const hPath = new THREE.Path(holePts);
+          hPath.closePath();
+          charShape.holes.push(hPath);
+        }
+
+        const bevelSize = Math.min(bevelSizeMax, layout.effectiveFontSize * 0.014);
+        let charGeo;
+        try {
+          charGeo = new THREE.ExtrudeGeometry(charShape, {
+            depth: extrusionDepth,
+            bevelEnabled: true,
+            bevelThickness: bevelThickness,
+            bevelSize: bevelSize,
+            bevelOffset: -bevelSize,
+            bevelSegments: 2,
+            curveSegments: 8
+          });
+        } catch (err) {
+          charGeo = new THREE.ExtrudeGeometry(charShape, {
+            depth: extrusionDepth,
+            bevelEnabled: false,
+            curveSegments: 8
+          });
+        }
+
+        charGeo.computeBoundingBox();
+        const backOffsetZ = charGeo.boundingBox ? -charGeo.boundingBox.min.z : 0;
+
+        const charMesh = new THREE.Mesh(charGeo, acrylicMaterial);
+        charMesh.position.z = backOffsetZ; // Back sits flush on Sintra at z = 0.000
+        charMesh.castShadow = true;
+        charMesh.receiveShadow = true;
+        acrylicDigitsLayer.add(charMesh);
+
+        // 2. Register Matching CNC Cutout Hole + Inner Island in ACM Plate
+        const fitsSafely = contour.outerPts.every(
+          p => Math.abs(p.x) < safeHalfW && Math.abs(p.y) < safeHalfH
+        );
+        if (fitsSafely) {
+          const cutoutPts = ensureWinding(contour.outerPts, true);
+          const cutoutPath = new THREE.Path(cutoutPts);
+          cutoutPath.closePath();
+          acmHolesList.push(cutoutPath);
+
+          for (const holePts of contour.holePtsList) {
+            const islandFits = holePts.every(
+              p => Math.abs(p.x) < safeHalfW && Math.abs(p.y) < safeHalfH
+            );
+            if (islandFits) {
+              const islandPts = ensureWinding(holePts, false);
+              acmIslandsQueue.push({ islandPts, acmDepth, acmFaceMat, acmEdgeMat });
+            }
+          }
+        }
+      }
+    }
+  }
+
   function buildPlaqueModel() {
-    clearGroup(backplateLayer);
     clearGroup(standoffsRearLayer);
-    clearGroup(trimFrameLayer);
-    clearGroup(textReliefLayer);
+    clearGroup(sintraBackLayer);
+    clearGroup(acrylicDigitsLayer);
+    clearGroup(acmFrontLayer);
     clearGroup(standoffsCapLayer);
 
     const sizeSpec = CATALOG.sizes[state.size] || CATALOG.sizes.medium;
-    const finishSpec = CATALOG.finishes[state.finish] || CATALOG.finishes.matte_black_aluminum;
+    const acmSpec = CATALOG.acm_finishes[state.acm_finish] || CATALOG.acm_finishes.matte_black;
+    const acrylicSpec = CATALOG.acrylic_finishes[state.acrylic_finish] || CATALOG.acrylic_finishes.mirror_gold;
     const isVertical = Boolean(sizeSpec.isVertical || state.size === 'vertical');
 
     const width = isVertical ? sizeSpec.w : (state.plaque_type === 'business' ? sizeSpec.w * 1.08 : sizeSpec.w);
     const height = isVertical ? sizeSpec.h : (state.plaque_type === 'business' ? sizeSpec.h * 0.95 : sizeSpec.h);
     const cornerRadius = 0.28;
 
-    // Materials
-    const baseMaterial = new THREE.MeshPhysicalMaterial({
-      color: finishSpec.baseColor,
-      roughness: finishSpec.baseRoughness,
-      metalness: finishSpec.baseMetalness,
-      transmission: finishSpec.baseTransmission || 0,
-      transparent: (finishSpec.baseOpacity ?? 1) < 1,
-      opacity: finishSpec.baseOpacity ?? 1.0,
-      thickness: 0.3,
-      map: finishSpec.isWood ? woodTexture : (finishSpec.isBrushedMetal ? brushedTexture : null),
-      clearcoat: finishSpec.baseTransmission ? 0.6 : 0.15,
-      clearcoatRoughness: 0.25
+    // ─── Materials ───────────────────────────────────────────────────────
+    const sintraMat = new THREE.MeshStandardMaterial({
+      color: 0x121215,
+      roughness: 0.88,
+      metalness: 0.04,
+      envMapIntensity: 0.50
     });
 
-    const accentMaterial = new THREE.MeshStandardMaterial({
-      color: finishSpec.accentColor,
-      roughness: finishSpec.accentRoughness,
-      metalness: finishSpec.accentMetalness
+    const acmFaceMat = new THREE.MeshStandardMaterial({
+      color: acmSpec.color,
+      metalness: acmSpec.metalness,
+      roughness: acmSpec.roughness,
+      envMapIntensity: acmSpec.envMapIntensity ?? 1.0,
+      map: acmSpec.isBrushed ? brushedMaps.colorMap : null,
+      bumpMap: acmSpec.isBrushed ? brushedMaps.bumpMap : null,
+      bumpScale: acmSpec.isBrushed ? 0.008 : 0
     });
 
-    const standoffMaterial = new THREE.MeshStandardMaterial({
-      color: finishSpec.standoffColor,
-      roughness: 0.2,
-      metalness: 0.92
+    const acmEdgeMat = new THREE.MeshStandardMaterial({
+      color: acmSpec.edgeColor,
+      roughness: 0.65,
+      metalness: 0.20,
+      envMapIntensity: 0.70
     });
 
-    // 1. Base Backplate
-    const baseShape = createRoundedRectShape(width, height, cornerRadius);
-    const baseGeo = new THREE.ExtrudeGeometry(baseShape, {
-      depth: 0.16,
-      bevelEnabled: true,
-      bevelThickness: 0.03,
-      bevelSize: 0.03,
-      bevelSegments: 4
+    const acrylicMat = new THREE.MeshStandardMaterial({
+      color: acrylicSpec.color,
+      metalness: acrylicSpec.metalness,
+      roughness: acrylicSpec.roughness,
+      envMapIntensity: acrylicSpec.envMapIntensity ?? 1.0
     });
-    baseGeo.center();
-    const baseMesh = new THREE.Mesh(baseGeo, baseMaterial);
-    baseMesh.castShadow = true;
-    baseMesh.receiveShadow = true;
-    backplateLayer.add(baseMesh);
 
-    // 2. Inner Raised Architectural Border / Accent Frame
-    const frameOuter = createRoundedRectShape(width - 0.36, height - 0.36, cornerRadius * 0.75);
-    const frameInner = createRoundedRectShape(width - 0.48, height - 0.48, cornerRadius * 0.65);
-    frameOuter.holes.push(frameInner);
-    const frameGeo = new THREE.ExtrudeGeometry(frameOuter, {
-      depth: 0.045,
-      bevelEnabled: true,
-      bevelThickness: 0.01,
-      bevelSize: 0.01,
-      bevelSegments: 2
+    const standoffMat = new THREE.MeshStandardMaterial({
+      color: 0xd4d4d8,
+      metalness: 0.92,
+      roughness: 0.22,
+      envMapIntensity: 1.20
     });
-    frameGeo.center();
-    const frameMesh = new THREE.Mesh(frameGeo, accentMaterial);
-    frameMesh.position.z = 0.11;
-    frameMesh.castShadow = true;
-    trimFrameLayer.add(frameMesh);
 
-    // 3. Four Corner Metallic Standoffs
+    // ─── 1. Four Corner Metallic Standoffs ───────────────────────────────
     const insetX = width / 2 - (isVertical ? 0.35 : 0.45);
     const insetY = height / 2 - 0.45;
     const corners = [
@@ -899,97 +1195,207 @@ include '../includes/header.php';
     const barrelGeo = new THREE.CylinderGeometry(0.11, 0.11, 0.42, 28);
     barrelGeo.rotateX(Math.PI / 2);
 
-    const capGeo = new THREE.CylinderGeometry(0.14, 0.14, 0.09, 28);
+    const capGeo = new THREE.CylinderGeometry(0.135, 0.135, 0.08, 28);
     capGeo.rotateX(Math.PI / 2);
 
     corners.forEach(([cx, cy]) => {
-      const barrel = new THREE.Mesh(barrelGeo, standoffMaterial);
-      barrel.position.set(cx, cy, -0.25);
+      const barrel = new THREE.Mesh(barrelGeo.clone(), standoffMat.clone());
+      barrel.position.set(cx, cy, -0.31); // Spans -0.52 to -0.10 (meets rear of Sintra)
       barrel.castShadow = true;
       standoffsRearLayer.add(barrel);
 
-      const cap = new THREE.Mesh(capGeo, standoffMaterial);
-      cap.position.set(cx, cy, 0.15);
+      const cap = new THREE.Mesh(capGeo.clone(), standoffMat.clone());
+      cap.position.set(cx, cy, 0.118); // Spans 0.078 to 0.158 (caps front of ACM)
       cap.castShadow = true;
       standoffsCapLayer.add(cap);
     });
 
-    // 4. 3D Extruded Primary Text & Subtitle Text
+    barrelGeo.dispose();
+    capGeo.dispose();
+    standoffMat.dispose();
+
+    // ─── 2. Black Sintra PVC Backing Layer (Back Layer) ──────────────────
+    const sintraShape = createRoundedRectShape(width, height, cornerRadius);
+    corners.forEach(([cx, cy]) => {
+      sintraShape.holes.push(createCirclePath(cx, cy, 0.095, 20));
+    });
+
+    const sintraGeo = new THREE.ExtrudeGeometry(sintraShape, {
+      depth: 0.10,
+      bevelEnabled: false,
+      curveSegments: 10
+    });
+    const sintraMesh = new THREE.Mesh(sintraGeo, sintraMat);
+    sintraMesh.position.z = -0.10; // Flush front surface at z = 0.00
+    sintraMesh.castShadow = true;
+    sintraMesh.receiveShadow = true;
+    sintraBackLayer.add(sintraMesh);
+
+    // ─── 3. Individual 3D Acrylic Digits & Subtitle + ACM Cutouts ─────────
+    const acmDepth = 0.075;
+    const acmShape = createRoundedRectShape(width, height, cornerRadius);
+    const acmHolesList = [];
+    const acmIslandsQueue = [];
+
+    corners.forEach(([cx, cy]) => {
+      acmHolesList.push(createCirclePath(cx, cy, 0.095, 20));
+    });
+
     const primaryStr = (state.primary_text || '428').trim().toUpperCase();
     const subtitleStr = (state.subtitle_text || '').trim().toUpperCase();
 
+    const safeHalfW = width / 2 - 0.18;
+    const safeHalfH = height / 2 - 0.18;
+
     if (loadedFont) {
-      // Dynamic font sizing so long business names fit gracefully inside the plaque
-      const maxTextWidth = isVertical ? (width - 0.48) : (width - 1.15);
-      let primaryFontSize = state.plaque_type === 'house' ? (isVertical ? 0.72 : 0.92) : 0.62;
-      if (primaryStr.length > 6) {
-        primaryFontSize = Math.max(0.24, primaryFontSize * (6.2 / primaryStr.length));
-      }
+      // Primary 3D Raised Text
+      const maxTextWidth = isVertical ? (width - 0.48) : (width - 1.35);
+      const primaryMaxH = isVertical ? 1.25 : (subtitleStr ? 1.15 : 1.65);
+      const primaryTargetY = isVertical ? (subtitleStr ? 0.95 : 0.0) : (subtitleStr ? 0.32 : 0.0);
+      const basePrimarySize = state.plaque_type === 'house' ? (isVertical ? 0.85 : 1.05) : 0.72;
 
-      const primaryGeo = new TextGeometry(primaryStr, {
-        font: loadedFont,
-        size: primaryFontSize,
-        height: 0.11,
-        curveSegments: 8,
-        bevelEnabled: true,
-        bevelThickness: 0.018,
-        bevelSize: 0.012,
-        bevelSegments: 3
-      });
-      primaryGeo.computeBoundingBox();
-      const pBox = primaryGeo.boundingBox;
-      const pWidth = pBox.max.x - pBox.min.x;
-      if (pWidth > maxTextWidth && pWidth > 0) {
-        const scale = maxTextWidth / pWidth;
-        primaryGeo.scale(scale, scale, 1);
-      }
-      primaryGeo.center();
+      const primaryLayout = buildCharGlyphLayouts(
+        primaryStr,
+        basePrimarySize,
+        maxTextWidth,
+        primaryMaxH,
+        primaryTargetY,
+        8
+      );
 
-      const primaryMesh = new THREE.Mesh(primaryGeo, accentMaterial);
-      primaryMesh.position.y = isVertical ? (subtitleStr ? 0.95 : 0.0) : (subtitleStr ? 0.28 : 0.0);
-      primaryMesh.position.z = 0.14;
-      primaryMesh.castShadow = true;
-      textReliefLayer.add(primaryMesh);
+      addLayoutToAcrylicAndAcm(
+        primaryLayout,
+        0.116, // extrude depth (total with 2 * 0.012 bevel = 0.140; protrudes past 0.077 ACM)
+        0.012,
+        0.009,
+        acrylicMat,
+        acmFaceMat,
+        acmEdgeMat,
+        safeHalfW,
+        safeHalfH,
+        acmHolesList,
+        acmIslandsQueue
+      );
 
+      // Optional Subtitle & Divider Bar
       if (subtitleStr) {
-        let subSize = state.plaque_type === 'house' ? (isVertical ? 0.20 : 0.27) : 0.24;
-        if (subtitleStr.length > 14) {
-          subSize = Math.max(0.12, subSize * (14 / subtitleStr.length));
-        }
+        const subTargetY = isVertical ? -1.15 : -0.68;
+        const subMaxH = 0.42;
+        const baseSubSize = state.plaque_type === 'house' ? (isVertical ? 0.24 : 0.32) : 0.28;
 
-        const subGeo = new TextGeometry(subtitleStr, {
-          font: loadedFont,
-          size: subSize,
-          height: 0.08,
-          curveSegments: 6,
-          bevelEnabled: true,
-          bevelThickness: 0.01,
-          bevelSize: 0.008,
-          bevelSegments: 2
+        const subLayout = buildCharGlyphLayouts(
+          subtitleStr,
+          baseSubSize,
+          maxTextWidth,
+          subMaxH,
+          subTargetY,
+          6
+        );
+
+        addLayoutToAcrylicAndAcm(
+          subLayout,
+          0.106, // total with 2 * 0.007 bevel = 0.120; protrudes cleanly past 0.077 ACM
+          0.007,
+          0.004,
+          acrylicMat,
+          acmFaceMat,
+          acmEdgeMat,
+          safeHalfW,
+          safeHalfH,
+          acmHolesList,
+          acmIslandsQueue
+        );
+
+        // Acrylic Architectural Divider Bar + Matching ACM Cutout Slot
+        const dividerW = isVertical ? Math.min(width * 0.58, 1.05) : Math.min(width * 0.42, 2.2);
+        const dividerH = 0.055;
+        const dividerY = isVertical ? -0.10 : -0.24;
+
+        const divShape = createRoundedRectShape(dividerW, dividerH, 0.02);
+        const divPtsRaw = sampleCleanPoints(divShape, 4);
+        if (divPtsRaw) {
+          const divPtsAcrylic = ensureWinding(
+            divPtsRaw.map(p => new THREE.Vector2(p.x, p.y + dividerY)),
+            false
+          );
+          const divAcrylicShape = new THREE.Shape(divPtsAcrylic);
+          divAcrylicShape.closePath();
+
+          const divGeo = new THREE.ExtrudeGeometry(divAcrylicShape, {
+            depth: 0.104,
+            bevelEnabled: true,
+            bevelThickness: 0.006,
+            bevelSize: 0.003,
+            bevelOffset: -0.003,
+            bevelSegments: 2
+          });
+          divGeo.computeBoundingBox();
+          const divBackZ = divGeo.boundingBox ? -divGeo.boundingBox.min.z : 0;
+          const divMesh = new THREE.Mesh(divGeo, acrylicMat);
+          divMesh.position.z = divBackZ;
+          divMesh.castShadow = true;
+          divMesh.receiveShadow = true;
+          acrylicDigitsLayer.add(divMesh);
+
+          const divFits = divPtsAcrylic.every(
+            p => Math.abs(p.x) < safeHalfW && Math.abs(p.y) < safeHalfH
+          );
+          if (divFits) {
+            const divCutoutPts = ensureWinding(divPtsAcrylic, true);
+            const divCutoutPath = new THREE.Path(divCutoutPts);
+            divCutoutPath.closePath();
+            acmHolesList.push(divCutoutPath);
+          }
+        }
+      }
+    }
+
+    // ─── 4. Front ACM Plate with CNC Cutouts + Counter Islands ───────────
+    acmHolesList.forEach(h => acmShape.holes.push(h));
+
+    let acmGeo;
+    try {
+      acmGeo = new THREE.ExtrudeGeometry(acmShape, {
+        depth: acmDepth,
+        bevelEnabled: false,
+        curveSegments: 8
+      });
+    } catch (err) {
+      // Safe fallback to plain ACM with mounting holes if an unusual glyph trips Earcut
+      const fallbackAcm = createRoundedRectShape(width, height, cornerRadius);
+      corners.forEach(([cx, cy]) => {
+        fallbackAcm.holes.push(createCirclePath(cx, cy, 0.095, 20));
+      });
+      acmGeo = new THREE.ExtrudeGeometry(fallbackAcm, {
+        depth: acmDepth,
+        bevelEnabled: false,
+        curveSegments: 8
+      });
+    }
+
+    const acmMesh = new THREE.Mesh(acmGeo, [acmFaceMat, acmEdgeMat]);
+    acmMesh.position.z = 0.002; // 0.002 clearance above Sintra (z = 0.00) to avoid Z-fighting
+    acmMesh.castShadow = true;
+    acmMesh.receiveShadow = true;
+    acmFrontLayer.add(acmMesh);
+
+    // Floating Inner Counter Islands of the ACM Plate (inside 0, 4, 6, 8, 9, A, B, D, O, P, Q, R, etc.)
+    for (const isl of acmIslandsQueue) {
+      try {
+        const islandShape = new THREE.Shape(isl.islandPts);
+        islandShape.closePath();
+        const islandGeo = new THREE.ExtrudeGeometry(islandShape, {
+          depth: isl.acmDepth,
+          bevelEnabled: false,
+          curveSegments: 8
         });
-        subGeo.computeBoundingBox();
-        const sBox = subGeo.boundingBox;
-        const sWidth = sBox.max.x - sBox.min.x;
-        if (sWidth > maxTextWidth && sWidth > 0) {
-          const sScale = maxTextWidth / sWidth;
-          subGeo.scale(sScale, sScale, 1);
-        }
-        subGeo.center();
-
-        const subMesh = new THREE.Mesh(subGeo, accentMaterial);
-        subMesh.position.y = isVertical ? -1.15 : -0.62;
-        subMesh.position.z = 0.13;
-        subMesh.castShadow = true;
-        textReliefLayer.add(subMesh);
-
-        // Decorative divider bar between primary & subtitle
-        const dividerWidth = isVertical ? Math.min(width * 0.65, 1.1) : Math.min(width * 0.45, 2.4);
-        const dividerShape = createRoundedRectShape(dividerWidth, 0.045, 0.02);
-        const dividerGeo = new THREE.ExtrudeGeometry(dividerShape, { depth: 0.05, bevelEnabled: false });
-        dividerGeo.center();
-        const dividerMesh = new THREE.Mesh(dividerGeo, accentMaterial);
-        dividerMesh.position.set(0, isVertical ? -0.10 : -0.24, 0.12);
-        textReliefLayer.add(dividerMesh);
+        const islandMesh = new THREE.Mesh(islandGeo, [isl.acmFaceMat, isl.acmEdgeMat]);
+        islandMesh.position.z = 0.002;
+        islandMesh.castShadow = true;
+        islandMesh.receiveShadow = true;
+        acmFrontLayer.add(islandMesh);
+      } catch (_) {
+        // Ignore degenerate micro-islands
       }
     }
   }
@@ -1010,25 +1416,48 @@ include '../includes/header.php';
   buildPlaqueModel();
 
   // ─── Camera Preset & Exploded Assembly Animation Loop ──────────────────
-  const targetCameraPos = new THREE.Vector3(0, 0.15, 8.8);
+  const targetCameraPos = new THREE.Vector3(0, 0.05, 8.6);
   const targetControlsLook = new THREE.Vector3(0, 0, 0);
   let cameraAnimating = false;
+  let currentCamKey = 'front';
 
   const CAM_PRESETS = {
-    front:   { pos: [0, 0.05, 8.6],    look: [0, 0, 0] },
-    angle:   { pos: [4.2, 2.1, 7.4],   look: [0, 0, 0] },
-    profile: { pos: [7.6, 0.3, 2.2],   look: [0, 0, 0] },
-    mounts:  { pos: [2.6, 1.65, 3.6],  look: [1.8, 1.0, 0] }
+    front:   { pos: [0, 0.05, 8.6],   look: [0, 0, 0] },
+    angle:   { pos: [4.3, 2.1, 7.5],  look: [0, 0, 0] },
+    profile: { pos: [7.8, 0.35, 2.2], look: [0, 0, 0] },
+    mounts:  { pos: [2.6, 1.65, 3.6], look: [1.8, 1.0, 0] }
   };
+
+  function applyCameraPreset(camKey) {
+    currentCamKey = camKey || 'front';
+    const sizeSpec = CATALOG.sizes[state.size] || CATALOG.sizes.medium;
+    const camScale = sizeSpec.camScale || 1.0;
+    const isVertical = Boolean(sizeSpec.isVertical || state.size === 'vertical');
+
+    if (currentCamKey === 'mounts') {
+      const width = isVertical ? sizeSpec.w : (state.plaque_type === 'business' ? sizeSpec.w * 1.08 : sizeSpec.w);
+      const height = isVertical ? sizeSpec.h : (state.plaque_type === 'business' ? sizeSpec.h * 0.95 : sizeSpec.h);
+      const cx = width / 2 - (isVertical ? 0.35 : 0.45);
+      const cy = height / 2 - 0.45;
+      targetControlsLook.set(cx, cy, 0);
+      targetCameraPos.set(cx + 1.15, cy + 0.65, 3.35);
+    } else {
+      const preset = CAM_PRESETS[currentCamKey] || CAM_PRESETS.front;
+      targetCameraPos.set(
+        preset.pos[0] * camScale,
+        preset.pos[1] * camScale,
+        preset.pos[2] * camScale
+      );
+      targetControlsLook.set(...preset.look);
+    }
+    cameraAnimating = true;
+  }
 
   document.querySelectorAll('.cam-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const preset = CAM_PRESETS[btn.dataset.cam] || CAM_PRESETS.front;
-      targetCameraPos.set(...preset.pos);
-      targetControlsLook.set(...preset.look);
-      cameraAnimating = true;
+      applyCameraPreset(btn.dataset.cam);
     });
   });
 
@@ -1050,15 +1479,16 @@ include '../includes/header.php';
       }
     }
 
-    // Smooth Assembly View (Assembled vs Exploded Z-axis separation)
+    // Smooth Exploded Assembly View (Back → Front: Rear Standoffs → Black Sintra → Acrylic Digits → CNC ACM Plate → Caps)
     const targetExplode = state.exploded ? 1.0 : 0.0;
     explodeProgress += (targetExplode - explodeProgress) * 0.09;
 
-    backplateLayer.position.z     = -explodeProgress * 0.65;
-    standoffsRearLayer.position.z = -explodeProgress * 1.25;
-    trimFrameLayer.position.z     =  explodeProgress * 0.35;
-    textReliefLayer.position.z    =  explodeProgress * 0.85;
-    standoffsCapLayer.position.z  =  explodeProgress * 1.25;
+    standoffsRearLayer.position.z = -explodeProgress * 1.60;
+    sintraBackLayer.position.z    = -explodeProgress * 0.80;
+    acrylicDigitsLayer.position.z =  explodeProgress * 0.05;
+    acmFrontLayer.position.z      =  explodeProgress * 1.05;
+    standoffsCapLayer.position.z  =  explodeProgress * 1.55;
+    wallMesh.position.z           = -0.56 - explodeProgress * 1.65;
 
     controls.update();
     renderer.render(scene, camera);
@@ -1075,7 +1505,8 @@ include '../includes/header.php';
   // ─── UI Reactivity & Pricing Updates ───────────────────────────────────
   function updatePricingAndSummaryUI() {
     const sizeSpec = CATALOG.sizes[state.size] || CATALOG.sizes.medium;
-    const finishSpec = CATALOG.finishes[state.finish] || CATALOG.finishes.matte_black_aluminum;
+    const acmSpec = CATALOG.acm_finishes[state.acm_finish] || CATALOG.acm_finishes.matte_black;
+    const acrylicSpec = CATALOG.acrylic_finishes[state.acrylic_finish] || CATALOG.acrylic_finishes.mirror_gold;
 
     state.subtotal_cad = sizeSpec.price;
     state.hst_cad = Math.round(state.subtotal_cad * 0.15 * 100) / 100;
@@ -1090,8 +1521,8 @@ include '../includes/header.php';
     document.getElementById('price-total').textContent = fmtTot;
     document.getElementById('btn-helcim-total').textContent = fmtTot;
 
-    document.getElementById('summary-finish-name').textContent = finishSpec.name;
-    document.getElementById('summary-size-dims').textContent = sizeSpec.label + ' • 4 Corner Standoffs Included';
+    document.getElementById('summary-finish-name').textContent = `ACM: ${acmSpec.shortName} • Digits: ${acrylicSpec.shortName}`;
+    document.getElementById('summary-size-dims').textContent = `${sizeSpec.label} • Black Sintra Base & 4 Standoffs`;
 
     const typeLabel = state.plaque_type === 'business' ? 'Business Signage' : 'House Plaque';
     document.getElementById('viewer-spec-text').textContent = `${typeLabel} • ${sizeSpec.shortLabel}`;
@@ -1139,12 +1570,23 @@ include '../includes/header.php';
     buildPlaqueModel();
   });
 
-  // Finish Selection
-  document.querySelectorAll('[data-finish]').forEach(tile => {
+  // ACM Front Plate Finish Selection
+  document.querySelectorAll('[data-acm-finish]').forEach(tile => {
     tile.addEventListener('click', () => {
-      document.querySelectorAll('[data-finish]').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('[data-acm-finish]').forEach(t => t.classList.remove('active'));
       tile.classList.add('active');
-      state.finish = tile.dataset.finish;
+      state.acm_finish = tile.dataset.acmFinish;
+      updatePricingAndSummaryUI();
+      buildPlaqueModel();
+    });
+  });
+
+  // Acrylic Digits Finish Selection
+  document.querySelectorAll('[data-acrylic-finish]').forEach(tile => {
+    tile.addEventListener('click', () => {
+      document.querySelectorAll('[data-acrylic-finish]').forEach(t => t.classList.remove('active'));
+      tile.classList.add('active');
+      state.acrylic_finish = tile.dataset.acrylicFinish;
       updatePricingAndSummaryUI();
       buildPlaqueModel();
     });
@@ -1158,12 +1600,17 @@ include '../includes/header.php';
       state.size = tile.dataset.size;
       updatePricingAndSummaryUI();
       buildPlaqueModel();
+      applyCameraPreset(currentCamKey);
     });
   });
 
   // Assembly Exploded View Toggle
   document.getElementById('assemblyToggle').addEventListener('change', (e) => {
     state.exploded = e.target.checked;
+    const legendPill = document.getElementById('assemblyLegendPill');
+    if (legendPill) {
+      legendPill.classList.toggle('d-none', !state.exploded);
+    }
     if (state.exploded) {
       // Switch camera to 3D Angle so the exploded layers are clearly visible
       const angleBtn = document.querySelector('[data-cam="angle"]');
@@ -1219,7 +1666,8 @@ include '../includes/header.php';
       plaque_type: state.plaque_type,
       primary_text: primary,
       subtitle_text: subtitle,
-      finish: state.finish,
+      acm_finish: state.acm_finish,
+      acrylic_finish: state.acrylic_finish,
       size: state.size,
       payment_method: paymentMethod
     };
@@ -1252,6 +1700,10 @@ include '../includes/header.php';
         return;
       }
 
+      const acmFallback = (CATALOG.acm_finishes[payload.acm_finish] || {}).name || payload.acm_finish;
+      const acrylicFallback = (CATALOG.acrylic_finishes[payload.acrylic_finish] || {}).name || payload.acrylic_finish;
+      const sizeFallback = (CATALOG.sizes[payload.size] || {}).label || payload.size;
+
       activeHelcimOrder = {
         ...payload,
         order_id: result.data.order_id,
@@ -1259,8 +1711,10 @@ include '../includes/header.php';
         subtotal_cad: result.data.subtotal_cad,
         hst_cad: result.data.hst_cad,
         total_cad: result.data.total_cad,
-        finish_label: result.data.finish_label,
-        size_label: result.data.size_label
+        acm_finish_label: result.data.acm_finish_label || acmFallback,
+        acrylic_finish_label: result.data.acrylic_finish_label || acrylicFallback,
+        finish_label: result.data.finish_label || `${acmFallback} + ${acrylicFallback}`,
+        size_label: result.data.size_label || sizeFallback
       };
 
       // Dispatch open-helcim-checkout custom event and invoke official HelcimPay.js iframe
@@ -1321,6 +1775,8 @@ include '../includes/header.php';
 
         hideAlert();
         const txId = confirmData.data?.transaction_id || 'CONFIRMED';
+        const acmLabel = confirmData.data?.acm_finish_label || activeHelcimOrder.acm_finish_label;
+        const acrylicLabel = confirmData.data?.acrylic_finish_label || activeHelcimOrder.acrylic_finish_label;
 
         confirmPanel.className = 'confirmation-box bg-success bg-opacity-10 border border-success text-light';
         confirmPanel.innerHTML = `
@@ -1334,6 +1790,9 @@ include '../includes/header.php';
           <div class="p-3 rounded-3 bg-dark bg-opacity-75 small font-monospace mb-2">
             <div><strong>Order Reference:</strong> ${activeHelcimOrder.order_number}</div>
             <div><strong>Helcim Tx ID:</strong> ${txId}</div>
+            <div><strong>Front Plate (ACM):</strong> ${acmLabel}</div>
+            <div><strong>3D Digits (Acrylic):</strong> ${acrylicLabel}</div>
+            <div><strong>Size:</strong> ${activeHelcimOrder.size_label}</div>
             <div><strong>Total Paid:</strong> $${Number(activeHelcimOrder.total_cad).toFixed(2)} CAD (incl. 15% HST)</div>
           </div>
           <div class="small text-secondary">
@@ -1376,6 +1835,10 @@ include '../includes/header.php';
       }
 
       const d = result.data;
+      const acmFallback = (CATALOG.acm_finishes[payload.acm_finish] || {}).name || payload.acm_finish;
+      const acrylicFallback = (CATALOG.acrylic_finishes[payload.acrylic_finish] || {}).name || payload.acrylic_finish;
+      const sizeFallback = (CATALOG.sizes[payload.size] || {}).label || payload.size;
+
       confirmPanel.className = 'confirmation-box bg-warning bg-opacity-10 border border-warning text-light';
       confirmPanel.innerHTML = `
         <div class="d-flex align-items-center gap-2 text-warning fw-bold mb-2">
@@ -1388,7 +1851,11 @@ include '../includes/header.php';
         <div class="p-3 rounded-3 bg-dark bg-opacity-75 small mb-2">
           <div class="mb-1"><span class="text-secondary">Recipient Email:</span> <strong class="text-warning font-monospace">${d.interac_email || 'contact@pixellaserprints.ca'}</strong></div>
           <div class="mb-1"><span class="text-secondary">Amount (incl. 15% PEI HST):</span> <strong class="text-info fs-6">$${Number(d.total_cad).toFixed(2)} CAD</strong></div>
-          <div><span class="text-secondary">Message / Reference #:</span> <strong class="text-white font-monospace">${d.order_number}</strong></div>
+          <div class="mb-1"><span class="text-secondary">Message / Reference #:</span> <strong class="text-white font-monospace">${d.order_number}</strong></div>
+          <hr class="border-secondary border-opacity-25 my-2">
+          <div class="mb-1"><span class="text-secondary">Front Plate (ACM):</span> <strong class="text-light">${d.acm_finish_label || acmFallback}</strong></div>
+          <div class="mb-1"><span class="text-secondary">3D Digits (Acrylic):</span> <strong class="text-light">${d.acrylic_finish_label || acrylicFallback}</strong></div>
+          <div><span class="text-secondary">Size:</span> <strong class="text-light">${d.size_label || sizeFallback}</strong></div>
         </div>
         <div class="small text-secondary">
           <i class="bi bi-info-circle me-1"></i> Auto-deposit is enabled. Include your order number <strong>${d.order_number}</strong> in the transfer message.

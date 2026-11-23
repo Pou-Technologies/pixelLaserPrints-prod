@@ -59,11 +59,13 @@ function sendPlaqueNotificationEmail(array $orderInfo): void
 
     $lines[] = "";
     $lines[] = "--- 3D PLAQUE SPECIFICATIONS ---";
-    $lines[] = "Plaque Type     : " . ucfirst((string) ($orderInfo['plaque_type'] ?? 'house'));
-    $lines[] = "Primary 3D Text : " . ($orderInfo['primary_text'] ?? '');
-    $lines[] = "Subtitle Text   : " . (!empty($orderInfo['subtitle_text']) ? $orderInfo['subtitle_text'] : 'None');
-    $lines[] = "Material Finish : " . ($orderInfo['finish_label'] ?? $orderInfo['finish'] ?? '');
-    $lines[] = "Size            : " . ($orderInfo['size_label'] ?? $orderInfo['size'] ?? '');
+    $lines[] = "Plaque Type         : " . ucfirst((string) ($orderInfo['plaque_type'] ?? 'house'));
+    $lines[] = "Primary 3D Text     : " . ($orderInfo['primary_text'] ?? '');
+    $lines[] = "Subtitle Text       : " . (!empty($orderInfo['subtitle_text']) ? $orderInfo['subtitle_text'] : 'None');
+    $lines[] = "Front Plate (ACM)   : " . ($orderInfo['acm_finish_label'] ?? $orderInfo['acm_finish'] ?? '');
+    $lines[] = "3D Digits (Acrylic) : " . ($orderInfo['acrylic_finish_label'] ?? $orderInfo['acrylic_finish'] ?? '');
+    $lines[] = "Backing & Hardware  : Black Sintra PVC + 4 Corner Standoffs";
+    $lines[] = "Size                : " . ($orderInfo['size_label'] ?? $orderInfo['size'] ?? '');
     $lines[] = "";
     $lines[] = "--- CUSTOMER DETAILS ---";
     $lines[] = "Name            : {$customerName}";
@@ -94,7 +96,8 @@ if ($action === 'create_order') {
         'plaque_type'    => trim((string) ($input['plaque_type'] ?? 'house')),
         'primary_text'   => trim((string) ($input['primary_text'] ?? '')),
         'subtitle_text'  => trim((string) ($input['subtitle_text'] ?? '')),
-        'finish'         => trim((string) ($input['finish'] ?? 'matte_black_aluminum')),
+        'acm_finish'     => trim((string) ($input['acm_finish'] ?? 'matte_black')),
+        'acrylic_finish' => trim((string) ($input['acrylic_finish'] ?? 'mirror_gold')),
         'size'           => trim((string) ($input['size'] ?? 'medium')),
         'payment_method' => trim((string) ($input['payment_method'] ?? 'helcim')),
     ];
@@ -157,7 +160,8 @@ if ($action === 'confirm_helcim') {
         'plaque_type'      => trim((string) ($input['plaque_type'] ?? 'house')),
         'primary_text'     => trim((string) ($input['primary_text'] ?? '')),
         'subtitle_text'    => trim((string) ($input['subtitle_text'] ?? '')),
-        'finish'           => trim((string) ($input['finish'] ?? '')),
+        'acm_finish'       => trim((string) ($input['acm_finish'] ?? '')),
+        'acrylic_finish'   => trim((string) ($input['acrylic_finish'] ?? '')),
         'size'             => trim((string) ($input['size'] ?? '')),
     ];
 
