@@ -161,6 +161,50 @@ include '../includes/header.php';
     cursor: pointer;
   }
 
+  /* Real-World Environment Simulation Toolbar */
+  .viewer-env-bar {
+    background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.88));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 16px;
+  }
+
+  .env-btn-group {
+    display: inline-flex;
+    background: rgba(15, 23, 42, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 3px;
+  }
+
+  .env-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.73rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 999px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .env-btn:hover {
+    color: #f8fafc;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .env-btn.active {
+    background: #0284c7;
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(2, 132, 199, 0.45);
+  }
+
   .price-breakdown-bar {
     background: rgba(15, 23, 42, 0.96);
     border-top: 1px solid rgba(255, 255, 255, 0.09);
@@ -450,6 +494,32 @@ include '../includes/header.php';
       <div class="col-lg-7">
         <div class="viewer-sticky-wrap">
           <div class="viewer-card">
+            <!-- Architectural Environment Simulation Bar -->
+            <div class="viewer-env-bar d-flex align-items-center justify-content-between flex-wrap gap-2">
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="small text-secondary text-uppercase fw-bold d-flex align-items-center" style="font-size: 0.69rem; letter-spacing: 0.8px;">
+                  <i class="bi bi-eye-fill text-info me-1"></i> Entorno Real:
+                </span>
+                <div class="env-btn-group" role="group" aria-label="Visualizar en entorno real">
+                  <button type="button" class="env-btn active" data-env="studio" title="Fondo neutro de estudio 3D">
+                    <i class="bi bi-display me-1"></i> Estudio
+                  </button>
+                  <button type="button" class="env-btn" data-env="casa" title="Fachada residencial con siding y lámpara exterior">
+                    <i class="bi bi-house-door-fill me-1"></i> Casa
+                  </button>
+                  <button type="button" class="env-btn" data-env="barda" title="Muro perimetral de piedra con remate de concreto">
+                    <i class="bi bi-bricks me-1"></i> Barda
+                  </button>
+                  <button type="button" class="env-btn" data-env="entrada" title="Entrada principal junto a puerta residencial y timbre">
+                    <i class="bi bi-door-closed-fill me-1"></i> Entrada
+                  </button>
+                </div>
+              </div>
+              <span class="small text-secondary d-none d-md-inline" id="env-description-hint" style="font-size: 0.72rem;">
+                Fondo neutro de estudio
+              </span>
+            </div>
+
             <!-- 3D WebGL Canvas Wrapper -->
             <div id="plaque-canvas-container">
               <!-- Top Overlay: Live Specs & Assembly View Switch -->
@@ -861,6 +931,7 @@ include '../includes/header.php';
 
   // ─── Reactive Configurator State ───────────────────────────────────────
   const state = {
+    environment: 'studio',
     plaque_type: 'house',
     construction_style: 'raised_acrylic',
     font_style: 'athletic_block',
@@ -1032,6 +1103,24 @@ include '../includes/header.php';
         roughness: 0.22,
         envMapIntensity: 1.25
       }
+    },
+    environments: {
+      studio: {
+        name: 'Estudio',
+        hint: 'Fondo neutro de estudio'
+      },
+      casa: {
+        name: 'Casa (Fachada)',
+        hint: 'Fachada residencial con revestimiento de siding y lámpara exterior'
+      },
+      barda: {
+        name: 'Barda (Muro)',
+        hint: 'Muro perimetral exterior de mampostería de piedra con remate de concreto'
+      },
+      entrada: {
+        name: 'Entrada (Puerta)',
+        hint: 'Entrada principal con puerta residencial contemporánea, manillón y timbre'
+      }
     }
   };
 
@@ -1171,10 +1260,389 @@ include '../includes/header.php';
   const wallMat = new THREE.ShadowMaterial({ opacity: 0.34 });
   const wallMesh = new THREE.Mesh(wallGeo, wallMat);
   wallMesh.receiveShadow = true;
-  wallGroup.add(wallMesh);
 
   const wallContactShadowsLayer = new THREE.Group();
   wallGroup.add(wallContactShadowsLayer);
+
+  // ─── Procedural Architectural Environment Textures & Groups ───────────
+  function createCasaTextures() {
+    const size = 512;
+    const colorCanvas = document.createElement('canvas');
+    colorCanvas.width = size;
+    colorCanvas.height = size;
+    const cCtx = colorCanvas.getContext('2d');
+
+    const bumpCanvas = document.createElement('canvas');
+    bumpCanvas.width = size;
+    bumpCanvas.height = size;
+    const bCtx = bumpCanvas.getContext('2d');
+
+    cCtx.fillStyle = '#22262f';
+    cCtx.fillRect(0, 0, size, size);
+    bCtx.fillStyle = '#808080';
+    bCtx.fillRect(0, 0, size, size);
+
+    const boardH = size / 8;
+    for (let b = 0; b < 8; b++) {
+      const y = b * boardH;
+      const boardGrad = cCtx.createLinearGradient(0, y, 0, y + boardH);
+      boardGrad.addColorStop(0, '#2b313d');
+      boardGrad.addColorStop(0.85, '#232731');
+      boardGrad.addColorStop(1, '#1b1e25');
+      cCtx.fillStyle = boardGrad;
+      cCtx.fillRect(0, y, size, boardH - 4);
+
+      cCtx.fillStyle = '#3f4756';
+      cCtx.fillRect(0, y, size, 2);
+      bCtx.fillStyle = '#b0b0b0';
+      bCtx.fillRect(0, y, size, 2);
+
+      cCtx.fillStyle = '#0f1217';
+      cCtx.fillRect(0, y + boardH - 4, size, 4);
+      bCtx.fillStyle = '#1c1c1c';
+      bCtx.fillRect(0, y + boardH - 4, size, 4);
+
+      for (let i = 0; i < 90; i++) {
+        const sx = (i * 97) % size;
+        const sy = y + 3 + ((i * 31) % (boardH - 8));
+        const sw = 40 + (i % 120);
+        cCtx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+        cCtx.fillRect(sx, sy, sw, 1);
+        if (sx + sw > size) cCtx.fillRect(0, sy, (sx + sw) - size, 1);
+      }
+    }
+
+    const colorMap = new THREE.CanvasTexture(colorCanvas);
+    colorMap.wrapS = THREE.RepeatWrapping;
+    colorMap.wrapT = THREE.RepeatWrapping;
+    colorMap.repeat.set(2.4, 2.8);
+    colorMap.colorSpace = THREE.SRGBColorSpace;
+
+    const bumpMap = new THREE.CanvasTexture(bumpCanvas);
+    bumpMap.wrapS = THREE.RepeatWrapping;
+    bumpMap.wrapT = THREE.RepeatWrapping;
+    bumpMap.repeat.set(2.4, 2.8);
+
+    return { colorMap, bumpMap };
+  }
+
+  function createBardaTextures() {
+    const size = 512;
+    const colorCanvas = document.createElement('canvas');
+    colorCanvas.width = size;
+    colorCanvas.height = size;
+    const cCtx = colorCanvas.getContext('2d');
+
+    const bumpCanvas = document.createElement('canvas');
+    bumpCanvas.width = size;
+    bumpCanvas.height = size;
+    const bCtx = bumpCanvas.getContext('2d');
+
+    cCtx.fillStyle = '#181a1e';
+    cCtx.fillRect(0, 0, size, size);
+    bCtx.fillStyle = '#151515';
+    bCtx.fillRect(0, 0, size, size);
+
+    const stonePalette = ['#2d323a', '#363c46', '#3f4551', '#282c33', '#393f4a', '#444b57', '#323740'];
+    const rows = 10;
+    const rowH = size / rows;
+
+    for (let r = 0; r < rows; r++) {
+      const y = r * rowH;
+      let x = (r % 2 === 0 ? 0 : -25);
+      let sIdx = 0;
+      while (x < size + 60) {
+        const stoneW = 55 + ((r * 37 + sIdx * 53) % 75);
+        const col = stonePalette[(r * 5 + sIdx * 3) % stonePalette.length];
+        const pad = 3;
+
+        cCtx.fillStyle = col;
+        cCtx.fillRect(x + pad, y + pad, stoneW - (pad * 2), rowH - (pad * 2));
+
+        cCtx.fillStyle = 'rgba(255, 255, 255, 0.10)';
+        cCtx.fillRect(x + pad, y + pad, stoneW - (pad * 2), 2);
+        cCtx.fillStyle = 'rgba(0, 0, 0, 0.22)';
+        cCtx.fillRect(x + pad, y + rowH - pad - 2, stoneW - (pad * 2), 2);
+
+        bCtx.fillStyle = '#9e9e9e';
+        bCtx.fillRect(x + pad, y + pad, stoneW - (pad * 2), rowH - (pad * 2));
+        bCtx.fillStyle = '#bfbfbf';
+        bCtx.fillRect(x + pad, y + pad, stoneW - (pad * 2), 2);
+
+        for (let s = 0; s < 25; s++) {
+          const px = x + pad + ((s * 31) % Math.max(1, stoneW - pad * 2));
+          const py = y + pad + ((s * 19) % Math.max(1, rowH - pad * 2));
+          cCtx.fillStyle = s % 2 === 0 ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
+          cCtx.fillRect(px, py, 2, 2);
+        }
+
+        x += stoneW;
+        sIdx++;
+      }
+    }
+
+    const colorMap = new THREE.CanvasTexture(colorCanvas);
+    colorMap.wrapS = THREE.RepeatWrapping;
+    colorMap.wrapT = THREE.RepeatWrapping;
+    colorMap.repeat.set(2.0, 2.0);
+    colorMap.colorSpace = THREE.SRGBColorSpace;
+
+    const bumpMap = new THREE.CanvasTexture(bumpCanvas);
+    bumpMap.wrapS = THREE.RepeatWrapping;
+    bumpMap.wrapT = THREE.RepeatWrapping;
+    bumpMap.repeat.set(2.0, 2.0);
+
+    return { colorMap, bumpMap };
+  }
+
+  function createEntradaTextures() {
+    const size = 512;
+    const stuccoCanvas = document.createElement('canvas');
+    stuccoCanvas.width = size;
+    stuccoCanvas.height = size;
+    const sCtx = stuccoCanvas.getContext('2d');
+    sCtx.fillStyle = '#343841';
+    sCtx.fillRect(0, 0, size, size);
+
+    const bumpCanvas = document.createElement('canvas');
+    bumpCanvas.width = size;
+    bumpCanvas.height = size;
+    const bCtx = bumpCanvas.getContext('2d');
+    bCtx.fillStyle = '#808080';
+    bCtx.fillRect(0, 0, size, size);
+
+    for (let i = 0; i < 2500; i++) {
+      const x = (i * 97) % size;
+      const y = (i * 131) % size;
+      const bright = i % 2 === 0;
+      sCtx.fillStyle = bright ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.06)';
+      sCtx.fillRect(x, y, 2, 2);
+      bCtx.fillStyle = bright ? '#949494' : '#6c6c6c';
+      bCtx.fillRect(x, y, 2, 2);
+    }
+
+    const stuccoMap = new THREE.CanvasTexture(stuccoCanvas);
+    stuccoMap.wrapS = THREE.RepeatWrapping;
+    stuccoMap.wrapT = THREE.RepeatWrapping;
+    stuccoMap.repeat.set(3, 3);
+    stuccoMap.colorSpace = THREE.SRGBColorSpace;
+
+    const stuccoBump = new THREE.CanvasTexture(bumpCanvas);
+    stuccoBump.wrapS = THREE.RepeatWrapping;
+    stuccoBump.wrapT = THREE.RepeatWrapping;
+    stuccoBump.repeat.set(3, 3);
+
+    const doorCanvas = document.createElement('canvas');
+    doorCanvas.width = 512;
+    doorCanvas.height = 1024;
+    const dCtx = doorCanvas.getContext('2d');
+
+    const doorGrad = dCtx.createLinearGradient(0, 0, 0, 1024);
+    doorGrad.addColorStop(0, '#241f1c');
+    doorGrad.addColorStop(0.5, '#2b2521');
+    doorGrad.addColorStop(1, '#1e1a17');
+    dCtx.fillStyle = doorGrad;
+    dCtx.fillRect(0, 0, 512, 1024);
+
+    for (let i = 0; i < 400; i++) {
+      const x = (i * 19) % 512;
+      const w = 1 + (i % 3);
+      dCtx.fillStyle = `rgba(${i % 2 === 0 ? 200 : 30}, ${i % 2 === 0 ? 180 : 25}, 160, 0.04)`;
+      dCtx.fillRect(x, 0, w, 1024);
+    }
+
+    for (let g = 1; g <= 5; g++) {
+      const gy = Math.round(g * (1024 / 6));
+      dCtx.fillStyle = '#0c0a09';
+      dCtx.fillRect(0, gy - 2, 512, 4);
+      dCtx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+      dCtx.fillRect(0, gy + 2, 512, 1);
+    }
+
+    const doorMap = new THREE.CanvasTexture(doorCanvas);
+    doorMap.colorSpace = THREE.SRGBColorSpace;
+
+    return { stuccoMap, stuccoBump, doorMap };
+  }
+
+  // ─── Environment Subgroups inside wallGroup ────────────────────────────
+  const envStudioGroup  = new THREE.Group();
+  const envCasaGroup    = new THREE.Group();
+  const envBardaGroup   = new THREE.Group();
+  const envEntradaGroup = new THREE.Group();
+
+  wallGroup.add(envStudioGroup);
+  wallGroup.add(envCasaGroup);
+  wallGroup.add(envBardaGroup);
+  wallGroup.add(envEntradaGroup);
+
+  // 1. Studio Backdrop (transparent ShadowMaterial receiver)
+  envStudioGroup.add(wallMesh);
+
+  // 2. Casa: Modern Architectural Siding + Exterior Wall Sconce + Soffit
+  const casaMaps = createCasaTextures();
+  const casaWallMat = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    map: casaMaps.colorMap,
+    bumpMap: casaMaps.bumpMap,
+    bumpScale: 0.05,
+    roughness: 0.72,
+    metalness: 0.08
+  });
+  const casaWallMesh = new THREE.Mesh(new THREE.PlaneGeometry(34, 24), casaWallMat);
+  casaWallMesh.position.z = -0.002;
+  casaWallMesh.receiveShadow = true;
+  envCasaGroup.add(casaWallMesh);
+
+  const sconceGroup = new THREE.Group();
+  sconceGroup.position.set(-4.2, 0.75, 0.22);
+  const sconceBody = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.18, 0.18, 0.95, 24),
+    new THREE.MeshStandardMaterial({ color: 0x18181b, metalness: 0.88, roughness: 0.32 })
+  );
+  sconceBody.castShadow = true;
+  sconceGroup.add(sconceBody);
+
+  const sconceLensMat = new THREE.MeshStandardMaterial({
+    color: 0xffedd5,
+    emissive: 0xffedd5,
+    emissiveIntensity: 2.5,
+    roughness: 0.2
+  });
+  const sconceTopLens = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.17, 0.07, 24), sconceLensMat);
+  sconceTopLens.position.y = 0.45;
+  sconceGroup.add(sconceTopLens);
+  const sconceBottomLens = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.17, 0.07, 24), sconceLensMat);
+  sconceBottomLens.position.y = -0.45;
+  sconceGroup.add(sconceBottomLens);
+
+  const sconceLight = new THREE.PointLight(0xffedd5, 2.2, 9.0, 2.0);
+  sconceLight.position.set(-4.2, 0.75, 0.45);
+  envCasaGroup.add(sconceLight);
+  envCasaGroup.add(sconceGroup);
+
+  const casaOverhang = new THREE.Mesh(
+    new THREE.BoxGeometry(34, 0.55, 0.75),
+    new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.75 })
+  );
+  casaOverhang.position.set(0, 5.2, 0.37);
+  casaOverhang.castShadow = true;
+  envCasaGroup.add(casaOverhang);
+
+  // 3. Barda: Stacked Slate/Stone Wall + Concrete Coping Ledge
+  const bardaMaps = createBardaTextures();
+  const bardaWallMat = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    map: bardaMaps.colorMap,
+    bumpMap: bardaMaps.bumpMap,
+    bumpScale: 0.08,
+    roughness: 0.88,
+    metalness: 0.04
+  });
+  const bardaWallMesh = new THREE.Mesh(new THREE.PlaneGeometry(34, 24), bardaWallMat);
+  bardaWallMesh.position.z = -0.002;
+  bardaWallMesh.receiveShadow = true;
+  envBardaGroup.add(bardaWallMesh);
+
+  const bardaCoping = new THREE.Mesh(
+    new THREE.BoxGeometry(34, 0.48, 0.65),
+    new THREE.MeshStandardMaterial({ color: 0x717986, roughness: 0.82, metalness: 0.05 })
+  );
+  bardaCoping.position.set(0, 3.8, 0.30);
+  bardaCoping.castShadow = true;
+  envBardaGroup.add(bardaCoping);
+
+  // 4. Entrada: Stucco Wall + Contemporary Entry Door + Stainless Pull Bar + Smart Doorbell
+  const entradaMaps = createEntradaTextures();
+  const entradaWallMat = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    map: entradaMaps.stuccoMap,
+    bumpMap: entradaMaps.stuccoBump,
+    bumpScale: 0.04,
+    roughness: 0.82,
+    metalness: 0.05
+  });
+  const entradaWallMesh = new THREE.Mesh(new THREE.PlaneGeometry(34, 24), entradaWallMat);
+  entradaWallMesh.position.z = -0.002;
+  entradaWallMesh.receiveShadow = true;
+  envEntradaGroup.add(entradaWallMesh);
+
+  const doorFrame = new THREE.Mesh(
+    new THREE.BoxGeometry(4.4, 11.2, 0.18),
+    new THREE.MeshStandardMaterial({ color: 0x111113, roughness: 0.65 })
+  );
+  doorFrame.position.set(5.2, 0.5, 0.08);
+  envEntradaGroup.add(doorFrame);
+
+  const doorSlab = new THREE.Mesh(
+    new THREE.BoxGeometry(4.1, 10.8, 0.14),
+    new THREE.MeshStandardMaterial({
+      map: entradaMaps.doorMap,
+      roughness: 0.58,
+      metalness: 0.08
+    })
+  );
+  doorSlab.position.set(5.2, 0.5, 0.11);
+  doorSlab.castShadow = true;
+  doorSlab.receiveShadow = true;
+  envEntradaGroup.add(doorSlab);
+
+  const handleGeo = new THREE.CylinderGeometry(0.042, 0.042, 2.5, 24);
+  const handleMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.95, roughness: 0.18 });
+  const doorHandle = new THREE.Mesh(handleGeo, handleMat);
+  doorHandle.position.set(3.45, -0.2, 0.35);
+  doorHandle.castShadow = true;
+  envEntradaGroup.add(doorHandle);
+
+  const bracketGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.18, 16);
+  bracketGeo.rotateX(Math.PI / 2);
+  const hBracketTop = new THREE.Mesh(bracketGeo, handleMat);
+  hBracketTop.position.set(3.45, 0.95, 0.25);
+  envEntradaGroup.add(hBracketTop);
+  const hBracketBottom = new THREE.Mesh(bracketGeo, handleMat);
+  hBracketBottom.position.set(3.45, -1.35, 0.25);
+  envEntradaGroup.add(hBracketBottom);
+
+  const doorbellBody = new THREE.Mesh(
+    new THREE.BoxGeometry(0.25, 0.75, 0.10),
+    new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.45, metalness: 0.6 })
+  );
+  doorbellBody.position.set(2.55, -0.45, 0.05);
+  doorbellBody.castShadow = true;
+  envEntradaGroup.add(doorbellBody);
+
+  const doorbellRing = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.065, 0.065, 0.03, 20),
+    new THREE.MeshStandardMaterial({
+      color: 0x38bdf8,
+      emissive: 0x0284c7,
+      emissiveIntensity: 2.2,
+      roughness: 0.2
+    })
+  );
+  doorbellRing.rotateX(Math.PI / 2);
+  doorbellRing.position.set(2.55, -0.62, 0.11);
+  envEntradaGroup.add(doorbellRing);
+
+  const porchBeam = new THREE.Mesh(
+    new THREE.BoxGeometry(34, 0.65, 1.4),
+    new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.72 })
+  );
+  porchBeam.position.set(0, 5.4, 0.68);
+  porchBeam.castShadow = true;
+  envEntradaGroup.add(porchBeam);
+
+  const porchSpot = new THREE.SpotLight(0xfff7ed, 2.5, 14, Math.PI / 3.5, 0.45, 1.8);
+  porchSpot.position.set(1.5, 5.1, 0.9);
+  porchSpot.target.position.set(1.5, 0, 0);
+  envEntradaGroup.add(porchSpot);
+  envEntradaGroup.add(porchSpot.target);
+
+  // Default: studio active
+  envStudioGroup.visible  = true;
+  envCasaGroup.visible    = false;
+  envBardaGroup.visible   = false;
+  envEntradaGroup.visible = false;
 
   // ─── Multi-Layer Plaque Hierarchy (Back → Front) ───────────────────────
   const rootGroup = new THREE.Group();
@@ -2022,12 +2490,13 @@ include '../includes/header.php';
       targetCameraPos.set(cx + 1.15, cy + 0.55, 3.20);
     } else {
       const preset = CAM_PRESETS[currentCamKey] || CAM_PRESETS.front;
+      const offsetX = state.environment === 'entrada' ? 0.65 : 0;
       targetCameraPos.set(
-        preset.pos[0] * camScale,
+        preset.pos[0] * camScale + offsetX,
         preset.pos[1] * camScale,
         preset.pos[2] * camScale
       );
-      targetControlsLook.set(...preset.look);
+      targetControlsLook.set(preset.look[0] + offsetX, preset.look[1], preset.look[2]);
     }
     cameraAnimating = true;
   }
@@ -2037,6 +2506,56 @@ include '../includes/header.php';
       document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       applyCameraPreset(btn.dataset.cam);
+    });
+  });
+
+  // ─── Real-World Environment Switcher (Studio, Casa, Barda, Entrada) ───
+  function setEnvironment(envKey) {
+    state.environment = envKey;
+    envStudioGroup.visible  = (envKey === 'studio');
+    envCasaGroup.visible    = (envKey === 'casa');
+    envBardaGroup.visible   = (envKey === 'barda');
+    envEntradaGroup.visible = (envKey === 'entrada');
+
+    // Adapt directional & ambient lighting per environment
+    if (envKey === 'barda') {
+      keyLight.intensity = 2.4;
+      ambientLight.intensity = 0.55;
+      fillLight.intensity = 0.65;
+    } else if (envKey === 'casa') {
+      keyLight.intensity = 1.6;
+      ambientLight.intensity = 0.35;
+      fillLight.intensity = 0.75;
+    } else if (envKey === 'entrada') {
+      keyLight.intensity = 1.6;
+      ambientLight.intensity = 0.38;
+      fillLight.intensity = 0.75;
+    } else {
+      keyLight.intensity = 1.8;
+      ambientLight.intensity = 0.35;
+      fillLight.intensity = 0.75;
+    }
+
+    // Re-frame camera smoothly if needed
+    if (currentCamKey !== 'mounts') {
+      applyCameraPreset(currentCamKey);
+    }
+
+    document.querySelectorAll('[data-env]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.env === envKey);
+    });
+
+    const hintEl = document.getElementById('env-description-hint');
+    if (hintEl) {
+      hintEl.textContent = (CATALOG.environments && CATALOG.environments[envKey])
+        ? CATALOG.environments[envKey].hint
+        : '';
+    }
+  }
+
+  document.querySelectorAll('[data-env]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setEnvironment(btn.dataset.env);
     });
   });
 
