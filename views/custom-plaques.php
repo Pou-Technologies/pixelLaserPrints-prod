@@ -26,10 +26,16 @@ include '../includes/header.php';
   .plaque-config-page {
     background: radial-gradient(circle at 15% 15%, #1e293b 0%, #0b0f19 60%, #060911 100%);
     min-height: 100vh;
-    padding-top: 100px;
+    padding-top: 180px;
     padding-bottom: 64px;
     color: #f8fafc;
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  @media (max-width: 991.98px) {
+    .plaque-config-page {
+      padding-top: 135px;
+    }
   }
 
   .plaque-badge-pei {
@@ -49,7 +55,7 @@ include '../includes/header.php';
 
   .viewer-sticky-wrap {
     position: sticky;
-    top: 96px;
+    top: 24px;
   }
 
   .viewer-card {
