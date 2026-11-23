@@ -85,6 +85,24 @@ function sendPlaqueNotificationEmail(array $orderInfo): void
     $lines[] = "Email           : {$customerEmail}";
     $lines[] = "Phone           : {$customerPhone}";
     $lines[] = "";
+    $lines[] = "--- FULFILLMENT & DELIVERY ---";
+    $deliveryMethod = ($orderInfo['delivery_method'] ?? 'pickup') === 'shipping' ? 'shipping' : 'pickup';
+    if ($deliveryMethod === 'shipping') {
+        $lines[] = "Method          : Direct Shipping";
+        $lines[] = "Address Line 1  : " . ($orderInfo['shipping_address_line1'] ?? '');
+        if (!empty($orderInfo['shipping_address_line2'])) {
+            $lines[] = "Address Line 2  : " . $orderInfo['shipping_address_line2'];
+        }
+        $lines[] = "City / Prov / PC: " . trim(($orderInfo['shipping_city'] ?? '') . ', ' . ($orderInfo['shipping_province'] ?? '') . ' ' . ($orderInfo['shipping_postal_code'] ?? ''));
+        $lines[] = "Country         : " . ($orderInfo['shipping_country'] ?? 'Canada');
+        if (!empty($orderInfo['shipping_instructions'])) {
+            $lines[] = "Delivery Notes  : " . $orderInfo['shipping_instructions'];
+        }
+    } else {
+        $lines[] = "Method          : Pick up in Store (Free)";
+        $lines[] = "Pickup Location : 180 Belvedere Ave, Charlottetown, PEI, C1A 2Z1, Canada";
+    }
+    $lines[] = "";
     $lines[] = "--- PRICING BREAKDOWN (CAD) ---";
     $lines[] = "Subtotal (CAD)  : $" . number_format((float) ($orderInfo['subtotal_cad'] ?? 0), 2) . " CAD";
     $lines[] = "PEI HST (15%)   : $" . number_format((float) ($orderInfo['hst_cad'] ?? 0), 2) . " CAD";
@@ -117,6 +135,14 @@ if ($action === 'create_order') {
         'standoff_finish'    => trim((string) ($input['standoff_finish'] ?? 'silver')),
         'size'               => trim((string) ($input['size'] ?? 'medium')),
         'payment_method'     => trim((string) ($input['payment_method'] ?? 'helcim')),
+        'delivery_method'        => trim((string) ($input['delivery_method'] ?? 'pickup')),
+        'shipping_address_line1' => trim((string) ($input['shipping_address_line1'] ?? '')),
+        'shipping_address_line2' => trim((string) ($input['shipping_address_line2'] ?? '')),
+        'shipping_city'          => trim((string) ($input['shipping_city'] ?? '')),
+        'shipping_province'      => trim((string) ($input['shipping_province'] ?? '')),
+        'shipping_postal_code'   => trim((string) ($input['shipping_postal_code'] ?? '')),
+        'shipping_country'       => trim((string) ($input['shipping_country'] ?? 'Canada')),
+        'shipping_instructions'  => trim((string) ($input['shipping_instructions'] ?? '')),
     ];
 
     if (empty($payload['customer_name']) || empty($payload['customer_email']) || empty($payload['primary_text'])) {
@@ -124,6 +150,15 @@ if ($action === 'create_order') {
         echo json_encode([
             'success' => false,
             'message' => 'Please enter your primary plaque text, full name, and email address.',
+        ]);
+        exit;
+    }
+
+    if ($payload['delivery_method'] === 'shipping' && (empty($payload['shipping_address_line1']) || empty($payload['shipping_city']) || empty($payload['shipping_province']) || empty($payload['shipping_postal_code']))) {
+        http_response_code(422);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Please provide your shipping street address, city, province, and postal code.',
         ]);
         exit;
     }
@@ -183,6 +218,14 @@ if ($action === 'confirm_helcim') {
         'acrylic_finish'     => trim((string) ($input['acrylic_finish'] ?? '')),
         'sintra_color'       => trim((string) ($input['sintra_color'] ?? '')),
         'standoff_finish'    => trim((string) ($input['standoff_finish'] ?? '')),
+        'delivery_method'    => trim((string) ($input['delivery_method'] ?? 'pickup')),
+        'shipping_address_line1' => trim((string) ($input['shipping_address_line1'] ?? '')),
+        'shipping_address_line2' => trim((string) ($input['shipping_address_line2'] ?? '')),
+        'shipping_city'      => trim((string) ($input['shipping_city'] ?? '')),
+        'shipping_province'  => trim((string) ($input['shipping_province'] ?? '')),
+        'shipping_postal_code' => trim((string) ($input['shipping_postal_code'] ?? '')),
+        'shipping_country'   => trim((string) ($input['shipping_country'] ?? 'Canada')),
+        'shipping_instructions' => trim((string) ($input['shipping_instructions'] ?? '')),
         'size'               => trim((string) ($input['size'] ?? '')),
     ];
 

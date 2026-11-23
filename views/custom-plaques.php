@@ -344,6 +344,33 @@ include '../includes/header.php';
     gap: 10px;
   }
 
+  .delivery-toggle-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  @media (max-width: 575.98px) {
+    .delivery-toggle-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .shipping-fields-panel {
+    animation: fadeInSlide 0.25s ease-out;
+  }
+
+  @keyframes fadeInSlide {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .font-preview-sample {
     font-size: 1.55rem;
     line-height: 1.1;
@@ -848,7 +875,7 @@ include '../includes/header.php';
                 <label for="customerName" class="form-label small text-light mb-1">Full Name <span class="text-danger">*</span></label>
                 <input type="text" id="customerName" class="form-control config-input" placeholder="Jane Doe" required>
               </div>
-              <div class="row g-2">
+              <div class="row g-2 mb-3">
                 <div class="col-sm-7">
                   <label for="customerEmail" class="form-label small text-light mb-1">Email Address <span class="text-danger">*</span></label>
                   <input type="email" id="customerEmail" class="form-control config-input" placeholder="jane@example.com" required>
@@ -856,6 +883,99 @@ include '../includes/header.php';
                 <div class="col-sm-5">
                   <label for="customerPhone" class="form-label small text-light mb-1">Phone</label>
                   <input type="tel" id="customerPhone" class="form-control config-input" placeholder="902-555-0199">
+                </div>
+              </div>
+
+              <!-- Fulfillment Method: Store Pickup vs Shipping -->
+              <div class="pt-2 border-top border-secondary border-opacity-25">
+                <label class="form-label small text-light fw-bold mb-2 d-flex justify-content-between align-items-center">
+                  <span>Fulfillment / Delivery Method</span>
+                  <span class="text-info small fw-normal"><i class="bi bi-geo-alt me-1"></i> Charlottetown, PEI</span>
+                </label>
+
+                <div class="delivery-toggle-grid mb-3">
+                  <div class="choice-tile active" data-delivery="pickup" id="tile-delivery-pickup">
+                    <div class="d-flex align-items-center justify-content-between mb-1">
+                      <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-shop-window text-info fs-5"></i>
+                        <span class="fw-bold small">Pick Up in Store</span>
+                      </div>
+                      <span class="badge bg-success bg-opacity-25 text-success small">Free</span>
+                    </div>
+                    <div class="text-light opacity-75" style="font-size: 0.72rem; line-height: 1.35;">
+                      <strong>180 Belvedere Ave</strong>, Charlottetown, PEI, C1A 2Z1, Canada
+                    </div>
+                    <div class="text-secondary mt-1" style="font-size: 0.68rem;">Ready for pickup once fabricated</div>
+                  </div>
+
+                  <div class="choice-tile" data-delivery="shipping" id="tile-delivery-shipping">
+                    <div class="d-flex align-items-center justify-content-between mb-1">
+                      <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-truck text-info fs-5"></i>
+                        <span class="fw-bold small">Direct Shipping</span>
+                      </div>
+                      <span class="badge bg-primary bg-opacity-25 text-info small">To Address</span>
+                    </div>
+                    <div class="text-light opacity-75" style="font-size: 0.72rem;">
+                      Delivered directly to your home or office address
+                    </div>
+                    <div class="text-secondary mt-1" style="font-size: 0.68rem;">Enter destination address below</div>
+                  </div>
+                </div>
+
+                <!-- Collapsible Shipping Address Form -->
+                <div id="shippingFieldsContainer" class="shipping-fields-panel d-none">
+                  <div class="p-3 rounded-3 mb-2" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.25);">
+                    <div class="text-info small fw-bold mb-2 d-flex align-items-center" style="font-size: 0.75rem;">
+                      <i class="bi bi-pin-map-fill me-1"></i> Shipping Destination Address
+                    </div>
+                    <div class="mb-2">
+                      <label for="shippingAddress1" class="form-label small text-light mb-1">Street Address <span class="text-danger">*</span></label>
+                      <input type="text" id="shippingAddress1" class="form-control config-input" placeholder="e.g. 428 Queen St">
+                    </div>
+                    <div class="mb-2">
+                      <label for="shippingAddress2" class="form-label small text-light mb-1">Apt, Suite, Unit <span class="text-secondary fw-normal">(Optional)</span></label>
+                      <input type="text" id="shippingAddress2" class="form-control config-input" placeholder="e.g. Suite 200 or Apt 4B">
+                    </div>
+                    <div class="row g-2 mb-2">
+                      <div class="col-sm-6">
+                        <label for="shippingCity" class="form-label small text-light mb-1">City <span class="text-danger">*</span></label>
+                        <input type="text" id="shippingCity" class="form-control config-input" placeholder="e.g. Charlottetown">
+                      </div>
+                      <div class="col-sm-3 col-6">
+                        <label for="shippingProvince" class="form-label small text-light mb-1">Province <span class="text-danger">*</span></label>
+                        <select id="shippingProvince" class="form-select config-input">
+                          <option value="PE" selected>PE</option>
+                          <option value="NS">NS</option>
+                          <option value="NB">NB</option>
+                          <option value="ON">ON</option>
+                          <option value="QC">QC</option>
+                          <option value="BC">BC</option>
+                          <option value="AB">AB</option>
+                          <option value="SK">SK</option>
+                          <option value="MB">MB</option>
+                          <option value="NL">NL</option>
+                          <option value="YT">YT</option>
+                          <option value="NT">NT</option>
+                          <option value="NU">NU</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-3 col-6">
+                        <label for="shippingPostal" class="form-label small text-light mb-1">Postal Code <span class="text-danger">*</span></label>
+                        <input type="text" id="shippingPostal" class="form-control config-input" placeholder="e.g. C1A 2Z1">
+                      </div>
+                    </div>
+                    <div class="row g-2">
+                      <div class="col-sm-5">
+                        <label for="shippingCountry" class="form-label small text-light mb-1">Country</label>
+                        <input type="text" id="shippingCountry" class="form-control config-input" value="Canada" readonly>
+                      </div>
+                      <div class="col-sm-7">
+                        <label for="shippingNotes" class="form-label small text-light mb-1">Delivery Notes <span class="text-secondary fw-normal">(Optional)</span></label>
+                        <input type="text" id="shippingNotes" class="form-control config-input" placeholder="e.g. Leave by side door">
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -884,6 +1004,10 @@ include '../includes/header.php';
               <div class="d-flex justify-content-between small mb-1 gap-2">
                 <span class="text-secondary">Standoffs:</span>
                 <span class="text-light fw-semibold text-end" id="review-standoffs">2 Lateral Silver Standoffs</span>
+              </div>
+              <div class="d-flex justify-content-between small mb-1 gap-2">
+                <span class="text-secondary">Fulfillment:</span>
+                <span class="text-light fw-semibold text-end" id="review-fulfillment">Pick Up in Store (Charlottetown, PEI)</span>
               </div>
               <div class="d-flex justify-content-between small mb-1 gap-2">
                 <span class="text-secondary">Size:</span>
@@ -931,6 +1055,7 @@ include '../includes/header.php';
 
   // ─── Reactive Configurator State ───────────────────────────────────────
   const state = {
+    delivery_method: 'pickup',
     environment: 'studio',
     plaque_type: 'house',
     construction_style: 'raised_acrylic',
@@ -2696,6 +2821,21 @@ include '../includes/header.php';
     if (reviewStandoffs) {
       reviewStandoffs.textContent = `2 Lateral ${standoffSpec.name}`;
     }
+    const reviewFulfillment = document.getElementById('review-fulfillment');
+    if (reviewFulfillment) {
+      if (state.delivery_method === 'shipping') {
+        const city = (document.getElementById('shippingCity')?.value || '').trim();
+        const prov = (document.getElementById('shippingProvince')?.value || '').trim();
+        const postal = (document.getElementById('shippingPostal')?.value || '').trim();
+        if (city && prov) {
+          reviewFulfillment.textContent = `Direct Shipping (${city}, ${prov}${postal ? ' ' + postal : ''})`;
+        } else {
+          reviewFulfillment.textContent = 'Direct Shipping (Address below)';
+        }
+      } else {
+        reviewFulfillment.textContent = 'Pick Up in Store (Charlottetown, PEI)';
+      }
+    }
     document.getElementById('review-size').textContent =
       isCncCut && state.cnc_surcharge_cad > 0
         ? `${sizeSpec.shortLabel} (+$${state.cnc_surcharge_cad} CNC)`
@@ -2854,6 +2994,29 @@ include '../includes/header.php';
     dispatchPlaqueUpdate();
   });
 
+  // Delivery / Fulfillment Option Selection (pickup vs shipping)
+  document.querySelectorAll('[data-delivery]').forEach(tile => {
+    tile.addEventListener('click', () => {
+      document.querySelectorAll('[data-delivery]').forEach(t => t.classList.remove('active'));
+      tile.classList.add('active');
+      state.delivery_method = tile.dataset.delivery;
+      const shipPanel = document.getElementById('shippingFieldsContainer');
+      if (shipPanel) {
+        shipPanel.classList.toggle('d-none', state.delivery_method !== 'shipping');
+      }
+      updatePricingAndSummaryUI();
+    });
+  });
+
+  // Live update review summary on shipping input changes
+  ['shippingAddress1', 'shippingAddress2', 'shippingCity', 'shippingProvince', 'shippingPostal'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', updatePricingAndSummaryUI);
+      el.addEventListener('change', updatePricingAndSummaryUI);
+    }
+  });
+
   // ─── Checkout & HelcimPay.js / Interac e-Transfer Integration ──────────
   const apiEndpoint = "<?php echo BASE_URL; ?>/includes/plaque_api.php";
   const alertBox = document.getElementById('checkoutAlertBox');
@@ -2894,11 +3057,38 @@ include '../includes/header.php';
       return null;
     }
 
+    const deliveryMethod = state.delivery_method || 'pickup';
+    const shipAddr1 = (document.getElementById('shippingAddress1')?.value || '').trim();
+    const shipAddr2 = (document.getElementById('shippingAddress2')?.value || '').trim();
+    const shipCity = (document.getElementById('shippingCity')?.value || '').trim();
+    const shipProv = (document.getElementById('shippingProvince')?.value || '').trim();
+    const shipPostal = (document.getElementById('shippingPostal')?.value || '').trim();
+    const shipCountry = (document.getElementById('shippingCountry')?.value || 'Canada').trim();
+    const shipNotes = (document.getElementById('shippingNotes')?.value || '').trim();
+
+    if (deliveryMethod === 'shipping') {
+      if (!shipAddr1 || !shipCity || !shipProv || !shipPostal) {
+        showAlert('warning', '<i class="bi bi-exclamation-triangle-fill me-1"></i> Please complete your shipping street address, city, province, and postal code.');
+        if (!shipAddr1) document.getElementById('shippingAddress1')?.focus();
+        else if (!shipCity) document.getElementById('shippingCity')?.focus();
+        else if (!shipPostal) document.getElementById('shippingPostal')?.focus();
+        return null;
+      }
+    }
+
     return {
       action: 'create_order',
       customer_name: name,
       customer_email: email,
       customer_phone: phone,
+      delivery_method: deliveryMethod,
+      shipping_address_line1: shipAddr1,
+      shipping_address_line2: shipAddr2,
+      shipping_city: shipCity,
+      shipping_province: shipProv,
+      shipping_postal_code: shipPostal,
+      shipping_country: shipCountry,
+      shipping_instructions: shipNotes,
       plaque_type: state.plaque_type,
       construction_style: state.construction_style,
       font_style: state.font_style,
@@ -2947,6 +3137,9 @@ include '../includes/header.php';
       const sintraFallback = (CATALOG.sintra_colors[payload.sintra_color] || {}).name || payload.sintra_color;
       const standoffFallback = (CATALOG.standoff_finishes[payload.standoff_finish] || {}).name || payload.standoff_finish;
       const sizeFallback = (CATALOG.sizes[payload.size] || {}).label || payload.size;
+      const deliveryFallback = payload.delivery_method === 'shipping'
+        ? `Direct Shipping to ${payload.shipping_address_line1}, ${payload.shipping_city}, ${payload.shipping_province} ${payload.shipping_postal_code}, Canada`
+        : 'Pick up in Store — 180 Belvedere Ave, Charlottetown, PEI, C1A 2Z1, Canada';
 
       activeHelcimOrder = {
         ...payload,
@@ -2955,6 +3148,8 @@ include '../includes/header.php';
         subtotal_cad: result.data.subtotal_cad,
         hst_cad: result.data.hst_cad,
         total_cad: result.data.total_cad,
+        delivery_method: payload.delivery_method,
+        delivery_summary: result.data.delivery_summary || deliveryFallback,
         construction_style_label: result.data.construction_style_label || constructionFallback,
         font_style_label: result.data.font_style_label || fontFallback,
         acm_finish_label: result.data.acm_finish_label || acmFallback,
@@ -3048,6 +3243,7 @@ include '../includes/header.php';
             <div><strong>3D Digits (Acrylic):</strong> ${acrylicLabel}</div>
             ${activeHelcimOrder.construction_style === 'cnc_cut_acm' ? `<div><strong>Sintra Backing (6mm):</strong> ${sintraLabel}</div>` : ''}
             <div><strong>Standoffs:</strong> 2 Lateral ${standoffLabel}</div>
+            <div><strong>Fulfillment:</strong> ${activeHelcimOrder.delivery_summary}</div>
             <div><strong>Size:</strong> ${activeHelcimOrder.size_label}</div>
             <div><strong>Total Paid:</strong> $${Number(activeHelcimOrder.total_cad).toFixed(2)} CAD (incl. 15% HST)</div>
           </div>
@@ -3098,6 +3294,9 @@ include '../includes/header.php';
       const sintraFallback = (CATALOG.sintra_colors[payload.sintra_color] || {}).name || payload.sintra_color;
       const standoffFallback = (CATALOG.standoff_finishes[payload.standoff_finish] || {}).name || payload.standoff_finish;
       const sizeFallback = (CATALOG.sizes[payload.size] || {}).label || payload.size;
+      const deliveryFallback = payload.delivery_method === 'shipping'
+        ? `Direct Shipping to ${payload.shipping_address_line1}, ${payload.shipping_city}, ${payload.shipping_province} ${payload.shipping_postal_code}, Canada`
+        : 'Pick up in Store — 180 Belvedere Ave, Charlottetown, PEI, C1A 2Z1, Canada';
 
       confirmPanel.className = 'confirmation-box bg-warning bg-opacity-10 border border-warning text-light';
       confirmPanel.innerHTML = `
@@ -3119,6 +3318,7 @@ include '../includes/header.php';
           <div class="mb-1"><span class="text-secondary">3D Digits (Acrylic):</span> <strong class="text-light">${d.acrylic_finish_label || acrylicFallback}</strong></div>
           ${payload.construction_style === 'cnc_cut_acm' ? `<div class="mb-1"><span class="text-secondary">Sintra Backing (6mm):</span> <strong class="text-light">${d.sintra_color_label || sintraFallback}</strong></div>` : ''}
           <div class="mb-1"><span class="text-secondary">Standoffs:</span> <strong class="text-light">2 Lateral ${d.standoff_finish_label || standoffFallback}</strong></div>
+          <div class="mb-1"><span class="text-secondary">Fulfillment:</span> <strong class="text-light">${d.delivery_summary || deliveryFallback}</strong></div>
           <div><span class="text-secondary">Size:</span> <strong class="text-light">${d.size_label || sizeFallback}</strong></div>
         </div>
         <div class="small text-secondary">
