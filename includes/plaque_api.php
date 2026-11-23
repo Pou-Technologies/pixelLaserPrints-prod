@@ -106,14 +106,52 @@ function sendPlaqueNotificationEmail(array $orderInfo): void
     $lines[] = "Total (CAD)     : $" . number_format((float) ($orderInfo['total_cad'] ?? 0), 2) . " CAD";
     $lines[] = "==========================================================";
 
+    $previewImageData = null;
+    $rawImage = $orderInfo['preview_image'] ?? null;
+    if ($rawImage && is_string($rawImage)) {
+        if (str_contains($rawImage, ';base64,')) {
+            $parts = explode(';base64,', $rawImage);
+            $previewImageData = base64_decode(end($parts));
+        } else {
+            $decoded = base64_decode($rawImage, true);
+            if ($decoded !== false) {
+                $previewImageData = $decoded;
+            }
+        }
+    }
+
+    $cleanOrderNum = preg_replace('/[^A-Za-z0-9_-]/', '', (string)$orderNum) ?: 'Order';
+    $attachmentFilename = "3D-Plaque-{$cleanOrderNum}-Design.jpg";
+
     $headers = "From: Pixel Laser Prints <sales@pixellaserprints.ca>\r\n";
     if (filter_var($customerEmail, FILTER_VALIDATE_EMAIL)) {
         $headers .= "Reply-To: {$customerEmail}\r\n";
     }
     $headers .= "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-    @mail($to, $subject, implode("\r\n", $lines), $headers);
+    $textContent = implode("\r\n", $lines);
+
+    if ($previewImageData) {
+        $boundary = '==PLP_Boundary_' . md5(uniqid((string)mt_rand(), true));
+        $headers .= "Content-Type: multipart/mixed; boundary=\"{$boundary}\"\r\n";
+
+        $body = "--{$boundary}\r\n";
+        $body .= "Content-Type: text/plain; charset=UTF-8\r\n";
+        $body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+        $body .= $textContent . "\r\n\r\n";
+
+        $body .= "--{$boundary}\r\n";
+        $body .= "Content-Type: image/jpeg; name=\"{$attachmentFilename}\"\r\n";
+        $body .= "Content-Disposition: attachment; filename=\"{$attachmentFilename}\"\r\n";
+        $body .= "Content-Transfer-Encoding: base64\r\n\r\n";
+        $body .= chunk_split(base64_encode($previewImageData)) . "\r\n";
+        $body .= "--{$boundary}--";
+
+        @mail($to, $subject, $body, $headers);
+    } else {
+        $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+        @mail($to, $subject, $textContent, $headers);
+    }
 }
 
 if ($action === 'create_order') {
@@ -140,6 +178,7 @@ if ($action === 'create_order') {
         'shipping_postal_code'   => trim((string) ($input['shipping_postal_code'] ?? '')),
         'shipping_country'       => trim((string) ($input['shipping_country'] ?? 'Canada')),
         'shipping_instructions'  => trim((string) ($input['shipping_instructions'] ?? '')),
+        'preview_image'          => !empty($input['preview_image']) ? (string) $input['preview_image'] : null,
     ];
 
     if (empty($payload['customer_name']) || empty($payload['customer_email']) || empty($payload['primary_text'])) {
@@ -250,6 +289,7 @@ if ($action === 'confirm_helcim') {
         'shipping_country'   => trim((string) ($input['shipping_country'] ?? 'Canada')),
         'shipping_instructions' => trim((string) ($input['shipping_instructions'] ?? '')),
         'size'               => trim((string) ($input['size'] ?? '')),
+        'preview_image'      => !empty($input['preview_image']) ? (string) $input['preview_image'] : null,
     ];
 
     if ($payload['order_id'] <= 0 || empty($payload['order_number'])) {

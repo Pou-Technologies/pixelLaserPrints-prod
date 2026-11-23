@@ -1781,7 +1781,7 @@ include '../includes/header.php';
   const camera = new THREE.PerspectiveCamera(36, container.clientWidth / container.clientHeight, 0.1, 100);
   camera.position.set(0, 0.05, 8.6);
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
@@ -3615,6 +3615,36 @@ include '../includes/header.php';
     alertBox.classList.add('d-none');
   }
 
+  function capturePlaqueSnapshot() {
+    try {
+      if (renderer && scene && camera) {
+        renderer.render(scene, camera);
+        const w = renderer.domElement.width;
+        const h = renderer.domElement.height;
+        if (w > 0 && h > 0) {
+          const exportCanvas = document.createElement('canvas');
+          exportCanvas.width = Math.min(w, 1200);
+          exportCanvas.height = Math.round(exportCanvas.width * (h / w));
+          const ctx = exportCanvas.getContext('2d');
+          if (ctx) {
+            const grad = ctx.createLinearGradient(0, 0, 0, exportCanvas.height);
+            grad.addColorStop(0, '#151922');
+            grad.addColorStop(0.5, '#0e1219');
+            grad.addColorStop(1, '#090b10');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+            ctx.drawImage(renderer.domElement, 0, 0, exportCanvas.width, exportCanvas.height);
+            return exportCanvas.toDataURL('image/jpeg', 0.88);
+          }
+        }
+        return renderer.domElement.toDataURL('image/jpeg', 0.88);
+      }
+    } catch (e) {
+      console.warn('Could not capture plaque 3D snapshot:', e);
+    }
+    return null;
+  }
+
   function getCustomerPayload(paymentMethod) {
     const name = document.getElementById('customerName').value.trim();
     const email = document.getElementById('customerEmail').value.trim();
@@ -3656,6 +3686,8 @@ include '../includes/header.php';
       }
     }
 
+    const snapshotImage = capturePlaqueSnapshot();
+
     return {
       action: 'create_order',
       customer_name: name,
@@ -3669,6 +3701,7 @@ include '../includes/header.php';
       shipping_postal_code: shipPostal,
       shipping_country: shipCountry,
       shipping_instructions: shipNotes,
+      preview_image: snapshotImage,
       plaque_type: state.plaque_type,
       construction_style: state.construction_style,
       font_style: state.font_style,
@@ -3964,6 +3997,7 @@ include '../includes/header.php';
           body: JSON.stringify({
             action: 'confirm_helcim',
             ...activeHelcimOrder,
+            preview_image: activeHelcimOrder?.preview_image || capturePlaqueSnapshot(),
             transaction_data: typeof msg === 'object' ? msg : { raw: msg }
           })
         });
