@@ -174,6 +174,13 @@ class PortalApiClient {
     }
 
     /**
+     * POST /contact (Sends message to Client Portal Inbox / Emails)
+     */
+    public static function sendContactMessage($messageData) {
+        return self::request('POST', '/contact', $messageData);
+    }
+
+    /**
      * POST /orders/create
      */
     public static function createOrder($orderData) {

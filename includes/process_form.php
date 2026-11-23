@@ -55,34 +55,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // ------------------------------------------------------------------
-    // Consumir API del Client Portal (POST /api/v1/orders/create)
+    // Consumir API del Client Portal (POST /api/v1/contact -> Inbox)
     // ------------------------------------------------------------------
     $fullName = trim($firstName . ' ' . $lastName);
-    $orderPayload = [
-        'customer_name'  => !empty($fullName) ? $fullName : 'Prospective Client',
-        'customer_email' => $email,
-        'customer_phone' => $phone,
+    $subject = !empty($service) ? "Quote Request: $service" : "Contact Inquiry";
+    if ($service === "Quote" && !empty($projectID)) {
+        $subject .= " (Ref: $projectID)";
+    }
+
+    $contactPayload = [
+        'name'           => !empty($fullName) ? $fullName : 'Prospective Client',
         'first_name'     => $firstName,
         'last_name'      => $lastName,
-        'name'           => $fullName,
         'email'          => $email,
         'phone'          => $phone,
+        'subject'        => $subject,
         'service'        => $service,
         'reference_id'   => $projectID,
         'project_id'     => $projectID,
         'message'        => $message,
-        'total'          => 0.00,
-        'items'          => [
-            [
-                'name'     => !empty($service) ? "Service Request: $service" : 'Custom Order Request',
-                'quantity' => 1,
-                'price'    => 0.00
-            ]
-        ],
         'source'         => 'Pixel Laser Prints Web'
     ];
 
-    $apiResult = PortalApiClient::createOrder($orderPayload);
+    $apiResult = PortalApiClient::sendContactMessage($contactPayload);
 
     // ------------------------------------------------------------------
     // Procesar el envío de correo como respaldo / notificación interna
