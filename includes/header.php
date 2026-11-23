@@ -91,7 +91,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="<?php echo BASE_URL; ?>/style/css/css.css?v=7">
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>/style/css/css.css?v=8">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 
@@ -113,9 +113,15 @@
               href="<?php echo BASE_URL; ?>/views/services.php">Services</a></li>
            <li class="nav-item"><a class="nav-link text-white"
               href="<?php echo BASE_URL; ?>/views/catalog.php">Catalog</a></li>   
-          <li class="nav-item"><a class="nav-link text-white"
-              href="<?php echo BASE_URL; ?>/views/contact.php">Contact</a></li>
-          <li class="nav-item"><a class="nav-link text-white" href="<?php echo BASE_URL; ?>/views/about.php">About Us</a></li>
+          <li class="nav-item dropdown site-nav-dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="<?php echo BASE_URL; ?>/views/about.php" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              About
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark site-dropdown-menu" aria-labelledby="aboutDropdown">
+              <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>/views/about.php">About Us</a></li>
+              <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>/views/contact.php">Contact</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
 

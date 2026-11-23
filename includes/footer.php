@@ -305,6 +305,16 @@
     });
   }
 
+  // Permitir clic en el enlace principal About en Desktop
+  const aboutDropdown = document.getElementById('aboutDropdown');
+  if (aboutDropdown) {
+    aboutDropdown.addEventListener('click', function (e) {
+      if (window.innerWidth >= 992) {
+        window.location.href = this.getAttribute('href');
+      }
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     showTestBanner();
     initCartCount();
