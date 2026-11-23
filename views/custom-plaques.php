@@ -10,7 +10,7 @@ include '../includes/header.php';
 <!-- Architectural Fonts for Live Selector Preview & 3D Extrusion -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Cinzel:wght@700&family=Jost:wght@300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
 <!-- Three.js ES Module Import Map -->
 <script type="importmap">
@@ -614,18 +614,6 @@ include '../includes/header.php';
                   <div class="fw-bold small">Modern Sans</div>
                   <div class="text-secondary" style="font-size: 0.71rem;">Bold geometric architectural</div>
                 </div>
-
-                <div class="choice-tile" data-font-style="minimal_thin">
-                  <div class="font-preview-sample" style="font-family: 'Jost', sans-serif; font-weight: 300; letter-spacing: 2px;">428</div>
-                  <div class="fw-bold small">Minimalist Thin</div>
-                  <div class="text-secondary" style="font-size: 0.71rem;">Mid-century Futura style</div>
-                </div>
-
-                <div class="choice-tile" data-font-style="classic_serif">
-                  <div class="font-preview-sample" style="font-family: 'Cinzel', serif; font-weight: 700;">428</div>
-                  <div class="fw-bold small">Classic Serif</div>
-                  <div class="text-secondary" style="font-size: 0.71rem;">Heritage architectural serif</div>
-                </div>
               </div>
             </div>
 
@@ -926,26 +914,6 @@ include '../includes/header.php';
         bevelScale: 0.013,
         maxPrimaryBevel: 0.008,
         maxSubBevel: 0.004
-      },
-      minimal_thin: {
-        name: 'Minimalist Mid-Century',
-        shortName: 'Minimalist Thin',
-        ttfUrl: 'https://fonts.gstatic.com/s/jost/v20/92zPtBhPNqw79Ij1E865zBUv7mz9JQVG.ttf',
-        fallbackJsonUrl: 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/fonts/helvetiker_regular.typeface.json',
-        useProceduralDigits: false,
-        bevelScale: 0.007,
-        maxPrimaryBevel: 0.004,
-        maxSubBevel: 0.0025
-      },
-      classic_serif: {
-        name: 'Classic Heritage Serif',
-        shortName: 'Classic Serif',
-        ttfUrl: 'https://fonts.gstatic.com/s/cinzel/v26/8vIU7ww63mVu7gtR-kwKxNvkNOjw-jHgTYo.ttf',
-        fallbackJsonUrl: 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/fonts/gentilis_bold.typeface.json',
-        useProceduralDigits: false,
-        bevelScale: 0.008,
-        maxPrimaryBevel: 0.005,
-        maxSubBevel: 0.0025
       }
     },
     sizes: {
@@ -1478,7 +1446,7 @@ include '../includes/header.php';
     const fontSpec = CATALOG.font_styles[fontStyleKey] || CATALOG.font_styles.athletic_block;
     const useProceduralDigits = Boolean(fontSpec.useProceduralDigits);
     const chars = Array.from(text);
-    const extraSpacing = fontSize * (fontStyleKey === 'minimal_thin' ? 0.065 : 0.055);
+    const extraSpacing = fontSize * 0.055;
     const resolution = activeFont?.data?.resolution || 1000;
     const glyphs = activeFont?.data?.glyphs || {};
 
@@ -2279,7 +2247,7 @@ include '../includes/header.php';
     dispatchPlaqueUpdate();
   });
 
-  // Font Style Switch (athletic_block, modern_sans, minimal_thin, classic_serif)
+  // Font Style Switch (athletic_block, modern_sans)
   document.querySelectorAll('[data-font-style]').forEach(tile => {
     tile.addEventListener('click', () => {
       document.querySelectorAll('[data-font-style]').forEach(t => t.classList.remove('active'));
