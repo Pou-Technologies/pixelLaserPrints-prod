@@ -127,11 +127,11 @@ class PortalApiClient {
     }
 
     /**
-     * GET /content/hero (cached for 5 minutes to avoid rate-limiting)
+     * GET request with short file cache + stale fallback on error/429 to avoid burst API calls.
      */
-    public static function getHeroContent($ttl = 300) {
-        $cacheFile = sys_get_temp_dir() . '/plp_hero_cache.json';
-        
+    private static function requestCached($endpoint, $cacheName, $ttl = 300) {
+        $cacheFile = sys_get_temp_dir() . '/' . $cacheName;
+
         if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < $ttl)) {
             $cached = @json_decode(file_get_contents($cacheFile), true);
             if (!empty($cached['success'])) {
@@ -139,11 +139,11 @@ class PortalApiClient {
             }
         }
 
-        $res = self::request('GET', '/content/hero');
+        $res = self::request('GET', $endpoint);
         if (!empty($res['success'])) {
             @file_put_contents($cacheFile, json_encode($res));
         } elseif (file_exists($cacheFile)) {
-            // If live request fails, return stale cache if available
+            // If live request fails or hits 429, return stale cache if available
             $cached = @json_decode(file_get_contents($cacheFile), true);
             if (!empty($cached)) {
                 return $cached;
@@ -154,17 +154,24 @@ class PortalApiClient {
     }
 
     /**
-     * GET /blog/posts
+     * GET /content/hero (cached for 5 minutes to avoid rate-limiting)
      */
-    public static function getBlogPosts() {
-        return self::request('GET', '/blog/posts');
+    public static function getHeroContent($ttl = 300) {
+        return self::requestCached('/content/hero', 'plp_hero_cache.json', $ttl);
     }
 
     /**
-     * GET /blog/posts/{slug}
+     * GET /blog/posts (cached for 5 minutes to avoid rate-limiting)
      */
-    public static function getBlogPostBySlug($slug) {
-        return self::request('GET', '/blog/posts/' . urlencode($slug));
+    public static function getBlogPosts($ttl = 300) {
+        return self::requestCached('/blog/posts', 'plp_blog_posts_cache.json', $ttl);
+    }
+
+    /**
+     * GET /blog/posts/{slug} (cached for 5 minutes to avoid rate-limiting)
+     */
+    public static function getBlogPostBySlug($slug, $ttl = 300) {
+        return self::requestCached('/blog/posts/' . urlencode($slug), 'plp_blog_post_' . md5((string) $slug) . '.json', $ttl);
     }
 
     public static function subscribeNewsletter($email) {
