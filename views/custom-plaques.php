@@ -750,10 +750,6 @@ include '../includes/header.php';
     <!-- Header Bar -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
       <div>
-        <div class="plaque-badge-pei mb-2">
-          <i class="bi bi-geo-alt-fill text-danger"></i>
-          <span>Crafted in Charlottetown, PEI &bull; Canada</span>
-        </div>
         <h1 class="fw-bold mb-1" style="font-size: clamp(1.6rem, 2.8vw, 2.35rem);">
           3D Architectural Plaque &amp; Signage Studio
         </h1>
@@ -1430,6 +1426,14 @@ include '../includes/header.php';
             </button>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Bottom Studio Footer / Origin Badge -->
+    <div class="d-flex justify-content-center align-items-center mt-4 pt-3 border-top border-secondary border-opacity-25 text-center">
+      <div class="plaque-badge-pei">
+        <i class="bi bi-geo-alt-fill text-danger"></i>
+        <span>Made in PEI Canada</span>
       </div>
     </div>
   </div>
