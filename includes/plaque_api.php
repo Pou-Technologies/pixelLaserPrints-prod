@@ -57,14 +57,20 @@ function sendPlaqueNotificationEmail(array $orderInfo): void
         $lines[] = "Helcim Tx ID    : " . $orderInfo['transaction_id'];
     }
 
+    $backingDesc = ($orderInfo['construction_style'] ?? '') === 'cnc_cut_acm'
+        ? 'Black Sintra PVC + CNC Cutout ACM Front + 4 Corner Standoffs'
+        : 'Solid ACM Plate + Surface-Mounted Raised Acrylic + 4 Corner Standoffs';
+
     $lines[] = "";
     $lines[] = "--- 3D PLAQUE SPECIFICATIONS ---";
     $lines[] = "Plaque Type         : " . ucfirst((string) ($orderInfo['plaque_type'] ?? 'house'));
+    $lines[] = "Construction Style  : " . ($orderInfo['construction_style_label'] ?? $orderInfo['construction_style'] ?? 'Raised 3D Acrylic');
+    $lines[] = "Typography / Font   : " . ($orderInfo['font_style_label'] ?? $orderInfo['font_style'] ?? 'Athletic Octagonal Block');
     $lines[] = "Primary 3D Text     : " . ($orderInfo['primary_text'] ?? '');
     $lines[] = "Subtitle Text       : " . (!empty($orderInfo['subtitle_text']) ? $orderInfo['subtitle_text'] : 'None');
     $lines[] = "Front Plate (ACM)   : " . ($orderInfo['acm_finish_label'] ?? $orderInfo['acm_finish'] ?? '');
     $lines[] = "3D Digits (Acrylic) : " . ($orderInfo['acrylic_finish_label'] ?? $orderInfo['acrylic_finish'] ?? '');
-    $lines[] = "Backing & Hardware  : Black Sintra PVC + 4 Corner Standoffs";
+    $lines[] = "Backing & Hardware  : {$backingDesc}";
     $lines[] = "Size                : " . ($orderInfo['size_label'] ?? $orderInfo['size'] ?? '');
     $lines[] = "";
     $lines[] = "--- CUSTOMER DETAILS ---";
@@ -92,14 +98,16 @@ if ($action === 'create_order') {
     $payload = [
         'customer_name'  => trim((string) ($input['customer_name'] ?? '')),
         'customer_email' => trim((string) ($input['customer_email'] ?? '')),
-        'customer_phone' => trim((string) ($input['customer_phone'] ?? '')),
-        'plaque_type'    => trim((string) ($input['plaque_type'] ?? 'house')),
-        'primary_text'   => trim((string) ($input['primary_text'] ?? '')),
-        'subtitle_text'  => trim((string) ($input['subtitle_text'] ?? '')),
-        'acm_finish'     => trim((string) ($input['acm_finish'] ?? 'matte_black')),
-        'acrylic_finish' => trim((string) ($input['acrylic_finish'] ?? 'mirror_gold')),
-        'size'           => trim((string) ($input['size'] ?? 'medium')),
-        'payment_method' => trim((string) ($input['payment_method'] ?? 'helcim')),
+        'customer_phone'     => trim((string) ($input['customer_phone'] ?? '')),
+        'plaque_type'        => trim((string) ($input['plaque_type'] ?? 'house')),
+        'construction_style' => trim((string) ($input['construction_style'] ?? 'raised_acrylic')),
+        'font_style'         => trim((string) ($input['font_style'] ?? 'athletic_block')),
+        'primary_text'       => trim((string) ($input['primary_text'] ?? '')),
+        'subtitle_text'      => trim((string) ($input['subtitle_text'] ?? '')),
+        'acm_finish'         => trim((string) ($input['acm_finish'] ?? 'matte_black')),
+        'acrylic_finish'     => trim((string) ($input['acrylic_finish'] ?? 'mirror_gold')),
+        'size'               => trim((string) ($input['size'] ?? 'medium')),
+        'payment_method'     => trim((string) ($input['payment_method'] ?? 'helcim')),
     ];
 
     if (empty($payload['customer_name']) || empty($payload['customer_email']) || empty($payload['primary_text'])) {
@@ -156,13 +164,15 @@ if ($action === 'confirm_helcim') {
     $payload = [
         'order_id'         => (int) ($input['order_id'] ?? 0),
         'order_number'     => trim((string) ($input['order_number'] ?? '')),
-        'transaction_data' => is_array($input['transaction_data'] ?? null) ? $input['transaction_data'] : [],
-        'plaque_type'      => trim((string) ($input['plaque_type'] ?? 'house')),
-        'primary_text'     => trim((string) ($input['primary_text'] ?? '')),
-        'subtitle_text'    => trim((string) ($input['subtitle_text'] ?? '')),
-        'acm_finish'       => trim((string) ($input['acm_finish'] ?? '')),
-        'acrylic_finish'   => trim((string) ($input['acrylic_finish'] ?? '')),
-        'size'             => trim((string) ($input['size'] ?? '')),
+        'transaction_data'   => is_array($input['transaction_data'] ?? null) ? $input['transaction_data'] : [],
+        'plaque_type'        => trim((string) ($input['plaque_type'] ?? 'house')),
+        'construction_style' => trim((string) ($input['construction_style'] ?? '')),
+        'font_style'         => trim((string) ($input['font_style'] ?? '')),
+        'primary_text'       => trim((string) ($input['primary_text'] ?? '')),
+        'subtitle_text'      => trim((string) ($input['subtitle_text'] ?? '')),
+        'acm_finish'         => trim((string) ($input['acm_finish'] ?? '')),
+        'acrylic_finish'     => trim((string) ($input['acrylic_finish'] ?? '')),
+        'size'               => trim((string) ($input['size'] ?? '')),
     ];
 
     if ($payload['order_id'] <= 0 || empty($payload['order_number'])) {

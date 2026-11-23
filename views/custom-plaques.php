@@ -7,6 +7,11 @@ include '../includes/header.php';
 <!-- Official HelcimPay.js Script -->
 <script type="text/javascript" src="https://secure.helcim.app/helcim-pay/services/start.js"></script>
 
+<!-- Architectural Fonts for Live Selector Preview & 3D Extrusion -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Cinzel:wght@700&family=Jost:wght@300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
 <!-- Three.js ES Module Import Map -->
 <script type="importmap">
 {
@@ -266,6 +271,40 @@ include '../includes/header.php';
     }
   }
 
+  .construction-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .font-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .font-preview-sample {
+    font-size: 1.55rem;
+    line-height: 1.1;
+    color: #f8fafc;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .precheckout-summary-card {
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 479.98px) {
+    .construction-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   .swatch-duo {
     display: inline-flex;
     align-items: center;
@@ -414,7 +453,7 @@ include '../includes/header.php';
               <!-- Exploded Layer Order Legend (shown in Assembly View) -->
               <div id="assemblyLegendPill" class="assembly-legend-pill d-none">
                 <i class="bi bi-layers-half text-info me-1"></i>
-                Back &rarr; Front: <strong>1. Rear Standoffs</strong> &rarr; <strong>2. Black Sintra</strong> &rarr; <strong>3. Acrylic Digits</strong> &rarr; <strong>4. CNC ACM Plate</strong>
+                Back &rarr; Front: <strong>1. Rear Standoffs</strong> &rarr; <strong>2. Solid ACM Plate</strong> &rarr; <strong>3. Raised Acrylic Digits</strong> &rarr; <strong>4. Front Caps</strong>
               </div>
 
               <!-- Bottom Overlay: Quick Camera Angle Presets -->
@@ -439,8 +478,8 @@ include '../includes/header.php';
                   <div class="text-secondary small text-uppercase fw-bold" style="font-size: 0.7rem; letter-spacing: 1px;">
                     Selected Configuration
                   </div>
-                  <div class="fw-bold text-white" id="summary-finish-name">ACM: Matte Black &bull; Digits: Mirror Gold</div>
-                  <div class="small text-secondary" id="summary-size-dims">Medium (10" &times; 15" / 25 &times; 38 cm) &bull; Black Sintra Base &amp; 4 Standoffs</div>
+                  <div class="fw-bold text-white" id="summary-finish-name">Raised 3D Acrylic &bull; Matte Black ACM + Mirror Gold</div>
+                  <div class="small text-secondary" id="summary-size-dims">Medium (10" &times; 15") &bull; Athletic Block &bull; 4 Standoffs</div>
                 </div>
                 <div class="col-sm-6">
                   <div class="d-flex flex-column align-items-sm-end">
@@ -495,10 +534,37 @@ include '../includes/header.php';
               </div>
             </div>
 
-            <!-- 2. Custom Text -->
+            <!-- 2. Construction Style -->
             <div class="mb-4">
               <div class="config-section-label">
-                <span>2. 3D Raised Lettering</span>
+                <span>2. Construction Style</span>
+                <span class="text-secondary">Fabrication Method</span>
+              </div>
+              <div class="construction-grid">
+                <div class="choice-tile active" data-construction-style="raised_acrylic">
+                  <div class="d-flex align-items-center justify-content-between mb-1 gap-1">
+                    <i class="bi bi-box-fill text-info"></i>
+                    <span class="badge bg-secondary bg-opacity-25 text-light" style="font-size: 0.65rem;">Base Price</span>
+                  </div>
+                  <div class="fw-bold small">Raised 3D Acrylic</div>
+                  <div class="text-secondary" style="font-size: 0.71rem;">Solid ACM plate + surface-mounted 3D digits</div>
+                </div>
+
+                <div class="choice-tile" data-construction-style="cnc_cut_acm">
+                  <div class="d-flex align-items-center justify-content-between mb-1 gap-1">
+                    <i class="bi bi-layers-fill text-warning"></i>
+                    <span class="badge bg-warning bg-opacity-25 text-warning" id="cnc-surcharge-badge" style="font-size: 0.65rem;">+$10 CAD</span>
+                  </div>
+                  <div class="fw-bold small">CNC Cut ACM + Inlaid</div>
+                  <div class="text-secondary" style="font-size: 0.71rem;">Black Sintra backer + CNC cutouts in ACM</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Custom Text -->
+            <div class="mb-4">
+              <div class="config-section-label">
+                <span>3. 3D Raised Lettering</span>
                 <span id="char-counter" class="text-secondary">3 / 24</span>
               </div>
               <div class="mb-3">
@@ -513,11 +579,44 @@ include '../includes/header.php';
               </div>
             </div>
 
-            <!-- 3. Front Plate Finish — ACM (Aluminum Composite) -->
+            <!-- 4. Typography / Font Style -->
             <div class="mb-4">
               <div class="config-section-label">
-                <span>3. Front Plate Finish &mdash; ACM</span>
-                <span class="text-secondary">CNC Cutout Panel</span>
+                <span>4. Typography / Font Style</span>
+                <span class="text-secondary">Laser / CNC Font</span>
+              </div>
+              <div class="font-grid">
+                <div class="choice-tile active" data-font-style="athletic_block">
+                  <div class="font-preview-sample" style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; letter-spacing: 2px;">428</div>
+                  <div class="fw-bold small">Athletic Block</div>
+                  <div class="text-secondary" style="font-size: 0.71rem;">45&deg; beveled octagonal block</div>
+                </div>
+
+                <div class="choice-tile" data-font-style="modern_sans">
+                  <div class="font-preview-sample" style="font-family: 'Montserrat', sans-serif; font-weight: 700;">428</div>
+                  <div class="fw-bold small">Modern Sans</div>
+                  <div class="text-secondary" style="font-size: 0.71rem;">Bold geometric architectural</div>
+                </div>
+
+                <div class="choice-tile" data-font-style="minimal_thin">
+                  <div class="font-preview-sample" style="font-family: 'Jost', sans-serif; font-weight: 300; letter-spacing: 2px;">428</div>
+                  <div class="fw-bold small">Minimalist Thin</div>
+                  <div class="text-secondary" style="font-size: 0.71rem;">Mid-century Futura style</div>
+                </div>
+
+                <div class="choice-tile" data-font-style="classic_serif">
+                  <div class="font-preview-sample" style="font-family: 'Cinzel', serif; font-weight: 700;">428</div>
+                  <div class="fw-bold small">Classic Serif</div>
+                  <div class="text-secondary" style="font-size: 0.71rem;">Heritage architectural serif</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Front Plate Finish — ACM (Aluminum Composite) -->
+            <div class="mb-4">
+              <div class="config-section-label">
+                <span>5. Front Plate Finish &mdash; ACM</span>
+                <span class="text-secondary">Architectural Panel</span>
               </div>
               <div class="acm-grid">
                 <div class="choice-tile active" data-acm-finish="matte_black">
@@ -540,11 +639,11 @@ include '../includes/header.php';
               </div>
             </div>
 
-            <!-- 4. 3D Digits & Text Finish — Laser Acrylic -->
+            <!-- 6. 3D Digits & Text Finish — Laser Acrylic -->
             <div class="mb-4">
               <div class="config-section-label">
-                <span>4. 3D Digits &amp; Text &mdash; Acrylic</span>
-                <span class="text-secondary">3mm/6mm Raised Inlay</span>
+                <span>6. 3D Digits &amp; Text &mdash; Acrylic</span>
+                <span class="text-secondary">3mm/6mm Laser Acrylic</span>
               </div>
               <div class="acrylic-grid">
                 <div class="choice-tile active" data-acrylic-finish="mirror_gold">
@@ -573,35 +672,35 @@ include '../includes/header.php';
               </div>
             </div>
 
-            <!-- 5. Size Selector -->
+            <!-- 7. Size Selector -->
             <div class="mb-4">
               <div class="config-section-label">
-                <span>5. Plaque Size (CAD)</span>
+                <span>7. Plaque Size (CAD)</span>
                 <span class="text-secondary">+15% PEI HST at checkout</span>
               </div>
               <div class="size-grid">
                 <div class="choice-tile text-center" data-size="small" data-price="55">
                   <div class="fw-bold small">Small</div>
                   <div class="text-secondary" style="font-size: 0.7rem;">10" &times; 13"</div>
-                  <div class="fw-bold text-info mt-1">$55 CAD</div>
+                  <div class="fw-bold text-info mt-1 size-tile-price">$55 CAD</div>
                 </div>
 
                 <div class="choice-tile text-center active" data-size="medium" data-price="60">
                   <div class="fw-bold small">Medium</div>
                   <div class="text-secondary" style="font-size: 0.7rem;">10" &times; 15"</div>
-                  <div class="fw-bold text-info mt-1">$60 CAD</div>
+                  <div class="fw-bold text-info mt-1 size-tile-price">$60 CAD</div>
                 </div>
 
                 <div class="choice-tile text-center" data-size="large" data-price="70">
                   <div class="fw-bold small">Large</div>
                   <div class="text-secondary" style="font-size: 0.7rem;">10" &times; 17"</div>
-                  <div class="fw-bold text-info mt-1">$70 CAD</div>
+                  <div class="fw-bold text-info mt-1 size-tile-price">$70 CAD</div>
                 </div>
 
                 <div class="choice-tile text-center" data-size="extra_large" data-price="80">
                   <div class="fw-bold small">Extra Large</div>
                   <div class="text-secondary" style="font-size: 0.7rem;">10" &times; 23.5"</div>
-                  <div class="fw-bold text-info mt-1">$80 CAD</div>
+                  <div class="fw-bold text-info mt-1 size-tile-price">$80 CAD</div>
                 </div>
 
                 <div class="choice-tile text-center" data-size="vertical" data-price="55">
@@ -610,17 +709,17 @@ include '../includes/header.php';
                     <i class="bi bi-arrows-vertical text-info" style="font-size: 0.75rem;"></i>
                   </div>
                   <div class="text-secondary" style="font-size: 0.7rem;">5" &times; 17"</div>
-                  <div class="fw-bold text-info mt-1">$55 CAD</div>
+                  <div class="fw-bold text-info mt-1 size-tile-price">$55 CAD</div>
                 </div>
               </div>
             </div>
 
             <hr class="border-secondary border-opacity-25 my-4">
 
-            <!-- 6. Customer Information -->
+            <!-- 8. Customer Information -->
             <div class="mb-4">
               <div class="config-section-label">
-                <span>6. Customer &amp; Order Details</span>
+                <span>8. Customer &amp; Order Details</span>
               </div>
               <div class="mb-3">
                 <label for="customerName" class="form-label small text-light mb-1">Full Name <span class="text-danger">*</span></label>
@@ -638,10 +737,37 @@ include '../includes/header.php';
               </div>
             </div>
 
+            <!-- Pre-Checkout Order Review Summary -->
+            <div class="precheckout-summary-card" id="precheckoutSummary">
+              <div class="text-info small text-uppercase fw-bold mb-2" style="font-size: 0.68rem; letter-spacing: 1px;">
+                <i class="bi bi-receipt me-1"></i> Order Summary Preview
+              </div>
+              <div class="d-flex justify-content-between small mb-1 gap-2">
+                <span class="text-secondary">Construction:</span>
+                <span class="text-light fw-semibold text-end" id="review-construction">Raised 3D Acrylic (Solid ACM)</span>
+              </div>
+              <div class="d-flex justify-content-between small mb-1 gap-2">
+                <span class="text-secondary">Font Style:</span>
+                <span class="text-light fw-semibold text-end" id="review-font">Athletic Octagonal Block</span>
+              </div>
+              <div class="d-flex justify-content-between small mb-1 gap-2">
+                <span class="text-secondary">Materials:</span>
+                <span class="text-light fw-semibold text-end" id="review-materials">Matte Black ACM + Mirror Gold Acrylic</span>
+              </div>
+              <div class="d-flex justify-content-between small mb-1 gap-2">
+                <span class="text-secondary">Size:</span>
+                <span class="text-light fw-semibold text-end" id="review-size">Medium (10" &times; 15")</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center small pt-2 mt-2 border-top border-secondary border-opacity-25">
+                <span class="text-white fw-bold">Total incl. 15% PEI HST:</span>
+                <span class="text-info fw-bold fs-6" id="review-total">$69.00 CAD</span>
+              </div>
+            </div>
+
             <!-- Alert / Error Feedback -->
             <div id="checkoutAlertBox" class="alert d-none py-2 small rounded-3 mb-3"></div>
 
-            <!-- 6. Payment Action Buttons -->
+            <!-- Payment Action Buttons -->
             <div class="d-grid gap-2">
               <button type="button" id="btnPayHelcim" class="btn btn-helcim-pay d-flex align-items-center justify-content-center gap-2">
                 <span class="spinner-border spinner-border-sm d-none" id="spinnerHelcim"></span>
@@ -669,29 +795,90 @@ include '../includes/header.php';
   import * as THREE from 'three';
   import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
   import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+  import { TTFLoader } from 'three/addons/loaders/TTFLoader.js';
   import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
   // ─── Reactive Configurator State ───────────────────────────────────────
   const state = {
     plaque_type: 'house',
+    construction_style: 'raised_acrylic',
+    font_style: 'athletic_block',
     primary_text: '428',
     subtitle_text: 'QUEEN ST',
     acm_finish: 'matte_black',
     acrylic_finish: 'mirror_gold',
     size: 'medium',
     exploded: false,
+    base_price_cad: 60.00,
+    cnc_surcharge_cad: 0.00,
     subtotal_cad: 60.00,
     hst_cad: 9.00,
     total_cad: 69.00
   };
 
   const CATALOG = {
+    construction_styles: {
+      raised_acrylic: {
+        name: 'Raised 3D Acrylic (Solid ACM)',
+        shortName: 'Raised 3D Acrylic',
+        legendHtml: 'Back &rarr; Front: <strong>1. Rear Standoffs</strong> &rarr; <strong>2. Solid ACM Plate</strong> &rarr; <strong>3. Raised Acrylic Digits</strong> &rarr; <strong>4. Front Caps</strong>',
+        backingSummary: 'Solid ACM Plate & 4 Standoffs'
+      },
+      cnc_cut_acm: {
+        name: 'CNC Cut ACM + Inlaid Acrylic (Black Sintra Backer)',
+        shortName: 'CNC Cut ACM + Inlaid',
+        legendHtml: 'Back &rarr; Front: <strong>1. Rear Standoffs</strong> &rarr; <strong>2. Black Sintra</strong> &rarr; <strong>3. Acrylic Digits</strong> &rarr; <strong>4. CNC ACM Plate</strong> &rarr; <strong>5. Front Caps</strong>',
+        backingSummary: 'Black Sintra Base & 4 Standoffs'
+      }
+    },
+    font_styles: {
+      athletic_block: {
+        name: 'Athletic Octagonal Block',
+        shortName: 'Athletic Block',
+        ttfUrl: 'https://fonts.gstatic.com/s/chakrapetch/v13/cIflMapbsEk7TDLdtEz1BwkeJI9FQA.ttf',
+        fallbackJsonUrl: 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/fonts/helvetiker_bold.typeface.json',
+        useProceduralDigits: true,
+        bevelScale: 0.013,
+        maxPrimaryBevel: 0.008,
+        maxSubBevel: 0.004
+      },
+      modern_sans: {
+        name: 'Modern Architectural Sans',
+        shortName: 'Modern Sans',
+        ttfUrl: 'https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM70w-.ttf',
+        fallbackJsonUrl: 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/fonts/helvetiker_bold.typeface.json',
+        useProceduralDigits: false,
+        bevelScale: 0.013,
+        maxPrimaryBevel: 0.008,
+        maxSubBevel: 0.004
+      },
+      minimal_thin: {
+        name: 'Minimalist Mid-Century',
+        shortName: 'Minimalist Thin',
+        ttfUrl: 'https://fonts.gstatic.com/s/jost/v20/92zPtBhPNqw79Ij1E865zBUv7mz9JQVG.ttf',
+        fallbackJsonUrl: 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/fonts/helvetiker_regular.typeface.json',
+        useProceduralDigits: false,
+        bevelScale: 0.007,
+        maxPrimaryBevel: 0.004,
+        maxSubBevel: 0.0025
+      },
+      classic_serif: {
+        name: 'Classic Heritage Serif',
+        shortName: 'Classic Serif',
+        ttfUrl: 'https://fonts.gstatic.com/s/cinzel/v26/8vIU7ww63mVu7gtR-kwKxNvkNOjw-jHgTYo.ttf',
+        fallbackJsonUrl: 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/fonts/gentilis_bold.typeface.json',
+        useProceduralDigits: false,
+        bevelScale: 0.008,
+        maxPrimaryBevel: 0.005,
+        maxSubBevel: 0.0025
+      }
+    },
     sizes: {
-      small:       { price: 55.00, label: 'Small (10" × 13" / 25 × 33 cm)',         shortLabel: 'Small (10" × 13")',    w: 4.20, h: 3.20, camScale: 0.96 },
-      medium:      { price: 60.00, label: 'Medium (10" × 15" / 25 × 38 cm)',        shortLabel: 'Medium (10" × 15")',   w: 4.80, h: 3.20, camScale: 1.00 },
-      large:       { price: 70.00, label: 'Large (10" × 17" / 25 × 43 cm)',         shortLabel: 'Large (10" × 17")',    w: 5.44, h: 3.20, camScale: 1.08 },
-      extra_large: { price: 80.00, label: 'Extra Large (10" × 23.5" / 25 × 60 cm)', shortLabel: 'XL (10" × 23.5")',     w: 7.52, h: 3.20, camScale: 1.28 },
-      vertical:    { price: 55.00, label: 'Vertical (5" × 17" / 13 × 43 cm)',      shortLabel: 'Vertical (5" × 17")',  w: 2.10, h: 6.40, isVertical: true, camScale: 1.40 }
+      small:       { price: 55.00, cncSurcharge: 10.00, label: 'Small (10" × 13" / 25 × 33 cm)',         shortLabel: 'Small (10" × 13")',    w: 4.20, h: 3.20, camScale: 0.96 },
+      medium:      { price: 60.00, cncSurcharge: 10.00, label: 'Medium (10" × 15" / 25 × 38 cm)',        shortLabel: 'Medium (10" × 15")',   w: 4.80, h: 3.20, camScale: 1.00 },
+      large:       { price: 70.00, cncSurcharge: 15.00, label: 'Large (10" × 17" / 25 × 43 cm)',         shortLabel: 'Large (10" × 17")',    w: 5.44, h: 3.20, camScale: 1.08 },
+      extra_large: { price: 80.00, cncSurcharge: 15.00, label: 'Extra Large (10" × 23.5" / 25 × 60 cm)', shortLabel: 'XL (10" × 23.5")',     w: 7.52, h: 3.20, camScale: 1.28 },
+      vertical:    { price: 55.00, cncSurcharge: 10.00, label: 'Vertical (5" × 17" / 13 × 43 cm)',      shortLabel: 'Vertical (5" × 17")',  w: 2.10, h: 6.40, isVertical: true, camScale: 1.40 }
     },
     acm_finishes: {
       matte_black: {
@@ -893,7 +1080,67 @@ include '../includes/header.php';
   rootGroup.add(acmFrontLayer);
   rootGroup.add(standoffsCapLayer);
 
-  let loadedFont = null;
+  const fontCache = {};
+  const fontLoadPromises = {};
+  let loadedFontFallback = null;
+  const jsonFontLoader = new FontLoader();
+  const ttfLoader = new TTFLoader();
+
+  function loadJsonFont(url) {
+    return new Promise((resolve, reject) => {
+      jsonFontLoader.load(url, resolve, undefined, reject);
+    });
+  }
+
+  async function loadFontForStyle(styleKey) {
+    const spec = CATALOG.font_styles[styleKey];
+    if (!spec) return null;
+    if (fontCache[styleKey]) return fontCache[styleKey];
+    if (fontLoadPromises[styleKey]) return fontLoadPromises[styleKey];
+
+    fontLoadPromises[styleKey] = (async () => {
+      try {
+        const res = await fetch(spec.ttfUrl, { mode: 'cors' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const buf = await res.arrayBuffer();
+
+        ttfLoader.reversed = false;
+        let parsed = jsonFontLoader.parse(ttfLoader.parse(buf.slice(0)));
+        const testO = parsed.generateShapes('O', 100) || [];
+        const hasCleanHole = testO.length === 1 && testO[0].holes && testO[0].holes.length === 1;
+
+        if (!hasCleanHole) {
+          ttfLoader.reversed = true;
+          const alt = jsonFontLoader.parse(ttfLoader.parse(buf.slice(0)));
+          const altO = alt.generateShapes('O', 100) || [];
+          if (altO.length === 1 && altO[0].holes && altO[0].holes.length === 1) {
+            parsed = alt;
+          }
+        }
+        ttfLoader.reversed = false;
+
+        fontCache[styleKey] = parsed;
+        if (!loadedFontFallback) loadedFontFallback = parsed;
+        return parsed;
+      } catch (err) {
+        ttfLoader.reversed = false;
+        try {
+          const fallbackFont = await loadJsonFont(spec.fallbackJsonUrl);
+          fontCache[styleKey] = fallbackFont;
+          if (!loadedFontFallback) loadedFontFallback = fallbackFont;
+          return fallbackFont;
+        } catch (_) {
+          return loadedFontFallback;
+        }
+      } finally {
+        if (state.font_style === styleKey) {
+          buildPlaqueModel();
+        }
+      }
+    })();
+
+    return fontLoadPromises[styleKey];
+  }
 
   // Canonical counter-clockwise rounded rectangle Shape (outer boundary)
   function createRoundedRectShape(width, height, radius) {
@@ -958,16 +1205,138 @@ include '../includes/header.php';
     return cleaned;
   }
 
+  // ─── Procedural 45° Chamfered Athletic Octagonal Block Digits (0–9) ────
+  const ATHLETIC_DIGIT_DEFS = {
+    '0': {
+      w: 0.68,
+      outer: [
+        [0.13, 0.00], [0.55, 0.00], [0.68, 0.13], [0.68, 0.87],
+        [0.55, 1.00], [0.13, 1.00], [0.00, 0.87], [0.00, 0.13]
+      ],
+      holes: [
+        [[0.21, 0.20], [0.21, 0.80], [0.47, 0.80], [0.47, 0.20]]
+      ]
+    },
+    '1': {
+      w: 0.56,
+      outer: [
+        [0.06, 0.00], [0.50, 0.00], [0.54, 0.04], [0.54, 0.19],
+        [0.39, 0.19], [0.39, 1.00], [0.19, 1.00], [0.04, 0.85],
+        [0.04, 0.69], [0.18, 0.69], [0.18, 0.19], [0.02, 0.19],
+        [0.02, 0.04]
+      ],
+      holes: []
+    },
+    '2': {
+      w: 0.68,
+      outer: [
+        [0.00, 0.00], [0.68, 0.00], [0.68, 0.20], [0.21, 0.20],
+        [0.21, 0.40], [0.55, 0.40], [0.68, 0.53], [0.68, 0.87],
+        [0.55, 1.00], [0.13, 1.00], [0.00, 0.87], [0.00, 0.69],
+        [0.21, 0.69], [0.21, 0.80], [0.47, 0.80], [0.47, 0.60],
+        [0.13, 0.60], [0.00, 0.47]
+      ],
+      holes: []
+    },
+    '3': {
+      w: 0.68,
+      outer: [
+        [0.13, 0.00], [0.55, 0.00], [0.68, 0.13], [0.68, 0.41],
+        [0.60, 0.50], [0.68, 0.59], [0.68, 0.87], [0.55, 1.00],
+        [0.13, 1.00], [0.00, 0.87], [0.00, 0.71], [0.21, 0.71],
+        [0.21, 0.80], [0.47, 0.80], [0.47, 0.59], [0.22, 0.59],
+        [0.22, 0.41], [0.47, 0.41], [0.47, 0.20], [0.21, 0.20],
+        [0.21, 0.29], [0.00, 0.29], [0.00, 0.13]
+      ],
+      holes: []
+    },
+    '4': {
+      w: 0.70,
+      outer: [
+        [0.41, 0.00], [0.62, 0.00], [0.62, 0.25], [0.70, 0.25],
+        [0.70, 0.44], [0.62, 0.44], [0.62, 1.00], [0.35, 1.00],
+        [0.00, 0.44], [0.00, 0.25], [0.41, 0.25]
+      ],
+      holes: [
+        [[0.20, 0.44], [0.41, 0.77], [0.41, 0.44]]
+      ]
+    },
+    '5': {
+      w: 0.68,
+      outer: [
+        [0.13, 0.00], [0.55, 0.00], [0.68, 0.13], [0.68, 0.50],
+        [0.55, 0.63], [0.21, 0.63], [0.21, 0.80], [0.64, 0.80],
+        [0.64, 1.00], [0.02, 1.00], [0.02, 0.44], [0.47, 0.44],
+        [0.47, 0.20], [0.21, 0.20], [0.21, 0.29], [0.00, 0.29],
+        [0.00, 0.13]
+      ],
+      holes: []
+    },
+    '6': {
+      w: 0.68,
+      outer: [
+        [0.13, 0.00], [0.55, 0.00], [0.68, 0.13], [0.68, 0.47],
+        [0.55, 0.60], [0.21, 0.60], [0.21, 0.80], [0.47, 0.80],
+        [0.47, 0.72], [0.68, 0.72], [0.68, 0.87], [0.55, 1.00],
+        [0.13, 1.00], [0.00, 0.87], [0.00, 0.13]
+      ],
+      holes: [
+        [[0.21, 0.20], [0.21, 0.41], [0.47, 0.41], [0.47, 0.20]]
+      ]
+    },
+    '7': {
+      w: 0.66,
+      outer: [
+        [0.18, 0.00], [0.40, 0.00], [0.66, 0.79], [0.66, 1.00],
+        [0.00, 1.00], [0.00, 0.71], [0.20, 0.71], [0.20, 0.80],
+        [0.43, 0.80]
+      ],
+      holes: []
+    },
+    '8': {
+      w: 0.68,
+      outer: [
+        [0.13, 0.00], [0.55, 0.00], [0.68, 0.13], [0.68, 0.39],
+        [0.60, 0.50], [0.68, 0.61], [0.68, 0.87], [0.55, 1.00],
+        [0.13, 1.00], [0.00, 0.87], [0.00, 0.61], [0.08, 0.50],
+        [0.00, 0.39], [0.00, 0.13]
+      ],
+      holes: [
+        [[0.21, 0.19], [0.21, 0.41], [0.47, 0.41], [0.47, 0.19]],
+        [[0.21, 0.59], [0.21, 0.81], [0.47, 0.81], [0.47, 0.59]]
+      ]
+    }
+  };
+  // 9 is exact 180-degree rotational mirror of 6
+  ATHLETIC_DIGIT_DEFS['9'] = {
+    w: ATHLETIC_DIGIT_DEFS['6'].w,
+    outer: ATHLETIC_DIGIT_DEFS['6'].outer.map(([x, y]) => [+(0.68 - x).toFixed(4), +(1.00 - y).toFixed(4)]),
+    holes: ATHLETIC_DIGIT_DEFS['6'].holes.map(h => h.map(([x, y]) => [+(0.68 - x).toFixed(4), +(1.00 - y).toFixed(4)]))
+  };
+
+  function getAthleticBlockDigit(ch, fontSize) {
+    const def = ATHLETIC_DIGIT_DEFS[ch];
+    if (!def) return null;
+    const outerPts = def.outer.map(([x, y]) => new THREE.Vector2(x * fontSize, y * fontSize));
+    const holePtsList = def.holes.map(h => h.map(([x, y]) => new THREE.Vector2(x * fontSize, y * fontSize)));
+    return {
+      advance: def.w * fontSize,
+      contours: [{ outerPts, holePtsList }]
+    };
+  }
+
   // Builds centered & auto-fitted per-character 2D contours in plaque XY coordinates
-  function buildCharGlyphLayouts(text, fontSize, maxWidth, maxHeight, targetY, curveDivisions = 8) {
-    if (!loadedFont || !text) {
+  function buildCharGlyphLayouts(text, fontSize, maxWidth, maxHeight, targetY, curveDivisions, fontStyleKey, activeFont) {
+    if (!text) {
       return { characters: [], effectiveFontSize: fontSize };
     }
 
+    const fontSpec = CATALOG.font_styles[fontStyleKey] || CATALOG.font_styles.athletic_block;
+    const useProceduralDigits = Boolean(fontSpec.useProceduralDigits);
     const chars = Array.from(text);
-    const extraSpacing = fontSize * 0.045;
-    const resolution = loadedFont.data?.resolution || 1000;
-    const glyphs = loadedFont.data?.glyphs || {};
+    const extraSpacing = fontSize * (fontStyleKey === 'minimal_thin' ? 0.065 : 0.055);
+    const resolution = activeFont?.data?.resolution || 1000;
+    const glyphs = activeFont?.data?.glyphs || {};
 
     let cursorX = 0;
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
@@ -981,9 +1350,40 @@ include '../includes/header.php';
         continue;
       }
 
-      const glyphShapes = loadedFont.generateShapes(ch, fontSize) || [];
+      if (useProceduralDigits && /^[0-9]$/.test(ch)) {
+        const proc = getAthleticBlockDigit(ch, fontSize);
+        if (proc) {
+          const contours = proc.contours.map(c => ({
+            outerPts: c.outerPts.map(p => {
+              const sx = p.x + cursorX;
+              const sy = p.y;
+              if (sx < minX) minX = sx;
+              if (sx > maxX) maxX = sx;
+              if (sy < minY) minY = sy;
+              if (sy > maxY) maxY = sy;
+              return new THREE.Vector2(sx, sy);
+            }),
+            holePtsList: c.holePtsList.map(h => h.map(p => new THREE.Vector2(p.x + cursorX, p.y)))
+          }));
+          rawChars.push({ char: ch, contours });
+          cursorX += proc.advance + extraSpacing;
+          continue;
+        }
+      }
+
+      if (!activeFont) {
+        cursorX += fontSize * 0.62 + extraSpacing;
+        continue;
+      }
+
       const glyphMeta = glyphs[ch] || glyphs['?'];
-      const advance = glyphMeta && typeof glyphMeta.ha === 'number'
+      if (!glyphMeta) {
+        cursorX += fontSize * 0.50 + extraSpacing;
+        continue;
+      }
+
+      const glyphShapes = activeFont.generateShapes(ch, fontSize) || [];
+      const advance = typeof glyphMeta.ha === 'number'
         ? (glyphMeta.ha / resolution) * fontSize
         : fontSize * 0.65;
 
@@ -1060,7 +1460,22 @@ include '../includes/header.php';
     }
   }
 
-  function addLayoutToAcrylicAndAcm(layout, extrusionDepth, bevelThickness, bevelSizeMax, acrylicMaterial, acmFaceMat, acmEdgeMat, safeHalfW, safeHalfH, acmHolesList, acmIslandsQueue) {
+  function addLayoutToAcrylicAndAcm(
+    layout,
+    extrusionDepth,
+    bevelThickness,
+    bevelScale,
+    bevelSizeMax,
+    zAcrylicMount,
+    acrylicMaterial,
+    acmFaceMat,
+    acmEdgeMat,
+    safeHalfW,
+    safeHalfH,
+    isCncCut,
+    acmHolesList,
+    acmIslandsQueue
+  ) {
     const acmDepth = 0.075;
 
     for (const chEntry of layout.characters) {
@@ -1074,7 +1489,7 @@ include '../includes/header.php';
           charShape.holes.push(hPath);
         }
 
-        const bevelSize = Math.min(bevelSizeMax, layout.effectiveFontSize * 0.014);
+        const bevelSize = Math.min(bevelSizeMax, layout.effectiveFontSize * bevelScale);
         let charGeo;
         try {
           charGeo = new THREE.ExtrudeGeometry(charShape, {
@@ -1098,28 +1513,30 @@ include '../includes/header.php';
         const backOffsetZ = charGeo.boundingBox ? -charGeo.boundingBox.min.z : 0;
 
         const charMesh = new THREE.Mesh(charGeo, acrylicMaterial);
-        charMesh.position.z = backOffsetZ; // Back sits flush on Sintra at z = 0.000
+        charMesh.position.z = backOffsetZ + zAcrylicMount;
         charMesh.castShadow = true;
         charMesh.receiveShadow = true;
         acrylicDigitsLayer.add(charMesh);
 
-        // 2. Register Matching CNC Cutout Hole + Inner Island in ACM Plate
-        const fitsSafely = contour.outerPts.every(
-          p => Math.abs(p.x) < safeHalfW && Math.abs(p.y) < safeHalfH
-        );
-        if (fitsSafely) {
-          const cutoutPts = ensureWinding(contour.outerPts, true);
-          const cutoutPath = new THREE.Path(cutoutPts);
-          cutoutPath.closePath();
-          acmHolesList.push(cutoutPath);
+        // 2. Register Matching CNC Cutout Hole + Inner Island ONLY when cnc_cut_acm is active
+        if (isCncCut) {
+          const fitsSafely = contour.outerPts.every(
+            p => Math.abs(p.x) < safeHalfW && Math.abs(p.y) < safeHalfH
+          );
+          if (fitsSafely) {
+            const cutoutPts = ensureWinding(contour.outerPts, true);
+            const cutoutPath = new THREE.Path(cutoutPts);
+            cutoutPath.closePath();
+            acmHolesList.push(cutoutPath);
 
-          for (const holePts of contour.holePtsList) {
-            const islandFits = holePts.every(
-              p => Math.abs(p.x) < safeHalfW && Math.abs(p.y) < safeHalfH
-            );
-            if (islandFits) {
-              const islandPts = ensureWinding(holePts, false);
-              acmIslandsQueue.push({ islandPts, acmDepth, acmFaceMat, acmEdgeMat });
+            for (const holePts of contour.holePtsList) {
+              const islandFits = holePts.every(
+                p => Math.abs(p.x) < safeHalfW && Math.abs(p.y) < safeHalfH
+              );
+              if (islandFits) {
+                const islandPts = ensureWinding(holePts, false);
+                acmIslandsQueue.push({ islandPts, acmDepth, acmFaceMat, acmEdgeMat });
+              }
             }
           }
         }
@@ -1137,7 +1554,11 @@ include '../includes/header.php';
     const sizeSpec = CATALOG.sizes[state.size] || CATALOG.sizes.medium;
     const acmSpec = CATALOG.acm_finishes[state.acm_finish] || CATALOG.acm_finishes.matte_black;
     const acrylicSpec = CATALOG.acrylic_finishes[state.acrylic_finish] || CATALOG.acrylic_finishes.mirror_gold;
+    const fontSpec = CATALOG.font_styles[state.font_style] || CATALOG.font_styles.athletic_block;
+    const isCncCut = state.construction_style === 'cnc_cut_acm';
     const isVertical = Boolean(sizeSpec.isVertical || state.size === 'vertical');
+
+    const activeFont = fontCache[state.font_style] || loadedFontFallback;
 
     const width = isVertical ? sizeSpec.w : (state.plaque_type === 'business' ? sizeSpec.w * 1.08 : sizeSpec.w);
     const height = isVertical ? sizeSpec.h : (state.plaque_type === 'business' ? sizeSpec.h * 0.95 : sizeSpec.h);
@@ -1198,14 +1619,16 @@ include '../includes/header.php';
     const capGeo = new THREE.CylinderGeometry(0.135, 0.135, 0.08, 28);
     capGeo.rotateX(Math.PI / 2);
 
+    const frontCapZ = isCncCut ? 0.118 : 0.041; // CNC ACM front is at 0.077; Solid ACM front is at 0.000
+
     corners.forEach(([cx, cy]) => {
       const barrel = new THREE.Mesh(barrelGeo.clone(), standoffMat.clone());
-      barrel.position.set(cx, cy, -0.31); // Spans -0.52 to -0.10 (meets rear of Sintra)
+      barrel.position.set(cx, cy, -0.31); // Spans -0.52 to -0.10 (meets back of Sintra or Solid ACM)
       barrel.castShadow = true;
       standoffsRearLayer.add(barrel);
 
       const cap = new THREE.Mesh(capGeo.clone(), standoffMat.clone());
-      cap.position.set(cx, cy, 0.118); // Spans 0.078 to 0.158 (caps front of ACM)
+      cap.position.set(cx, cy, frontCapZ);
       cap.castShadow = true;
       standoffsCapLayer.add(cap);
     });
@@ -1214,25 +1637,35 @@ include '../includes/header.php';
     capGeo.dispose();
     standoffMat.dispose();
 
-    // ─── 2. Black Sintra PVC Backing Layer (Back Layer) ──────────────────
-    const sintraShape = createRoundedRectShape(width, height, cornerRadius);
-    corners.forEach(([cx, cy]) => {
-      sintraShape.holes.push(createCirclePath(cx, cy, 0.095, 20));
-    });
+    // ─── 2. Black Sintra PVC Backing Layer (CNC Cut Mode Only) ───────────
+    if (isCncCut) {
+      const sintraShape = createRoundedRectShape(width, height, cornerRadius);
+      corners.forEach(([cx, cy]) => {
+        sintraShape.holes.push(createCirclePath(cx, cy, 0.095, 20));
+      });
 
-    const sintraGeo = new THREE.ExtrudeGeometry(sintraShape, {
-      depth: 0.10,
-      bevelEnabled: false,
-      curveSegments: 10
-    });
-    const sintraMesh = new THREE.Mesh(sintraGeo, sintraMat);
-    sintraMesh.position.z = -0.10; // Flush front surface at z = 0.00
-    sintraMesh.castShadow = true;
-    sintraMesh.receiveShadow = true;
-    sintraBackLayer.add(sintraMesh);
+      const sintraGeo = new THREE.ExtrudeGeometry(sintraShape, {
+        depth: 0.10,
+        bevelEnabled: false,
+        curveSegments: 10
+      });
+      const sintraMesh = new THREE.Mesh(sintraGeo, sintraMat);
+      sintraMesh.position.z = -0.10; // Flush front surface at z = 0.00
+      sintraMesh.castShadow = true;
+      sintraMesh.receiveShadow = true;
+      sintraBackLayer.add(sintraMesh);
+    } else {
+      sintraMat.dispose();
+    }
 
-    // ─── 3. Individual 3D Acrylic Digits & Subtitle + ACM Cutouts ─────────
-    const acmDepth = 0.075;
+    // ─── 3. Individual 3D Acrylic Digits & Subtitle + ACM Plate ──────────
+    const acmDepth = isCncCut ? 0.075 : 0.100;
+    const acmPosZ = isCncCut ? 0.002 : -0.100;
+    const zAcrylicMount = isCncCut ? 0.000 : 0.002;
+    const primaryExtrudeDepth = isCncCut ? 0.116 : 0.088;
+    const subtitleExtrudeDepth = isCncCut ? 0.106 : 0.074;
+    const dividerExtrudeDepth = isCncCut ? 0.104 : 0.070;
+
     const acmShape = createRoundedRectShape(width, height, cornerRadius);
     const acmHolesList = [];
     const acmIslandsQueue = [];
@@ -1247,96 +1680,106 @@ include '../includes/header.php';
     const safeHalfW = width / 2 - 0.18;
     const safeHalfH = height / 2 - 0.18;
 
-    if (loadedFont) {
-      // Primary 3D Raised Text
-      const maxTextWidth = isVertical ? (width - 0.48) : (width - 1.35);
-      const primaryMaxH = isVertical ? 1.25 : (subtitleStr ? 1.15 : 1.65);
-      const primaryTargetY = isVertical ? (subtitleStr ? 0.95 : 0.0) : (subtitleStr ? 0.32 : 0.0);
-      const basePrimarySize = state.plaque_type === 'house' ? (isVertical ? 0.85 : 1.05) : 0.72;
+    // Primary 3D Raised Text
+    const maxTextWidth = isVertical ? (width - 0.48) : (width - 1.35);
+    const primaryMaxH = isVertical ? 1.25 : (subtitleStr ? 1.15 : 1.65);
+    const primaryTargetY = isVertical ? (subtitleStr ? 0.95 : 0.0) : (subtitleStr ? 0.32 : 0.0);
+    const basePrimarySize = state.plaque_type === 'house' ? (isVertical ? 0.85 : 1.05) : 0.72;
 
-      const primaryLayout = buildCharGlyphLayouts(
-        primaryStr,
-        basePrimarySize,
+    const primaryLayout = buildCharGlyphLayouts(
+      primaryStr,
+      basePrimarySize,
+      maxTextWidth,
+      primaryMaxH,
+      primaryTargetY,
+      8,
+      state.font_style,
+      activeFont
+    );
+
+    addLayoutToAcrylicAndAcm(
+      primaryLayout,
+      primaryExtrudeDepth,
+      0.012,
+      fontSpec.bevelScale,
+      fontSpec.maxPrimaryBevel,
+      zAcrylicMount,
+      acrylicMat,
+      acmFaceMat,
+      acmEdgeMat,
+      safeHalfW,
+      safeHalfH,
+      isCncCut,
+      acmHolesList,
+      acmIslandsQueue
+    );
+
+    // Optional Subtitle & Divider Bar
+    if (subtitleStr) {
+      const subTargetY = isVertical ? -1.15 : -0.68;
+      const subMaxH = 0.42;
+      const baseSubSize = state.plaque_type === 'house' ? (isVertical ? 0.24 : 0.32) : 0.28;
+
+      const subLayout = buildCharGlyphLayouts(
+        subtitleStr,
+        baseSubSize,
         maxTextWidth,
-        primaryMaxH,
-        primaryTargetY,
-        8
+        subMaxH,
+        subTargetY,
+        6,
+        state.font_style,
+        activeFont
       );
 
       addLayoutToAcrylicAndAcm(
-        primaryLayout,
-        0.116, // extrude depth (total with 2 * 0.012 bevel = 0.140; protrudes past 0.077 ACM)
-        0.012,
-        0.009,
+        subLayout,
+        subtitleExtrudeDepth,
+        0.007,
+        fontSpec.bevelScale,
+        fontSpec.maxSubBevel,
+        zAcrylicMount,
         acrylicMat,
         acmFaceMat,
         acmEdgeMat,
         safeHalfW,
         safeHalfH,
+        isCncCut,
         acmHolesList,
         acmIslandsQueue
       );
 
-      // Optional Subtitle & Divider Bar
-      if (subtitleStr) {
-        const subTargetY = isVertical ? -1.15 : -0.68;
-        const subMaxH = 0.42;
-        const baseSubSize = state.plaque_type === 'house' ? (isVertical ? 0.24 : 0.32) : 0.28;
+      // Acrylic Architectural Divider Bar (+ Matching ACM Cutout Slot in CNC mode)
+      const dividerW = isVertical ? Math.min(width * 0.58, 1.05) : Math.min(width * 0.42, 2.2);
+      const dividerH = 0.055;
+      const dividerY = isVertical ? -0.10 : -0.24;
 
-        const subLayout = buildCharGlyphLayouts(
-          subtitleStr,
-          baseSubSize,
-          maxTextWidth,
-          subMaxH,
-          subTargetY,
-          6
+      const divShape = createRoundedRectShape(dividerW, dividerH, 0.02);
+      const divPtsRaw = sampleCleanPoints(divShape, 4);
+      if (divPtsRaw) {
+        const divPtsAcrylic = ensureWinding(
+          divPtsRaw.map(p => new THREE.Vector2(p.x, p.y + dividerY)),
+          false
         );
+        const divAcrylicShape = new THREE.Shape(divPtsAcrylic);
+        divAcrylicShape.closePath();
 
-        addLayoutToAcrylicAndAcm(
-          subLayout,
-          0.106, // total with 2 * 0.007 bevel = 0.120; protrudes cleanly past 0.077 ACM
-          0.007,
-          0.004,
-          acrylicMat,
-          acmFaceMat,
-          acmEdgeMat,
-          safeHalfW,
-          safeHalfH,
-          acmHolesList,
-          acmIslandsQueue
-        );
+        const divGeo = new THREE.ExtrudeGeometry(divAcrylicShape, {
+          depth: dividerExtrudeDepth,
+          bevelEnabled: true,
+          bevelThickness: 0.006,
+          bevelSize: 0.003,
+          bevelOffset: -0.003,
+          bevelSegments: 2
+        });
+        divGeo.computeBoundingBox();
+        const divBackZ = divGeo.boundingBox ? -divGeo.boundingBox.min.z : 0;
+        const divMesh = new THREE.Mesh(divGeo, acrylicMat);
+        divMesh.position.z = divBackZ + zAcrylicMount;
+        divMesh.castShadow = true;
+        divMesh.receiveShadow = true;
+        acrylicDigitsLayer.add(divMesh);
 
-        // Acrylic Architectural Divider Bar + Matching ACM Cutout Slot
-        const dividerW = isVertical ? Math.min(width * 0.58, 1.05) : Math.min(width * 0.42, 2.2);
-        const dividerH = 0.055;
-        const dividerY = isVertical ? -0.10 : -0.24;
-
-        const divShape = createRoundedRectShape(dividerW, dividerH, 0.02);
-        const divPtsRaw = sampleCleanPoints(divShape, 4);
-        if (divPtsRaw) {
-          const divPtsAcrylic = ensureWinding(
-            divPtsRaw.map(p => new THREE.Vector2(p.x, p.y + dividerY)),
-            false
-          );
-          const divAcrylicShape = new THREE.Shape(divPtsAcrylic);
-          divAcrylicShape.closePath();
-
-          const divGeo = new THREE.ExtrudeGeometry(divAcrylicShape, {
-            depth: 0.104,
-            bevelEnabled: true,
-            bevelThickness: 0.006,
-            bevelSize: 0.003,
-            bevelOffset: -0.003,
-            bevelSegments: 2
-          });
-          divGeo.computeBoundingBox();
-          const divBackZ = divGeo.boundingBox ? -divGeo.boundingBox.min.z : 0;
-          const divMesh = new THREE.Mesh(divGeo, acrylicMat);
-          divMesh.position.z = divBackZ;
-          divMesh.castShadow = true;
-          divMesh.receiveShadow = true;
-          acrylicDigitsLayer.add(divMesh);
-
+        if (isCncCut) {
           const divFits = divPtsAcrylic.every(
             p => Math.abs(p.x) < safeHalfW && Math.abs(p.y) < safeHalfH
           );
@@ -1350,7 +1793,7 @@ include '../includes/header.php';
       }
     }
 
-    // ─── 4. Front ACM Plate with CNC Cutouts + Counter Islands ───────────
+    // ─── 4. Front ACM Plate (CNC Cutout Holes OR Solid Panel) ───────────
     acmHolesList.forEach(h => acmShape.holes.push(h));
 
     let acmGeo;
@@ -1374,46 +1817,44 @@ include '../includes/header.php';
     }
 
     const acmMesh = new THREE.Mesh(acmGeo, [acmFaceMat, acmEdgeMat]);
-    acmMesh.position.z = 0.002; // 0.002 clearance above Sintra (z = 0.00) to avoid Z-fighting
+    acmMesh.position.z = acmPosZ;
     acmMesh.castShadow = true;
     acmMesh.receiveShadow = true;
     acmFrontLayer.add(acmMesh);
 
-    // Floating Inner Counter Islands of the ACM Plate (inside 0, 4, 6, 8, 9, A, B, D, O, P, Q, R, etc.)
-    for (const isl of acmIslandsQueue) {
-      try {
-        const islandShape = new THREE.Shape(isl.islandPts);
-        islandShape.closePath();
-        const islandGeo = new THREE.ExtrudeGeometry(islandShape, {
-          depth: isl.acmDepth,
-          bevelEnabled: false,
-          curveSegments: 8
-        });
-        const islandMesh = new THREE.Mesh(islandGeo, [isl.acmFaceMat, isl.acmEdgeMat]);
-        islandMesh.position.z = 0.002;
-        islandMesh.castShadow = true;
-        islandMesh.receiveShadow = true;
-        acmFrontLayer.add(islandMesh);
-      } catch (_) {
-        // Ignore degenerate micro-islands
+    // Floating Inner Counter Islands of the ACM Plate (CNC Cut Mode Only)
+    if (isCncCut) {
+      for (const isl of acmIslandsQueue) {
+        try {
+          const islandShape = new THREE.Shape(isl.islandPts);
+          islandShape.closePath();
+          const islandGeo = new THREE.ExtrudeGeometry(islandShape, {
+            depth: isl.acmDepth,
+            bevelEnabled: false,
+            curveSegments: 8
+          });
+          const islandMesh = new THREE.Mesh(islandGeo, [isl.acmFaceMat, isl.acmEdgeMat]);
+          islandMesh.position.z = 0.002;
+          islandMesh.castShadow = true;
+          islandMesh.receiveShadow = true;
+          acmFrontLayer.add(islandMesh);
+        } catch (_) {
+          // Ignore degenerate micro-islands
+        }
       }
     }
   }
 
-  // Load 3D Typeface and build initial model
-  const fontLoader = new FontLoader();
-  fontLoader.load(
-    'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/fonts/helvetiker_bold.typeface.json',
-    function (font) {
-      loadedFont = font;
-      buildPlaqueModel();
-    },
-    undefined,
-    function () {
-      buildPlaqueModel();
-    }
-  );
+  // Load initial typeface (procedural Athletic Block digits render immediately) & build initial model
+  loadFontForStyle(state.font_style);
   buildPlaqueModel();
+
+  // Quietly preload the remaining font styles in the background for instant switching
+  setTimeout(() => {
+    Object.keys(CATALOG.font_styles).forEach(key => {
+      if (key !== state.font_style) loadFontForStyle(key);
+    });
+  }, 600);
 
   // ─── Camera Preset & Exploded Assembly Animation Loop ──────────────────
   const targetCameraPos = new THREE.Vector3(0, 0.05, 8.6);
@@ -1479,16 +1920,27 @@ include '../includes/header.php';
       }
     }
 
-    // Smooth Exploded Assembly View (Back → Front: Rear Standoffs → Black Sintra → Acrylic Digits → CNC ACM Plate → Caps)
+    // Smooth Exploded Assembly View per active Construction Style
     const targetExplode = state.exploded ? 1.0 : 0.0;
     explodeProgress += (targetExplode - explodeProgress) * 0.09;
 
-    standoffsRearLayer.position.z = -explodeProgress * 1.60;
-    sintraBackLayer.position.z    = -explodeProgress * 0.80;
-    acrylicDigitsLayer.position.z =  explodeProgress * 0.05;
-    acmFrontLayer.position.z      =  explodeProgress * 1.05;
-    standoffsCapLayer.position.z  =  explodeProgress * 1.55;
-    wallMesh.position.z           = -0.56 - explodeProgress * 1.65;
+    if (state.construction_style === 'cnc_cut_acm') {
+      // Back → Front: 1. Rear Standoffs → 2. Black Sintra → 3. Acrylic Digits → 4. CNC ACM Plate → 5. Front Caps
+      standoffsRearLayer.position.z = -explodeProgress * 1.60;
+      sintraBackLayer.position.z    = -explodeProgress * 0.80;
+      acrylicDigitsLayer.position.z =  explodeProgress * 0.05;
+      acmFrontLayer.position.z      =  explodeProgress * 1.05;
+      standoffsCapLayer.position.z  =  explodeProgress * 1.55;
+      wallMesh.position.z           = -0.56 - explodeProgress * 1.65;
+    } else {
+      // Back → Front: 1. Rear Standoffs → 2. Solid ACM Plate → 3. Raised Acrylic Digits → 4. Front Caps
+      standoffsRearLayer.position.z = -explodeProgress * 1.45;
+      sintraBackLayer.position.z    =  0;
+      acmFrontLayer.position.z      = -explodeProgress * 0.45;
+      acrylicDigitsLayer.position.z =  explodeProgress * 0.55;
+      standoffsCapLayer.position.z  =  explodeProgress * 1.25;
+      wallMesh.position.z           = -0.56 - explodeProgress * 1.50;
+    }
 
     controls.update();
     renderer.render(scene, camera);
@@ -1502,13 +1954,18 @@ include '../includes/header.php';
     renderer.setSize(container.clientWidth, container.clientHeight);
   });
 
-  // ─── UI Reactivity & Pricing Updates ───────────────────────────────────
+  // ─── UI Reactivity, Pricing Updates & Browser Event Bridge ────────────
   function updatePricingAndSummaryUI() {
     const sizeSpec = CATALOG.sizes[state.size] || CATALOG.sizes.medium;
+    const constructionSpec = CATALOG.construction_styles[state.construction_style] || CATALOG.construction_styles.raised_acrylic;
+    const fontSpec = CATALOG.font_styles[state.font_style] || CATALOG.font_styles.athletic_block;
     const acmSpec = CATALOG.acm_finishes[state.acm_finish] || CATALOG.acm_finishes.matte_black;
     const acrylicSpec = CATALOG.acrylic_finishes[state.acrylic_finish] || CATALOG.acrylic_finishes.mirror_gold;
+    const isCncCut = state.construction_style === 'cnc_cut_acm';
 
-    state.subtotal_cad = sizeSpec.price;
+    state.base_price_cad = sizeSpec.price;
+    state.cnc_surcharge_cad = isCncCut ? (sizeSpec.cncSurcharge || 0) : 0;
+    state.subtotal_cad = Math.round((state.base_price_cad + state.cnc_surcharge_cad) * 100) / 100;
     state.hst_cad = Math.round(state.subtotal_cad * 0.15 * 100) / 100;
     state.total_cad = Math.round((state.subtotal_cad + state.hst_cad) * 100) / 100;
 
@@ -1521,12 +1978,55 @@ include '../includes/header.php';
     document.getElementById('price-total').textContent = fmtTot;
     document.getElementById('btn-helcim-total').textContent = fmtTot;
 
-    document.getElementById('summary-finish-name').textContent = `ACM: ${acmSpec.shortName} • Digits: ${acrylicSpec.shortName}`;
-    document.getElementById('summary-size-dims').textContent = `${sizeSpec.label} • Black Sintra Base & 4 Standoffs`;
+    // Update dynamic CNC surcharge badge for currently selected plaque size
+    const cncBadge = document.getElementById('cnc-surcharge-badge');
+    if (cncBadge) {
+      cncBadge.textContent = `+$${sizeSpec.cncSurcharge || 10} CAD`;
+    }
+
+    // Update every size tile price label dynamically when toggling raised_acrylic vs cnc_cut_acm
+    document.querySelectorAll('[data-size]').forEach(tile => {
+      const sSpec = CATALOG.sizes[tile.dataset.size];
+      const priceEl = tile.querySelector('.size-tile-price');
+      if (sSpec && priceEl) {
+        const displayPrice = sSpec.price + (isCncCut ? (sSpec.cncSurcharge || 0) : 0);
+        tile.dataset.price = String(displayPrice);
+        priceEl.textContent = `$${displayPrice} CAD`;
+      }
+    });
+
+    // Update viewer & pre-checkout summaries
+    document.getElementById('summary-finish-name').textContent =
+      `${constructionSpec.shortName} • ${acmSpec.shortName} ACM + ${acrylicSpec.shortName}`;
+    document.getElementById('summary-size-dims').textContent =
+      `${sizeSpec.shortLabel} • ${fontSpec.shortName} • ${constructionSpec.backingSummary}`;
+
+    const legendPill = document.getElementById('assemblyLegendPill');
+    if (legendPill) {
+      legendPill.innerHTML = `<i class="bi bi-layers-half text-info me-1"></i> ${constructionSpec.legendHtml}`;
+    }
+
+    document.getElementById('review-construction').textContent = constructionSpec.name;
+    document.getElementById('review-font').textContent = fontSpec.name;
+    document.getElementById('review-materials').textContent = `${acmSpec.name} + ${acrylicSpec.name}`;
+    document.getElementById('review-size').textContent =
+      isCncCut && state.cnc_surcharge_cad > 0
+        ? `${sizeSpec.shortLabel} (+$${state.cnc_surcharge_cad} CNC)`
+        : sizeSpec.shortLabel;
+    document.getElementById('review-total').textContent = fmtTot;
 
     const typeLabel = state.plaque_type === 'business' ? 'Business Signage' : 'House Plaque';
     document.getElementById('viewer-spec-text').textContent = `${typeLabel} • ${sizeSpec.shortLabel}`;
   }
+
+  function dispatchPlaqueUpdate() {
+    window.dispatchEvent(new CustomEvent('update-3d-plaque', { detail: { ...state } }));
+  }
+
+  window.addEventListener('update-3d-plaque', () => {
+    updatePricingAndSummaryUI();
+    buildPlaqueModel();
+  });
 
   // Plaque Type Switch
   document.querySelectorAll('[data-type]').forEach(tile => {
@@ -1550,8 +2050,17 @@ include '../includes/header.php';
       }
 
       document.getElementById('char-counter').textContent = `${pInput.value.length} / 24`;
-      updatePricingAndSummaryUI();
-      buildPlaqueModel();
+      dispatchPlaqueUpdate();
+    });
+  });
+
+  // Construction Style Switch (raised_acrylic vs cnc_cut_acm)
+  document.querySelectorAll('[data-construction-style]').forEach(tile => {
+    tile.addEventListener('click', () => {
+      document.querySelectorAll('[data-construction-style]').forEach(t => t.classList.remove('active'));
+      tile.classList.add('active');
+      state.construction_style = tile.dataset.constructionStyle;
+      dispatchPlaqueUpdate();
     });
   });
 
@@ -1562,12 +2071,25 @@ include '../includes/header.php';
   primaryInput.addEventListener('input', (e) => {
     state.primary_text = e.target.value || ' ';
     document.getElementById('char-counter').textContent = `${e.target.value.length} / 24`;
-    buildPlaqueModel();
+    dispatchPlaqueUpdate();
   });
 
   subtitleInput.addEventListener('input', (e) => {
     state.subtitle_text = e.target.value;
-    buildPlaqueModel();
+    dispatchPlaqueUpdate();
+  });
+
+  // Font Style Switch (athletic_block, modern_sans, minimal_thin, classic_serif)
+  document.querySelectorAll('[data-font-style]').forEach(tile => {
+    tile.addEventListener('click', () => {
+      document.querySelectorAll('[data-font-style]').forEach(t => t.classList.remove('active'));
+      tile.classList.add('active');
+      state.font_style = tile.dataset.fontStyle;
+      dispatchPlaqueUpdate();
+      if (!fontCache[state.font_style]) {
+        loadFontForStyle(state.font_style);
+      }
+    });
   });
 
   // ACM Front Plate Finish Selection
@@ -1576,8 +2098,7 @@ include '../includes/header.php';
       document.querySelectorAll('[data-acm-finish]').forEach(t => t.classList.remove('active'));
       tile.classList.add('active');
       state.acm_finish = tile.dataset.acmFinish;
-      updatePricingAndSummaryUI();
-      buildPlaqueModel();
+      dispatchPlaqueUpdate();
     });
   });
 
@@ -1587,8 +2108,7 @@ include '../includes/header.php';
       document.querySelectorAll('[data-acrylic-finish]').forEach(t => t.classList.remove('active'));
       tile.classList.add('active');
       state.acrylic_finish = tile.dataset.acrylicFinish;
-      updatePricingAndSummaryUI();
-      buildPlaqueModel();
+      dispatchPlaqueUpdate();
     });
   });
 
@@ -1598,8 +2118,7 @@ include '../includes/header.php';
       document.querySelectorAll('[data-size]').forEach(t => t.classList.remove('active'));
       tile.classList.add('active');
       state.size = tile.dataset.size;
-      updatePricingAndSummaryUI();
-      buildPlaqueModel();
+      dispatchPlaqueUpdate();
       applyCameraPreset(currentCamKey);
     });
   });
@@ -1616,6 +2135,7 @@ include '../includes/header.php';
       const angleBtn = document.querySelector('[data-cam="angle"]');
       if (angleBtn) angleBtn.click();
     }
+    dispatchPlaqueUpdate();
   });
 
   // ─── Checkout & HelcimPay.js / Interac e-Transfer Integration ──────────
@@ -1664,6 +2184,8 @@ include '../includes/header.php';
       customer_email: email,
       customer_phone: phone,
       plaque_type: state.plaque_type,
+      construction_style: state.construction_style,
+      font_style: state.font_style,
       primary_text: primary,
       subtitle_text: subtitle,
       acm_finish: state.acm_finish,
@@ -1700,6 +2222,8 @@ include '../includes/header.php';
         return;
       }
 
+      const constructionFallback = (CATALOG.construction_styles[payload.construction_style] || {}).name || payload.construction_style;
+      const fontFallback = (CATALOG.font_styles[payload.font_style] || {}).name || payload.font_style;
       const acmFallback = (CATALOG.acm_finishes[payload.acm_finish] || {}).name || payload.acm_finish;
       const acrylicFallback = (CATALOG.acrylic_finishes[payload.acrylic_finish] || {}).name || payload.acrylic_finish;
       const sizeFallback = (CATALOG.sizes[payload.size] || {}).label || payload.size;
@@ -1711,6 +2235,8 @@ include '../includes/header.php';
         subtotal_cad: result.data.subtotal_cad,
         hst_cad: result.data.hst_cad,
         total_cad: result.data.total_cad,
+        construction_style_label: result.data.construction_style_label || constructionFallback,
+        font_style_label: result.data.font_style_label || fontFallback,
         acm_finish_label: result.data.acm_finish_label || acmFallback,
         acrylic_finish_label: result.data.acrylic_finish_label || acrylicFallback,
         finish_label: result.data.finish_label || `${acmFallback} + ${acrylicFallback}`,
@@ -1775,6 +2301,8 @@ include '../includes/header.php';
 
         hideAlert();
         const txId = confirmData.data?.transaction_id || 'CONFIRMED';
+        const constructionLabel = confirmData.data?.construction_style_label || activeHelcimOrder.construction_style_label;
+        const fontLabel = confirmData.data?.font_style_label || activeHelcimOrder.font_style_label;
         const acmLabel = confirmData.data?.acm_finish_label || activeHelcimOrder.acm_finish_label;
         const acrylicLabel = confirmData.data?.acrylic_finish_label || activeHelcimOrder.acrylic_finish_label;
 
@@ -1790,6 +2318,8 @@ include '../includes/header.php';
           <div class="p-3 rounded-3 bg-dark bg-opacity-75 small font-monospace mb-2">
             <div><strong>Order Reference:</strong> ${activeHelcimOrder.order_number}</div>
             <div><strong>Helcim Tx ID:</strong> ${txId}</div>
+            <div><strong>Construction:</strong> ${constructionLabel}</div>
+            <div><strong>Font Style:</strong> ${fontLabel}</div>
             <div><strong>Front Plate (ACM):</strong> ${acmLabel}</div>
             <div><strong>3D Digits (Acrylic):</strong> ${acrylicLabel}</div>
             <div><strong>Size:</strong> ${activeHelcimOrder.size_label}</div>
@@ -1835,6 +2365,8 @@ include '../includes/header.php';
       }
 
       const d = result.data;
+      const constructionFallback = (CATALOG.construction_styles[payload.construction_style] || {}).name || payload.construction_style;
+      const fontFallback = (CATALOG.font_styles[payload.font_style] || {}).name || payload.font_style;
       const acmFallback = (CATALOG.acm_finishes[payload.acm_finish] || {}).name || payload.acm_finish;
       const acrylicFallback = (CATALOG.acrylic_finishes[payload.acrylic_finish] || {}).name || payload.acrylic_finish;
       const sizeFallback = (CATALOG.sizes[payload.size] || {}).label || payload.size;
@@ -1853,6 +2385,8 @@ include '../includes/header.php';
           <div class="mb-1"><span class="text-secondary">Amount (incl. 15% PEI HST):</span> <strong class="text-info fs-6">$${Number(d.total_cad).toFixed(2)} CAD</strong></div>
           <div class="mb-1"><span class="text-secondary">Message / Reference #:</span> <strong class="text-white font-monospace">${d.order_number}</strong></div>
           <hr class="border-secondary border-opacity-25 my-2">
+          <div class="mb-1"><span class="text-secondary">Construction:</span> <strong class="text-light">${d.construction_style_label || constructionFallback}</strong></div>
+          <div class="mb-1"><span class="text-secondary">Font Style:</span> <strong class="text-light">${d.font_style_label || fontFallback}</strong></div>
           <div class="mb-1"><span class="text-secondary">Front Plate (ACM):</span> <strong class="text-light">${d.acm_finish_label || acmFallback}</strong></div>
           <div class="mb-1"><span class="text-secondary">3D Digits (Acrylic):</span> <strong class="text-light">${d.acrylic_finish_label || acrylicFallback}</strong></div>
           <div><span class="text-secondary">Size:</span> <strong class="text-light">${d.size_label || sizeFallback}</strong></div>
