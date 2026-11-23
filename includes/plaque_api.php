@@ -179,6 +179,7 @@ if ($action === 'create_order') {
         'shipping_country'       => trim((string) ($input['shipping_country'] ?? 'Canada')),
         'shipping_instructions'  => trim((string) ($input['shipping_instructions'] ?? '')),
         'preview_image'          => !empty($input['preview_image']) ? (string) $input['preview_image'] : null,
+        'idempotency_key'        => trim((string) ($input['idempotency_key'] ?? '')),
     ];
 
     if (empty($payload['customer_name']) || empty($payload['customer_email']) || empty($payload['primary_text'])) {
@@ -223,10 +224,9 @@ if ($action === 'create_order') {
         exit;
     }
 
-    // Seamless Sandbox Fallback: If Helcim token is not configured on the portal account,
-    // generate a test checkout session so the client can preview and test payment flow.
+    // Seamless Sandbox Fallback: ONLY when Helcim token is explicitly unconfigured on the portal account
     $errMsg = (string) ($res['data']['message'] ?? $res['error'] ?? '');
-    if (strpos($errMsg, 'Helcim API Token is not configured') !== false || strpos($errMsg, 'Helcim') !== false) {
+    if (strpos($errMsg, 'Helcim API Token is not configured') !== false) {
         $testOrderNum = 'PLP-TEST-' . strtoupper(substr(md5(uniqid()), 0, 8));
         $subtotalCad = 60.00;
         if ($payload['size'] === 'small') $subtotalCad = 45.00;
@@ -312,8 +312,8 @@ if ($action === 'confirm_helcim') {
         exit;
     }
 
-    // Seamless Sandbox Confirmation Fallback
-    if (strpos($payload['order_number'], 'PLP-TEST') === 0 || !empty($input['is_test_mode'])) {
+    // Seamless Sandbox Confirmation Fallback (only for offline sandbox test sessions)
+    if ($payload['order_id'] === 99999 && strpos($payload['order_number'], 'PLP-TEST-') === 0) {
         $txData = $payload['transaction_data'] ?? [];
         $txId = $txData['data']['transactionId'] ?? $txData['transactionId'] ?? ('TX-TEST-' . rand(100000, 999999));
 

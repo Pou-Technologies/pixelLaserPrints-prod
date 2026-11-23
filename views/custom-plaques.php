@@ -1549,6 +1549,24 @@ include '../includes/header.php';
     total_cad: 69.00
   };
 
+  let activeHelcimOrder = null;
+  let isSubmittingOrder = false;
+  let currentCheckoutKey = null;
+
+  function getOrCreateCheckoutKey() {
+    if (!currentCheckoutKey) {
+      currentCheckoutKey = (window.crypto && typeof window.crypto.randomUUID === 'function')
+        ? window.crypto.randomUUID()
+        : ('plp-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10));
+    }
+    return currentCheckoutKey;
+  }
+
+  function resetCheckoutKey() {
+    currentCheckoutKey = null;
+    activeHelcimOrder = null;
+  }
+
   const CATALOG = {
     construction_styles: {
       raised_acrylic: {
@@ -3353,6 +3371,7 @@ include '../includes/header.php';
 
     const typeLabel = state.plaque_type === 'business' ? 'Business Signage' : 'House Plaque';
     document.getElementById('viewer-spec-text').textContent = `${typeLabel} • ${sizeSpec.shortLabel}`;
+    resetCheckoutKey();
   }
 
   function dispatchPlaqueUpdate() {
@@ -3526,6 +3545,14 @@ include '../includes/header.php';
     }
   });
 
+  ['customerName', 'customerEmail', 'customerPhone', 'shippingCountry', 'shippingNotes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', resetCheckoutKey);
+      el.addEventListener('change', resetCheckoutKey);
+    }
+  });
+
   // ─── 4-Step Studio Panel Controller ────────────────────────────────────
   let currentStep = 1;
   const visitedSteps = new Set([1]);
@@ -3603,9 +3630,6 @@ include '../includes/header.php';
   const btnSubmitOrder = document.getElementById('btnSubmitOrder');
   const spinnerSubmitOrder = document.getElementById('spinnerSubmitOrder');
 
-  let activeHelcimOrder = null;
-  let isSubmittingOrder = false;
-
   function showAlert(type, message) {
     alertBox.className = `alert alert-${type} py-2 small rounded-3 mb-3`;
     alertBox.innerHTML = message;
@@ -3624,7 +3648,7 @@ include '../includes/header.php';
         const h = renderer.domElement.height;
         if (w > 0 && h > 0) {
           const exportCanvas = document.createElement('canvas');
-          exportCanvas.width = Math.min(w, 1200);
+          exportCanvas.width = Math.min(w, 900);
           exportCanvas.height = Math.round(exportCanvas.width * (h / w));
           const ctx = exportCanvas.getContext('2d');
           if (ctx) {
@@ -3635,10 +3659,10 @@ include '../includes/header.php';
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
             ctx.drawImage(renderer.domElement, 0, 0, exportCanvas.width, exportCanvas.height);
-            return exportCanvas.toDataURL('image/jpeg', 0.88);
+            return exportCanvas.toDataURL('image/jpeg', 0.82);
           }
         }
-        return renderer.domElement.toDataURL('image/jpeg', 0.88);
+        return renderer.domElement.toDataURL('image/jpeg', 0.82);
       }
     } catch (e) {
       console.warn('Could not capture plaque 3D snapshot:', e);
@@ -3713,7 +3737,8 @@ include '../includes/header.php';
       sintra_color: state.sintra_color,
       standoff_finish: state.standoff_finish,
       size: state.size,
-      payment_method: paymentMethod
+      payment_method: paymentMethod,
+      idempotency_key: getOrCreateCheckoutKey()
     };
   }
 
@@ -3731,6 +3756,14 @@ include '../includes/header.php';
 
     try {
       if (method === 'helcim') {
+        if (activeHelcimOrder && activeHelcimOrder.idempotency_key === payload.idempotency_key && activeHelcimOrder.checkout_token) {
+          spinnerSubmitOrder?.classList.add('d-none');
+          window.dispatchEvent(new CustomEvent('open-helcim-checkout', {
+            detail: { checkoutToken: activeHelcimOrder.checkout_token }
+          }));
+          return;
+        }
+
         try {
           const response = await fetch(apiEndpoint, {
             method: 'POST',
@@ -3740,70 +3773,73 @@ include '../includes/header.php';
           const result = await response.json();
 
           spinnerSubmitOrder?.classList.add('d-none');
-          btnSubmitOrder.disabled = false;
 
           if (!result.success || !result.data?.checkout_token) {
+            btnSubmitOrder.disabled = false;
             showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> ' + (result.message || 'Could not initialize Helcim card checkout. You can also select Interac e-Transfer.'));
             return;
           }
 
-        const constructionFallback = (CATALOG.construction_styles[payload.construction_style] || {}).name || payload.construction_style;
-        const fontFallback = (CATALOG.font_styles[payload.font_style] || {}).name || payload.font_style;
-        const acmFallback = (CATALOG.acm_finishes[payload.acm_finish] || {}).name || payload.acm_finish;
-        const acrylicFallback = (CATALOG.acrylic_finishes[payload.acrylic_finish] || {}).name || payload.acrylic_finish;
-        const sintraFallback = (CATALOG.sintra_colors[payload.sintra_color] || {}).name || payload.sintra_color;
-        const standoffFallback = (CATALOG.standoff_finishes[payload.standoff_finish] || {}).name || payload.standoff_finish;
-        const sizeFallback = (CATALOG.sizes[payload.size] || {}).label || payload.size;
-        const deliveryFallback = payload.delivery_method === 'shipping'
-          ? `Direct Shipping to ${payload.shipping_address_line1}, ${payload.shipping_city}, ${payload.shipping_province} ${payload.shipping_postal_code}, Canada`
-          : 'Pick up in Store — 180 Belvedere Ave, Charlottetown, PEI, C1A 2Z1, Canada';
+          const constructionFallback = (CATALOG.construction_styles[payload.construction_style] || {}).name || payload.construction_style;
+          const fontFallback = (CATALOG.font_styles[payload.font_style] || {}).name || payload.font_style;
+          const acmFallback = (CATALOG.acm_finishes[payload.acm_finish] || {}).name || payload.acm_finish;
+          const acrylicFallback = (CATALOG.acrylic_finishes[payload.acrylic_finish] || {}).name || payload.acrylic_finish;
+          const sintraFallback = (CATALOG.sintra_colors[payload.sintra_color] || {}).name || payload.sintra_color;
+          const standoffFallback = (CATALOG.standoff_finishes[payload.standoff_finish] || {}).name || payload.standoff_finish;
+          const sizeFallback = (CATALOG.sizes[payload.size] || {}).label || payload.size;
+          const deliveryFallback = payload.delivery_method === 'shipping'
+            ? `Direct Shipping to ${payload.shipping_address_line1}, ${payload.shipping_city}, ${payload.shipping_province} ${payload.shipping_postal_code}, Canada`
+            : 'Pick up in Store — 180 Belvedere Ave, Charlottetown, PEI, C1A 2Z1, Canada';
 
-        activeHelcimOrder = {
-          ...payload,
-          order_id: result.data.order_id,
-          order_number: result.data.order_number,
-          subtotal_cad: result.data.subtotal_cad,
-          hst_cad: result.data.hst_cad,
-          total_cad: result.data.total_cad,
-          delivery_method: payload.delivery_method,
-          delivery_summary: result.data.delivery_summary || deliveryFallback,
-          construction_style_label: result.data.construction_style_label || constructionFallback,
-          font_style_label: result.data.font_style_label || fontFallback,
-          acm_finish_label: result.data.acm_finish_label || acmFallback,
-          acrylic_finish_label: result.data.acrylic_finish_label || acrylicFallback,
-          sintra_color_label: result.data.sintra_color_label || sintraFallback,
-          standoff_finish_label: result.data.standoff_finish_label || standoffFallback,
-          finish_label: result.data.finish_label || `${acmFallback} + ${acrylicFallback}`,
-          size_label: result.data.size_label || sizeFallback
-        };
+          activeHelcimOrder = {
+            ...payload,
+            checkout_token: result.data.checkout_token,
+            order_id: result.data.order_id,
+            order_number: result.data.order_number,
+            subtotal_cad: result.data.subtotal_cad,
+            hst_cad: result.data.hst_cad,
+            total_cad: result.data.total_cad,
+            delivery_method: payload.delivery_method,
+            delivery_summary: result.data.delivery_summary || deliveryFallback,
+            construction_style_label: result.data.construction_style_label || constructionFallback,
+            font_style_label: result.data.font_style_label || fontFallback,
+            acm_finish_label: result.data.acm_finish_label || acmFallback,
+            acrylic_finish_label: result.data.acrylic_finish_label || acrylicFallback,
+            sintra_color_label: result.data.sintra_color_label || sintraFallback,
+            standoff_finish_label: result.data.standoff_finish_label || standoffFallback,
+            finish_label: result.data.finish_label || `${acmFallback} + ${acrylicFallback}`,
+            size_label: result.data.size_label || sizeFallback
+          };
 
-        // Dispatch open-helcim-checkout custom event and invoke official HelcimPay.js iframe
-        window.dispatchEvent(new CustomEvent('open-helcim-checkout', {
-          detail: { checkoutToken: result.data.checkout_token }
-        }));
+          // Dispatch open-helcim-checkout custom event and invoke official HelcimPay.js iframe
+          window.dispatchEvent(new CustomEvent('open-helcim-checkout', {
+            detail: { checkoutToken: result.data.checkout_token }
+          }));
 
-      } catch (err) {
-        spinnerSubmitOrder?.classList.add('d-none');
-        btnSubmitOrder.disabled = false;
-        showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> Network error while initializing checkout. Please try again.');
-      }
-    } else {
-      // Interac e-Transfer Submission
-      try {
-        const response = await fetch(apiEndpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const result = await response.json();
-
-        spinnerSubmitOrder?.classList.add('d-none');
-        btnSubmitOrder.disabled = false;
-
-        if (!result.success) {
-          showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> ' + (result.message || 'Unable to submit order.'));
-          return;
+        } catch (err) {
+          spinnerSubmitOrder?.classList.add('d-none');
+          btnSubmitOrder.disabled = false;
+          showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> Network error while initializing checkout. Please try again.');
         }
+      } else {
+        // Interac e-Transfer Submission
+        try {
+          const response = await fetch(apiEndpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const result = await response.json();
+
+          spinnerSubmitOrder?.classList.add('d-none');
+
+          if (!result.success) {
+            btnSubmitOrder.disabled = false;
+            showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> ' + (result.message || 'Unable to submit order.'));
+            return;
+          }
+
+          currentCheckoutKey = null;
 
         const d = result.data;
         const constructionFallback = (CATALOG.construction_styles[payload.construction_style] || {}).name || payload.construction_style;
@@ -3974,6 +4010,7 @@ include '../includes/header.php';
     if (typeof appendHelcimPayIframe === 'function') {
       appendHelcimPayIframe(token);
     } else {
+      if (btnSubmitOrder) btnSubmitOrder.disabled = false;
       showAlert('warning', 'HelcimPay.js script could not be loaded by your browser. Please disable any ad-blocker or select Interac e-Transfer.');
     }
   });
@@ -3985,6 +4022,14 @@ include '../includes/header.php';
     const msg = event.data;
     const eventName = String(msg.eventName || msg.event || '');
     const eventStatus = String(msg.eventStatus || msg.status || msg.data?.status || '').toUpperCase();
+
+    const isAborted = eventStatus === 'ABORTED' || eventStatus === 'CANCELLED' || eventStatus === 'HIDE'
+      || eventName.toLowerCase().includes('abort') || eventName.toLowerCase().includes('hide');
+    if (isAborted && !activeHelcimOrder._confirming) {
+      if (btnSubmitOrder) btnSubmitOrder.disabled = false;
+      if (spinnerSubmitOrder) spinnerSubmitOrder.classList.add('d-none');
+      return;
+    }
 
     const isSuccess = eventName.includes('helcimPayJsIdentifier') && eventStatus === 'SUCCESS'
       || eventName === 'helcimPayTransactionSuccess'
@@ -4010,6 +4055,13 @@ include '../includes/header.php';
           })
         });
         const confirmData = await confirmRes.json();
+
+        if (!confirmRes.ok || !confirmData.success) {
+          activeHelcimOrder._confirming = false;
+          if (btnSubmitOrder) btnSubmitOrder.disabled = false;
+          showAlert('danger', '<i class="bi bi-x-circle-fill me-1"></i> ' + (confirmData.message || 'Could not verify Helcim payment. Please contact us with reference ' + activeHelcimOrder.order_number + '.'));
+          return;
+        }
 
         hideAlert();
         const txId = confirmData.data?.transaction_id || 'CONFIRMED';
@@ -4049,8 +4101,13 @@ include '../includes/header.php';
         confirmPanel.classList.remove('d-none');
         btnSubmitOrder?.classList.add('d-none');
         activeHelcimOrder = null;
+        currentCheckoutKey = null;
       } catch (err) {
-        showAlert('warning', 'Payment completed, please save your order reference: <strong>' + activeHelcimOrder.order_number + '</strong>.');
+        if (activeHelcimOrder) {
+          activeHelcimOrder._confirming = false;
+        }
+        if (btnSubmitOrder) btnSubmitOrder.disabled = false;
+        showAlert('warning', 'Payment completed, please save your order reference: <strong>' + (activeHelcimOrder?.order_number || '') + '</strong>.');
       }
     }
   });
