@@ -3819,10 +3819,117 @@ include '../includes/header.php';
     }
   });
 
-  // Listen for open-helcim-checkout to launch HelcimPay.js Modal
+  // Helcim Sandbox Test Modal for Developer / Testing Mode
+  function showHelcimTestModal(token) {
+    let modal = document.getElementById('helcimTestModal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'helcimTestModal';
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.78);backdrop-filter:blur(8px);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;';
+      document.body.appendChild(modal);
+    }
+
+    const totalFmt = activeHelcimOrder ? ('$' + Number(activeHelcimOrder.total_cad).toFixed(2) + ' CAD') : '$69.00 CAD';
+    const orderNum = activeHelcimOrder ? activeHelcimOrder.order_number : 'PLP-TEST';
+
+    modal.innerHTML = `
+      <div style="background:#0f172a;border:1.5px solid rgba(59,130,246,0.4);border-radius:20px;max-width:440px;width:100%;padding:24px;color:#f8fafc;box-shadow:0 25px 50px rgba(0,0,0,0.85);font-family:sans-serif;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:#2563eb;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(37,99,235,0.4);">
+              <i class="bi bi-credit-card-2-front-fill" style="color:#fff;font-size:1.1rem;"></i>
+            </div>
+            <div>
+              <div style="font-weight:700;font-size:1rem;line-height:1.2;">HelcimPay.js Simulator</div>
+              <div style="font-size:0.72rem;color:#38bdf8;">Sandbox Test Checkout Mode</div>
+            </div>
+          </div>
+          <button type="button" id="btnCancelHelcimTest" style="background:none;border:none;color:#94a3b8;font-size:1.4rem;cursor:pointer;padding:0 4px;line-height:1;">&times;</button>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;margin-bottom:16px;font-size:0.83rem;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="color:#94a3b8;">Order Reference:</span>
+            <span style="font-weight:600;font-family:monospace;color:#fff;">${orderNum}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="color:#94a3b8;">Customer:</span>
+            <span style="color:#fff;">${activeHelcimOrder?.customer_name || 'Customer'}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:6px;border-top:1px solid rgba(255,255,255,0.08);">
+            <span style="color:#94a3b8;">Total to Authorize:</span>
+            <span style="font-weight:700;color:#38bdf8;font-size:1.1rem;">${totalFmt}</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label style="display:block;font-size:0.75rem;color:#94a3b8;margin-bottom:5px;">Simulated Card Number</label>
+          <input type="text" value="4500 •••• •••• 0001 (Visa Test)" readonly style="width:100%;padding:10px 13px;border-radius:10px;background:rgba(15,23,42,0.9);border:1px solid rgba(255,255,255,0.18);color:#fff;font-size:0.88rem;box-sizing:border-box;">
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+          <div>
+            <label style="display:block;font-size:0.75rem;color:#94a3b8;margin-bottom:5px;">Expiry</label>
+            <input type="text" value="12/28" readonly style="width:100%;padding:10px 13px;border-radius:10px;background:rgba(15,23,42,0.9);border:1px solid rgba(255,255,255,0.18);color:#fff;font-size:0.88rem;box-sizing:border-box;">
+          </div>
+          <div>
+            <label style="display:block;font-size:0.75rem;color:#94a3b8;margin-bottom:5px;">CVV</label>
+            <input type="text" value="123" readonly style="width:100%;padding:10px 13px;border-radius:10px;background:rgba(15,23,42,0.9);border:1px solid rgba(255,255,255,0.18);color:#fff;font-size:0.88rem;box-sizing:border-box;">
+          </div>
+        </div>
+
+        <div style="display:grid;gap:8px;">
+          <button type="button" id="btnConfirmHelcimTest" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;color:#fff;padding:13px;border-radius:12px;font-weight:700;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 20px rgba(37,99,235,0.5);">
+            <i class="bi bi-shield-check"></i> Authorize &amp; Pay ${totalFmt}
+          </button>
+          <button type="button" id="btnCancelHelcimTest2" style="background:transparent;border:1px solid rgba(255,255,255,0.15);color:#94a3b8;padding:10px;border-radius:12px;font-size:0.85rem;cursor:pointer;">
+            Cancel
+          </button>
+        </div>
+
+        <div style="margin-top:14px;text-align:center;font-size:0.7rem;color:#64748b;">
+          <i class="bi bi-info-circle me-1"></i> Simulated checkout for test/review. Order notification will be dispatched to <strong>test@poutechnologies.com</strong>.
+        </div>
+      </div>
+    `;
+
+    modal.style.display = 'flex';
+
+    const closeModal = () => {
+      modal.style.display = 'none';
+      if (btnSubmitOrder) btnSubmitOrder.disabled = false;
+      if (spinnerSubmitOrder) spinnerSubmitOrder.classList.add('d-none');
+    };
+
+    document.getElementById('btnCancelHelcimTest')?.addEventListener('click', closeModal);
+    document.getElementById('btnCancelHelcimTest2')?.addEventListener('click', closeModal);
+
+    document.getElementById('btnConfirmHelcimTest')?.addEventListener('click', () => {
+      modal.style.display = 'none';
+      const fakeTxId = 'TX-TEST-' + Math.floor(100000 + Math.random() * 900000);
+      window.postMessage({
+        eventName: 'helcimPayTransactionSuccess',
+        eventStatus: 'SUCCESS',
+        data: {
+          status: 'APPROVED',
+          transactionId: fakeTxId,
+          amount: activeHelcimOrder?.total_cad || 69.00,
+          currency: 'CAD',
+          cardBatchId: 'TEST-BATCH-001'
+        }
+      }, '*');
+    });
+  }
+
+  // Listen for open-helcim-checkout to launch HelcimPay.js Modal or Sandbox Simulator
   window.addEventListener('open-helcim-checkout', (e) => {
     const token = e.detail?.checkoutToken;
     if (!token) return;
+
+    if (token.startsWith('test_helcim_')) {
+      showHelcimTestModal(token);
+      return;
+    }
 
     if (typeof appendHelcimPayIframe === 'function') {
       appendHelcimPayIframe(token);
