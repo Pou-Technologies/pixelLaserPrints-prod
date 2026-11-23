@@ -108,8 +108,8 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto site-nav">
+      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+        <ul class="navbar-nav mx-auto site-nav">
           <li class="nav-item"><a class="nav-link text-white" href="<?php echo BASE_URL; ?>/index.php">Home</a></li>
           <li class="nav-item"><a class="nav-link text-white"
               href="<?php echo BASE_URL; ?>/views/services.php">Services</a></li>
@@ -118,7 +118,6 @@
           <li class="nav-item"><a class="nav-link text-white"
               href="<?php echo BASE_URL; ?>/views/contact.php">Contact</a></li>
           <li class="nav-item"><a class="nav-link text-white" href="<?php echo BASE_URL; ?>/views/about.php">About Us</a></li>
-          <li class="nav-item"><a class="nav-link text-white" href="<?php echo BASE_URL; ?>/views/blog.php">Blog</a></li>
         </ul>
       </div>
     </div>
