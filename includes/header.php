@@ -91,7 +91,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="<?php echo BASE_URL; ?>/style/css/css.css?v=6">
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>/style/css/css.css?v=7">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 
@@ -100,15 +100,13 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-transparent position-absolute w-100 site-navbar">
     <div class="container">
-      <a class="navbar-brand" href="<?php echo BASE_URL; ?>/index.php">
-        <img src="<?php echo BASE_URL; ?>/images/logo/logo.png" alt="Pixel logo" class="img-fluid site-logo">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <div class="site-nav-brand-wrap order-1">
+        <a class="navbar-brand me-0" href="<?php echo BASE_URL; ?>/index.php">
+          <img src="<?php echo BASE_URL; ?>/images/logo/logo.png" alt="Pixel logo" class="img-fluid site-logo">
+        </a>
+      </div>
 
-      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <div class="collapse navbar-collapse justify-content-center order-3 order-lg-2" id="navbarNav">
         <ul class="navbar-nav mx-auto site-nav">
           <li class="nav-item"><a class="nav-link text-white" href="<?php echo BASE_URL; ?>/index.php">Home</a></li>
           <li class="nav-item"><a class="nav-link text-white"
@@ -120,8 +118,51 @@
           <li class="nav-item"><a class="nav-link text-white" href="<?php echo BASE_URL; ?>/views/about.php">About Us</a></li>
         </ul>
       </div>
+
+      <div class="d-flex align-items-center gap-3 site-header-actions order-2 order-lg-3">
+        <!-- Search Button -->
+        <button type="button" class="nav-action-btn" data-bs-toggle="modal" data-bs-target="#searchModal" aria-label="Search" title="Search">
+          <i class="bi bi-search fs-5"></i>
+        </button>
+
+        <!-- Cart Button with Counter -->
+        <a href="<?php echo BASE_URL; ?>/views/catalog.php" class="nav-action-btn position-relative" id="cartButton" aria-label="Shopping Cart" title="Cart">
+          <i class="bi bi-cart3 fs-5"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-counter" id="cart-count">0</span>
+        </a>
+
+        <!-- Mobile Toggler -->
+        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
     </div>
   </nav>
+
+  <!-- Search Modal -->
+  <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark text-white border-secondary shadow-lg">
+        <div class="modal-header border-secondary">
+          <h5 class="modal-title fs-5" id="searchModalLabel">
+            <i class="bi bi-search me-2 text-warning"></i>Search Products
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-4">
+          <form action="<?php echo BASE_URL; ?>/views/catalog.php" method="GET">
+            <div class="input-group input-group-lg">
+              <input type="text" name="q" class="form-control bg-black text-white border-secondary" placeholder="Search products, signage, gifts..." autofocus required>
+              <button class="btn btn-gold px-4" type="submit">
+                Search
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 

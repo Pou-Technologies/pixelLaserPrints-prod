@@ -221,16 +221,70 @@ h3 {
   border-color: var(--primary-color);
 }
 
+/* NAVBAR ACTIONS (Search & Cart) & LAYOUT */
+.site-header-actions {
+  z-index: 11;
+}
+
+@media (min-width: 992px) {
+  .site-nav-brand-wrap {
+    flex: 1 0 0%;
+    display: flex;
+    align-items: center;
+  }
+  .site-header-actions {
+    flex: 1 0 0%;
+    justify-content: flex-end;
+  }
+}
+
+.nav-action-btn {
+  color: var(--white);
+  transition: color 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: transparent;
+  border: none;
+  padding: 0.4rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.nav-action-btn:hover,
+.nav-action-btn:focus {
+  color: var(--primary-color) !important;
+  transform: translateY(-1px);
+}
+
+.cart-counter {
+  font-size: 0.65rem;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  color: #000;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
 /* RESPONSIVE NAVBAR */
-@media (max-width: 768px) {
+@media (max-width: 991.98px) {
   .site-logo {
     height: 80px;
   }
 
   .site-nav {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 10px;
-    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.95);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
   }
 
   .site-nav .nav-link {

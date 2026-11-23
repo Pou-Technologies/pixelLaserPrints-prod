@@ -468,6 +468,33 @@ include '../includes/header.php';
 
 
 <script>
+    // Filtro de búsqueda al recibir parámetro ?q=
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = (urlParams.get('q') || '').trim().toLowerCase();
+        if (searchQuery) {
+            let matchCount = 0;
+            document.querySelectorAll('.product-card').forEach(card => {
+                const title = (card.querySelector('.product-title')?.textContent || '').toLowerCase();
+                const desc = (card.querySelector('.product-description')?.textContent || '').toLowerCase();
+                const id = (card.querySelector('.product-id')?.textContent || '').toLowerCase();
+                const col = card.closest('.col');
+                if (title.includes(searchQuery) || desc.includes(searchQuery) || id.includes(searchQuery)) {
+                    if (col) col.style.display = '';
+                    matchCount++;
+                } else {
+                    if (col) col.style.display = 'none';
+                }
+            });
+
+            const subtitle = document.querySelector('.section-wrapper .text-muted');
+            if (subtitle) {
+                const safeQuery = searchQuery.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                subtitle.innerHTML = `Showing results for: <strong>"${safeQuery}"</strong> (${matchCount} found). <a href="catalog.php" class="text-decoration-underline ms-2" style="color: #d4af37;">Clear filter</a>`;
+            }
+        }
+    });
+
     document.querySelectorAll('.btn-share').forEach(button => {
         button.addEventListener('click', () => {
             // Esta es una función de compartir simulada. 

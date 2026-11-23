@@ -279,8 +279,36 @@
     localStorage.setItem('testBannerClosed', 'true');
   });
 
-  // Mostrar al cargar la página
-  document.addEventListener('DOMContentLoaded', showTestBanner);
+  // Sincronizar contador del carrito de compras
+  function initCartCount() {
+    const savedCount = localStorage.getItem('cart_count') || '0';
+    const badge = document.getElementById('cart-count');
+    if (badge) {
+      badge.textContent = savedCount;
+    }
+  }
+
+  window.updateCartCount = function(count) {
+    localStorage.setItem('cart_count', count);
+    const badge = document.getElementById('cart-count');
+    if (badge) {
+      badge.textContent = count;
+    }
+  };
+
+  // Focus en input al abrir modal de búsqueda
+  const searchModal = document.getElementById('searchModal');
+  if (searchModal) {
+    searchModal.addEventListener('shown.bs.modal', function () {
+      const searchInput = searchModal.querySelector('input[name="q"]');
+      if (searchInput) searchInput.focus();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    showTestBanner();
+    initCartCount();
+  });
 
 
 </script>
