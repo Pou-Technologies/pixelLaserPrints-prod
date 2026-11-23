@@ -323,6 +323,15 @@
 
 </script>
 
+<?php
+require_once __DIR__ . '/PortalApiClient.php';
+PortalApiClient::loadEnv();
+$trackerApiKey = getenv('CLIENT_PORTAL_API_KEY') ?: ($_ENV['CLIENT_PORTAL_API_KEY'] ?? 'pt_a5c5a9b8b5e5b8ab6938d4d7205b42531cc66ab79c18654ddf2c60854a7515af');
+if (!empty($trackerApiKey)):
+?>
+<!-- Pou Analytics Tracker -->
+<script src="https://poutechnologies.com/js/pou-tracker.js" data-key="<?php echo htmlspecialchars($trackerApiKey); ?>"></script>
+<?php endif; ?>
 
 </body>
 
