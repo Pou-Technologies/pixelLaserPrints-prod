@@ -57,9 +57,12 @@ function sendPlaqueNotificationEmail(array $orderInfo): void
         $lines[] = "Helcim Tx ID    : " . $orderInfo['transaction_id'];
     }
 
+    $sintraLabel = $orderInfo['sintra_color_label'] ?? (!empty($orderInfo['sintra_color']) ? ucfirst((string) $orderInfo['sintra_color']) . ' Sintra (6mm)' : 'Black Sintra (6mm)');
+    $standoffLabel = $orderInfo['standoff_finish_label'] ?? (!empty($orderInfo['standoff_finish']) ? ucfirst((string) $orderInfo['standoff_finish']) . ' Standoffs' : 'Silver Standoffs');
+
     $backingDesc = ($orderInfo['construction_style'] ?? '') === 'cnc_cut_acm'
-        ? 'Black Sintra PVC + CNC Cutout ACM Front + 2 Lateral Standoffs'
-        : 'Solid ACM Plate + Surface-Mounted Raised Acrylic + 2 Lateral Standoffs';
+        ? "{$sintraLabel} + CNC Cutout ACM Front + 2 Lateral {$standoffLabel}"
+        : "Solid ACM Plate + Surface-Mounted Raised Acrylic + 2 Lateral {$standoffLabel}";
 
     $lines[] = "";
     $lines[] = "--- 3D PLAQUE SPECIFICATIONS ---";
@@ -70,6 +73,10 @@ function sendPlaqueNotificationEmail(array $orderInfo): void
     $lines[] = "Subtitle Text       : " . (!empty($orderInfo['subtitle_text']) ? $orderInfo['subtitle_text'] : 'None');
     $lines[] = "Front Plate (ACM)   : " . ($orderInfo['acm_finish_label'] ?? $orderInfo['acm_finish'] ?? '');
     $lines[] = "3D Digits (Acrylic) : " . ($orderInfo['acrylic_finish_label'] ?? $orderInfo['acrylic_finish'] ?? '');
+    if (($orderInfo['construction_style'] ?? '') === 'cnc_cut_acm') {
+        $lines[] = "Sintra Backing (6mm): {$sintraLabel}";
+    }
+    $lines[] = "Standoff Finish     : 2 Lateral {$standoffLabel}";
     $lines[] = "Backing & Hardware  : {$backingDesc}";
     $lines[] = "Size                : " . ($orderInfo['size_label'] ?? $orderInfo['size'] ?? '');
     $lines[] = "";
@@ -106,6 +113,8 @@ if ($action === 'create_order') {
         'subtitle_text'      => trim((string) ($input['subtitle_text'] ?? '')),
         'acm_finish'         => trim((string) ($input['acm_finish'] ?? 'matte_black')),
         'acrylic_finish'     => trim((string) ($input['acrylic_finish'] ?? 'mirror_gold')),
+        'sintra_color'       => trim((string) ($input['sintra_color'] ?? 'black')),
+        'standoff_finish'    => trim((string) ($input['standoff_finish'] ?? 'silver')),
         'size'               => trim((string) ($input['size'] ?? 'medium')),
         'payment_method'     => trim((string) ($input['payment_method'] ?? 'helcim')),
     ];
@@ -172,6 +181,8 @@ if ($action === 'confirm_helcim') {
         'subtitle_text'      => trim((string) ($input['subtitle_text'] ?? '')),
         'acm_finish'         => trim((string) ($input['acm_finish'] ?? '')),
         'acrylic_finish'     => trim((string) ($input['acrylic_finish'] ?? '')),
+        'sintra_color'       => trim((string) ($input['sintra_color'] ?? '')),
+        'standoff_finish'    => trim((string) ($input['standoff_finish'] ?? '')),
         'size'               => trim((string) ($input['size'] ?? '')),
     ];
 
