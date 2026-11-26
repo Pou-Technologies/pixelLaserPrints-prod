@@ -1014,10 +1014,13 @@ include '../includes/header.php';
                     <input type="text" id="primaryTextInput" class="form-control config-input fw-bold"
                            value="428" maxlength="24" placeholder="e.g. 428 or POU TECH" required>
                   </div>
-                  <div>
+                  <div id="subtitleInputGroup">
                     <label for="subtitleTextInput" class="form-label small text-light mb-1">Subtitle / Street / Suite <span class="text-secondary fw-normal">(Optional)</span></label>
                     <input type="text" id="subtitleTextInput" class="form-control config-input"
                            value="QUEEN ST" maxlength="32" placeholder="e.g. QUEEN ST or CHARLOTTETOWN">
+                    <div id="subtitle-vertical-hint" class="small text-info mt-1 d-none" style="font-size: 0.72rem;">
+                      <i class="bi bi-info-circle-fill me-1"></i> Vertical Column uses the entire vertical length for civic numbers (subtitle omitted).
+                    </div>
                   </div>
                 </div>
 
@@ -2584,8 +2587,8 @@ include '../includes/header.php';
     const rawChars = [];
 
     if (verticalStack) {
-      const charGap = fontSize * 0.16;
-      const wordGap = fontSize * 0.44;
+      const charGap = fontSize * 0.12;
+      const wordGap = fontSize * 0.40;
       let cursorY = 0;
       let pendingGap = 0;
 
@@ -2686,7 +2689,9 @@ include '../includes/header.php';
     const rawH = Math.max(maxY - minY, 1e-4);
     const centerX = (minX + maxX) / 2;
     const centerY = (minY + maxY) / 2;
-    const fitScale = Math.min(1, maxWidth / rawW, maxHeight / rawH);
+    const fitScale = verticalStack
+      ? Math.min(maxWidth / rawW, maxHeight / rawH)
+      : Math.min(1, maxWidth / rawW, maxHeight / rawH);
 
     const characters = rawChars.map(entry => ({
       char: entry.char,
@@ -2954,22 +2959,21 @@ include '../includes/header.php';
     });
 
     const primaryStr = (state.primary_text || '428').trim().toUpperCase();
-    const subtitleStr = (state.subtitle_text || '').trim().toUpperCase();
+    const subtitleStr = isVertical ? '' : (state.subtitle_text || '').trim().toUpperCase();
 
     const safeHalfW = isVertical ? (width / 2 - 0.14) : (width / 2 - 0.50);
     const safeHalfH = isVertical ? (height / 2 - 0.54) : (height / 2 - 0.16);
-    const maxTextWidth = isVertical ? (width - 0.54) : (width - 1.24);
-    const maxSubWidth = isVertical ? (width - 0.76) : maxTextWidth;
+    const maxTextWidth = isVertical ? 1.65 : (width - 1.24);
 
-    // Hero Primary 3D Text (Protagonist Scale; stacked vertically on Vertical Column)
+    // Hero Primary 3D Text (Protagonist Scale; spans full height between standoffs on Vertical Column)
     const primaryMaxH = isVertical
-      ? (subtitleStr ? 2.30 : 4.70)
+      ? 5.12
       : (subtitleStr ? 1.82 : 2.25);
     const primaryTargetY = isVertical
-      ? (subtitleStr ? 1.37 : 0.0)
+      ? 0.0
       : (subtitleStr ? 0.36 : 0.0);
     const basePrimarySize = isVertical
-      ? (state.plaque_type === 'house' ? (subtitleStr ? 0.92 : 1.15) : (subtitleStr ? 0.72 : 0.85))
+      ? 1.0
       : (state.plaque_type === 'house' ? (subtitleStr ? 1.85 : 2.20) : (subtitleStr ? 1.15 : 1.35));
 
     const primaryLayout = buildCharGlyphLayouts(
@@ -3002,22 +3006,22 @@ include '../includes/header.php';
       acmIslandsQueue
     );
 
-    // Optional Secondary Subtitle & Slim Architectural Divider Bar
-    if (subtitleStr) {
-      const subTargetY = isVertical ? -1.37 : -1.06;
-      const subMaxH = isVertical ? 2.30 : 0.28;
-      const baseSubSize = isVertical ? 0.36 : 0.28;
+    // Optional Secondary Subtitle & Slim Architectural Divider Bar (Only for horizontal plaques)
+    if (!isVertical && subtitleStr) {
+      const subTargetY = -1.06;
+      const subMaxH = 0.28;
+      const baseSubSize = 0.28;
 
       const subLayout = buildCharGlyphLayouts(
         subtitleStr,
         baseSubSize,
-        maxSubWidth,
+        maxTextWidth,
         subMaxH,
         subTargetY,
         6,
         state.font_style,
         activeFont,
-        isVertical
+        false
       );
 
       addLayoutToAcrylicAndAcm(
@@ -3038,9 +3042,9 @@ include '../includes/header.php';
         acmIslandsQueue
       );
 
-      const dividerW = isVertical ? Math.min(width * 0.58, 1.18) : Math.min(width * 0.38, 2.0);
-      const dividerH = isVertical ? 0.036 : 0.032;
-      const dividerY = isVertical ? 0.0 : -0.72;
+      const dividerW = Math.min(width * 0.38, 2.0);
+      const dividerH = 0.032;
+      const dividerY = -0.72;
 
       const divShape = createRoundedRectShape(dividerW, dividerH, 0.015);
       const divPtsRaw = sampleCleanPoints(divShape, 4);
@@ -3437,6 +3441,24 @@ include '../includes/header.php';
 
     const typeLabel = state.plaque_type === 'business' ? 'Business Signage' : 'House Plaque';
     document.getElementById('viewer-spec-text').textContent = `${typeLabel} • ${sizeSpec.shortLabel}`;
+
+    // On Vertical Column, civic numbers span the full vertical height; subtitle is omitted
+    const subtitleGroup = document.getElementById('subtitleInputGroup');
+    const subtitleHint = document.getElementById('subtitle-vertical-hint');
+    const subtitleInput = document.getElementById('subtitleTextInput');
+    const subtitleLabel = subtitleGroup?.querySelector('label');
+    if (subtitleHint && subtitleInput && subtitleLabel) {
+      if (isVertical) {
+        subtitleInput.classList.add('d-none');
+        subtitleLabel.classList.add('d-none');
+        subtitleHint.classList.remove('d-none');
+      } else {
+        subtitleInput.classList.remove('d-none');
+        subtitleLabel.classList.remove('d-none');
+        subtitleHint.classList.add('d-none');
+      }
+    }
+
     resetCheckoutKey();
   }
 
