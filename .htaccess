@@ -2,7 +2,9 @@
 RewriteEngine On
 # RewriteBase /
 
-# Custom 3D Plaque Configurator clean route
+# Custom 3D Plaque Configurator clean route & 301 redirect
+RewriteCond %{THE_REQUEST} \s/+views/custom-plaques\.php[\s?] [NC]
+RewriteRule ^views/custom-plaques\.php$ /custom-plaques [R=301,L]
 RewriteRule ^custom-plaques/?$ views/custom-plaques.php [L,QSA]
 
 # ... (Basic rewrites kept) ...
