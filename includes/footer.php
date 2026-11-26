@@ -269,17 +269,20 @@
   // Muestra el banner si no se ha cerrado
   function showTestBanner() {
     const banner = document.getElementById('test-banner');
-    if (!checkTestBanner()) {
+    if (banner && !checkTestBanner()) {
       banner.style.display = 'block';
     }
   }
 
   // Cierra el banner y guarda la preferencia
-  document.getElementById('close-test-banner').addEventListener('click', function () {
-    const banner = document.getElementById('test-banner');
-    banner.style.display = 'none';
-    localStorage.setItem('testBannerClosed', 'true');
-  });
+  const closeTestBannerBtn = document.getElementById('close-test-banner');
+  if (closeTestBannerBtn) {
+    closeTestBannerBtn.addEventListener('click', function () {
+      const banner = document.getElementById('test-banner');
+      if (banner) banner.style.display = 'none';
+      localStorage.setItem('testBannerClosed', 'true');
+    });
+  }
 
   // Sincronizar contador del carrito de compras
   function initCartCount() {

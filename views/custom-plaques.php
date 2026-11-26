@@ -1,4 +1,7 @@
 <?php
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+header('Expires: 0');
 $pageTitle = "3D Custom Architectural Plaque & Signage Configurator - Pixel Laser Prints";
 $pageDescription = "Design your custom 3D laser-cut architectural house number plaque or business signage in real time. Crafted in Charlottetown, PEI, Canada.";
 include '../includes/header.php';
@@ -3468,7 +3471,11 @@ include '../includes/header.php';
   }
 
   window.addEventListener('update-3d-plaque', () => {
-    updatePricingAndSummaryUI();
+    try {
+      updatePricingAndSummaryUI();
+    } catch (err) {
+      console.error('UI summary update error:', err);
+    }
     buildPlaqueModel();
   });
 
