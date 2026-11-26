@@ -2587,7 +2587,7 @@ include '../includes/header.php';
     const rawChars = [];
 
     if (verticalStack) {
-      const charGap = fontSize * 0.12;
+      const charGap = fontSize * 0.10;
       const wordGap = fontSize * 0.40;
       let cursorY = 0;
       let pendingGap = 0;
@@ -2967,7 +2967,7 @@ include '../includes/header.php';
 
     // Hero Primary 3D Text (Protagonist Scale; spans full height between standoffs on Vertical Column)
     const primaryMaxH = isVertical
-      ? 5.12
+      ? 5.20
       : (subtitleStr ? 1.82 : 2.25);
     const primaryTargetY = isVertical
       ? 0.0
@@ -3308,6 +3308,7 @@ include '../includes/header.php';
     const sintraSpec = CATALOG.sintra_colors[state.sintra_color] || CATALOG.sintra_colors.black;
     const standoffSpec = CATALOG.standoff_finishes[state.standoff_finish] || CATALOG.standoff_finishes.silver;
     const isCncCut = state.construction_style === 'cnc_cut_acm';
+    const isVertical = Boolean(sizeSpec.isVertical || state.size === 'vertical');
 
     state.base_price_cad = sizeSpec.price;
     state.cnc_surcharge_cad = isCncCut ? (sizeSpec.cncSurcharge || 0) : 0;
@@ -3445,15 +3446,15 @@ include '../includes/header.php';
     // On Vertical Column, civic numbers span the full vertical height; subtitle is omitted
     const subtitleGroup = document.getElementById('subtitleInputGroup');
     const subtitleHint = document.getElementById('subtitle-vertical-hint');
-    const subtitleInput = document.getElementById('subtitleTextInput');
+    const subtitleInputEl = document.getElementById('subtitleTextInput');
     const subtitleLabel = subtitleGroup?.querySelector('label');
-    if (subtitleHint && subtitleInput && subtitleLabel) {
+    if (subtitleHint && subtitleInputEl && subtitleLabel) {
       if (isVertical) {
-        subtitleInput.classList.add('d-none');
+        subtitleInputEl.classList.add('d-none');
         subtitleLabel.classList.add('d-none');
         subtitleHint.classList.remove('d-none');
       } else {
-        subtitleInput.classList.remove('d-none');
+        subtitleInputEl.classList.remove('d-none');
         subtitleLabel.classList.remove('d-none');
         subtitleHint.classList.add('d-none');
       }
@@ -3763,7 +3764,9 @@ include '../includes/header.php';
     const email = document.getElementById('customerEmail').value.trim();
     const phone = document.getElementById('customerPhone').value.trim();
     const primary = document.getElementById('primaryTextInput').value.trim();
-    const subtitle = document.getElementById('subtitleTextInput').value.trim();
+    const activeSizeSpec = CATALOG.sizes[state.size] || CATALOG.sizes.medium;
+    const isVerticalSize = Boolean(activeSizeSpec.isVertical || state.size === 'vertical');
+    const subtitle = isVerticalSize ? '' : document.getElementById('subtitleTextInput').value.trim();
 
     if (!primary) {
       setActiveStep(1, true);
