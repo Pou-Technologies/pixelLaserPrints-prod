@@ -2522,35 +2522,145 @@ include '../includes/header.php';
     };
   }
 
+  function extractRawCharContours(ch, fontSize, curveDivisions, useProceduralDigits, activeFont, resolution, glyphs) {
+    if (useProceduralDigits && /^[0-9]$/.test(ch)) {
+      const proc = getAthleticBlockDigit(ch, fontSize);
+      if (proc) {
+        return { advance: proc.advance, contours: proc.contours };
+      }
+    }
+
+    if (!activeFont) {
+      return { advance: fontSize * 0.62, contours: [] };
+    }
+
+    const glyphMeta = glyphs[ch] || glyphs['?'];
+    if (!glyphMeta) {
+      return { advance: fontSize * 0.50, contours: [] };
+    }
+
+    const glyphShapes = activeFont.generateShapes(ch, fontSize) || [];
+    const advance = typeof glyphMeta.ha === 'number'
+      ? (glyphMeta.ha / resolution) * fontSize
+      : fontSize * 0.65;
+
+    const contours = [];
+    for (const shape of glyphShapes) {
+      const outerPts = sampleCleanPoints(shape, curveDivisions);
+      if (!outerPts) continue;
+
+      const holePtsList = [];
+      for (const hole of (shape.holes || [])) {
+        const holePts = sampleCleanPoints(hole, curveDivisions);
+        if (!holePts) continue;
+        holePtsList.push(holePts);
+      }
+
+      contours.push({ outerPts, holePtsList });
+    }
+
+    return { advance, contours };
+  }
+
   // Builds centered & auto-fitted per-character 2D contours in plaque XY coordinates
-  function buildCharGlyphLayouts(text, fontSize, maxWidth, maxHeight, targetY, curveDivisions, fontStyleKey, activeFont) {
+  function buildCharGlyphLayouts(text, fontSize, maxWidth, maxHeight, targetY, curveDivisions, fontStyleKey, activeFont, verticalStack = false) {
     if (!text) {
       return { characters: [], effectiveFontSize: fontSize };
     }
 
     const fontSpec = CATALOG.font_styles[fontStyleKey] || CATALOG.font_styles.athletic_block;
     const useProceduralDigits = Boolean(fontSpec.useProceduralDigits);
-    const chars = Array.from(text);
+    const normalizedText = verticalStack ? text.replace(/\s+/g, ' ').trim() : text;
+    if (!normalizedText) {
+      return { characters: [], effectiveFontSize: fontSize };
+    }
+
+    const chars = Array.from(normalizedText);
     const extraSpacing = fontSize * 0.055;
     const resolution = activeFont?.data?.resolution || 1000;
     const glyphs = activeFont?.data?.glyphs || {};
 
-    let cursorX = 0;
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
     const rawChars = [];
 
-    for (const ch of chars) {
-      if (ch === ' ') {
-        const sp = glyphs[' '];
-        const spAdv = sp && typeof sp.ha === 'number' ? (sp.ha / resolution) * fontSize : fontSize * 0.35;
-        cursorX += spAdv + extraSpacing;
-        continue;
-      }
+    if (verticalStack) {
+      const charGap = fontSize * 0.16;
+      const wordGap = fontSize * 0.44;
+      let cursorY = 0;
+      let pendingGap = 0;
 
-      if (useProceduralDigits && /^[0-9]$/.test(ch)) {
-        const proc = getAthleticBlockDigit(ch, fontSize);
-        if (proc) {
-          const contours = proc.contours.map(c => ({
+      for (const ch of chars) {
+        if (ch === ' ') {
+          if (rawChars.length > 0) {
+            pendingGap = Math.max(pendingGap, wordGap);
+          }
+          continue;
+        }
+
+        const extracted = extractRawCharContours(
+          ch, fontSize, curveDivisions, useProceduralDigits, activeFont, resolution, glyphs
+        );
+        if (!extracted.contours || extracted.contours.length === 0) {
+          continue;
+        }
+
+        let gMinX = Infinity, gMaxX = -Infinity, gMinY = Infinity, gMaxY = -Infinity;
+        for (const c of extracted.contours) {
+          for (const p of c.outerPts) {
+            if (p.x < gMinX) gMinX = p.x;
+            if (p.x > gMaxX) gMaxX = p.x;
+            if (p.y < gMinY) gMinY = p.y;
+            if (p.y > gMaxY) gMaxY = p.y;
+          }
+        }
+        if (!Number.isFinite(gMinX)) {
+          continue;
+        }
+
+        if (rawChars.length > 0) {
+          cursorY -= pendingGap;
+        }
+
+        const gCenterX = (gMinX + gMaxX) / 2;
+        const actualH = Math.max(gMaxY - gMinY, 1e-4);
+        const slotH = Math.max(actualH, fontSize * 0.18);
+        const dx = -gCenterX;
+        const dy = cursorY - (slotH - actualH) / 2 - gMaxY;
+
+        const shiftedContours = extracted.contours.map(c => ({
+          outerPts: c.outerPts.map(p => {
+            const sx = p.x + dx;
+            const sy = p.y + dy;
+            if (sx < minX) minX = sx;
+            if (sx > maxX) maxX = sx;
+            if (sy < minY) minY = sy;
+            if (sy > maxY) maxY = sy;
+            return new THREE.Vector2(sx, sy);
+          }),
+          holePtsList: c.holePtsList.map(h => h.map(p => new THREE.Vector2(p.x + dx, p.y + dy)))
+        }));
+
+        rawChars.push({ char: ch, contours: shiftedContours });
+        cursorY -= slotH;
+        pendingGap = charGap;
+      }
+    } else {
+      let cursorX = 0;
+
+      for (const ch of chars) {
+        if (ch === ' ') {
+          const sp = glyphs[' '];
+          const spAdv = sp && typeof sp.ha === 'number' ? (sp.ha / resolution) * fontSize : fontSize * 0.35;
+          cursorX += spAdv + extraSpacing;
+          continue;
+        }
+
+        const extracted = extractRawCharContours(
+          ch, fontSize, curveDivisions, useProceduralDigits, activeFont, resolution, glyphs
+        );
+
+        if (extracted.contours.length > 0) {
+          const shiftedContours = extracted.contours.map(c => ({
             outerPts: c.outerPts.map(p => {
               const sx = p.x + cursorX;
               const sy = p.y;
@@ -2562,57 +2672,10 @@ include '../includes/header.php';
             }),
             holePtsList: c.holePtsList.map(h => h.map(p => new THREE.Vector2(p.x + cursorX, p.y)))
           }));
-          rawChars.push({ char: ch, contours });
-          cursorX += proc.advance + extraSpacing;
-          continue;
+          rawChars.push({ char: ch, contours: shiftedContours });
         }
+        cursorX += extracted.advance + extraSpacing;
       }
-
-      if (!activeFont) {
-        cursorX += fontSize * 0.62 + extraSpacing;
-        continue;
-      }
-
-      const glyphMeta = glyphs[ch] || glyphs['?'];
-      if (!glyphMeta) {
-        cursorX += fontSize * 0.50 + extraSpacing;
-        continue;
-      }
-
-      const glyphShapes = activeFont.generateShapes(ch, fontSize) || [];
-      const advance = typeof glyphMeta.ha === 'number'
-        ? (glyphMeta.ha / resolution) * fontSize
-        : fontSize * 0.65;
-
-      const contours = [];
-      for (const shape of glyphShapes) {
-        const outerRaw = sampleCleanPoints(shape, curveDivisions);
-        if (!outerRaw) continue;
-
-        const outerShifted = outerRaw.map(p => {
-          const sx = p.x + cursorX;
-          const sy = p.y;
-          if (sx < minX) minX = sx;
-          if (sx > maxX) maxX = sx;
-          if (sy < minY) minY = sy;
-          if (sy > maxY) maxY = sy;
-          return new THREE.Vector2(sx, sy);
-        });
-
-        const holePtsList = [];
-        for (const hole of (shape.holes || [])) {
-          const holeRaw = sampleCleanPoints(hole, curveDivisions);
-          if (!holeRaw) continue;
-          holePtsList.push(holeRaw.map(p => new THREE.Vector2(p.x + cursorX, p.y)));
-        }
-
-        contours.push({ outerPts: outerShifted, holePtsList });
-      }
-
-      if (contours.length > 0) {
-        rawChars.push({ char: ch, contours });
-      }
-      cursorX += advance + extraSpacing;
     }
 
     if (rawChars.length === 0 || !Number.isFinite(minX)) {
@@ -2895,17 +2958,18 @@ include '../includes/header.php';
 
     const safeHalfW = isVertical ? (width / 2 - 0.14) : (width / 2 - 0.50);
     const safeHalfH = isVertical ? (height / 2 - 0.54) : (height / 2 - 0.16);
-    const maxTextWidth = isVertical ? (width - 0.38) : (width - 1.24);
+    const maxTextWidth = isVertical ? (width - 0.54) : (width - 1.24);
+    const maxSubWidth = isVertical ? (width - 0.76) : maxTextWidth;
 
-    // Hero Primary 3D Text (Protagonist Scale)
+    // Hero Primary 3D Text (Protagonist Scale; stacked vertically on Vertical Column)
     const primaryMaxH = isVertical
-      ? (subtitleStr ? 2.15 : 2.50)
+      ? (subtitleStr ? 2.30 : 4.70)
       : (subtitleStr ? 1.82 : 2.25);
     const primaryTargetY = isVertical
-      ? (subtitleStr ? 0.85 : 0.0)
+      ? (subtitleStr ? 1.37 : 0.0)
       : (subtitleStr ? 0.36 : 0.0);
     const basePrimarySize = isVertical
-      ? (state.plaque_type === 'house' ? (subtitleStr ? 1.45 : 1.65) : 0.95)
+      ? (state.plaque_type === 'house' ? (subtitleStr ? 0.92 : 1.15) : (subtitleStr ? 0.72 : 0.85))
       : (state.plaque_type === 'house' ? (subtitleStr ? 1.85 : 2.20) : (subtitleStr ? 1.15 : 1.35));
 
     const primaryLayout = buildCharGlyphLayouts(
@@ -2916,7 +2980,8 @@ include '../includes/header.php';
       primaryTargetY,
       8,
       state.font_style,
-      activeFont
+      activeFont,
+      isVertical
     );
 
     addLayoutToAcrylicAndAcm(
@@ -2939,19 +3004,20 @@ include '../includes/header.php';
 
     // Optional Secondary Subtitle & Slim Architectural Divider Bar
     if (subtitleStr) {
-      const subTargetY = isVertical ? -1.25 : -1.06;
-      const subMaxH = isVertical ? 0.30 : 0.28;
-      const baseSubSize = isVertical ? 0.24 : 0.28;
+      const subTargetY = isVertical ? -1.37 : -1.06;
+      const subMaxH = isVertical ? 2.30 : 0.28;
+      const baseSubSize = isVertical ? 0.36 : 0.28;
 
       const subLayout = buildCharGlyphLayouts(
         subtitleStr,
         baseSubSize,
-        maxTextWidth,
+        maxSubWidth,
         subMaxH,
         subTargetY,
         6,
         state.font_style,
-        activeFont
+        activeFont,
+        isVertical
       );
 
       addLayoutToAcrylicAndAcm(
@@ -2972,9 +3038,9 @@ include '../includes/header.php';
         acmIslandsQueue
       );
 
-      const dividerW = isVertical ? Math.min(width * 0.55, 1.0) : Math.min(width * 0.38, 2.0);
-      const dividerH = 0.032;
-      const dividerY = isVertical ? -0.55 : -0.72;
+      const dividerW = isVertical ? Math.min(width * 0.58, 1.18) : Math.min(width * 0.38, 2.0);
+      const dividerH = isVertical ? 0.036 : 0.032;
+      const dividerY = isVertical ? 0.0 : -0.72;
 
       const divShape = createRoundedRectShape(dividerW, dividerH, 0.015);
       const divPtsRaw = sampleCleanPoints(divShape, 4);
