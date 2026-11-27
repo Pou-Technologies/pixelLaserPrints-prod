@@ -110,6 +110,8 @@
         <ul class="navbar-nav mx-auto site-nav">
           <li class="nav-item"><a class="nav-link text-white" href="<?php echo BASE_URL; ?>/index.php">Home</a></li>
           <li class="nav-item"><a class="nav-link text-white"
+              href="<?php echo (BASE_URL ?: ''); ?>/store">Store</a></li>
+          <li class="nav-item"><a class="nav-link text-white"
               href="<?php echo BASE_URL; ?>/views/services.php">Services</a></li>
            <li class="nav-item"><a class="nav-link text-white"
               href="<?php echo BASE_URL; ?>/views/catalog.php">Catalog</a></li>   
@@ -132,7 +134,7 @@
         </button>
 
         <!-- Cart Button with Counter -->
-        <a href="<?php echo BASE_URL; ?>/views/catalog.php" class="nav-action-btn position-relative" id="cartButton" aria-label="Shopping Cart" title="Cart">
+        <a href="<?php echo (BASE_URL ?: ''); ?>/store?cart=1" class="nav-action-btn position-relative" id="cartButton" aria-label="Shopping Cart" title="Cart">
           <i class="bi bi-cart3 fs-5"></i>
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-counter" id="cart-count">0</span>
         </a>
@@ -157,7 +159,7 @@
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body py-4">
-          <form action="<?php echo BASE_URL; ?>/views/catalog.php" method="GET">
+          <form action="<?php echo (BASE_URL ?: ''); ?>/store" method="GET">
             <div class="input-group input-group-lg">
               <input type="text" name="q" class="form-control bg-black text-white border-secondary" placeholder="Search products, signage, gifts..." autofocus required>
               <button class="btn btn-gold px-4" type="submit">

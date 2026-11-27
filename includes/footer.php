@@ -18,7 +18,7 @@
         <h6 class="fw-bold">Company</h6>
         <ul class="list-unstyled">
           <li><a href="<?php echo BASE_URL; ?>/index.php" class="text-light text-decoration-none">Home</a></li>
-          <li><a href="#" class="text-light text-decoration-none">Products</a></li>
+          <li><a href="<?php echo (BASE_URL ?: ''); ?>/store" class="text-light text-decoration-none">Store</a></li>
           <li><a href="<?php echo BASE_URL; ?>/views/about.php" class="text-light text-decoration-none">About Us</a>
           </li>
           <li><a href="<?php echo BASE_URL; ?>/views/contact.php" class="text-light text-decoration-none">Contact</a>

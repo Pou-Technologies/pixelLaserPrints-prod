@@ -161,6 +161,21 @@ class PortalApiClient {
     }
 
     /**
+     * GET /store/products (short cache to reflect Client Portal Store updates quickly)
+     */
+    public static function getStoreProducts($ttl = 90) {
+        if ((int) $ttl <= 0) {
+            $res = self::request('GET', '/store/products');
+            if (!empty($res['success'])) {
+                @file_put_contents(sys_get_temp_dir() . '/plp_store_products_cache.json', json_encode($res));
+            }
+            return $res;
+        }
+
+        return self::requestCached('/store/products', 'plp_store_products_cache.json', (int) $ttl);
+    }
+
+    /**
      * GET /blog/posts (cached for 5 minutes to avoid rate-limiting)
      */
     public static function getBlogPosts($ttl = 300) {
