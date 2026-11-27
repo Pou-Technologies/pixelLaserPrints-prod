@@ -310,6 +310,27 @@ include __DIR__ . '/../includes/header.php';
     height: 100%;
     object-fit: cover;
   }
+
+  /* Notice Bar / Coming Soon Banner */
+  .plp-teaser-bar {
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.16) 0%, rgba(212, 175, 55, 0.05) 50%, rgba(212, 175, 55, 0.16) 100%), #121215;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    color: #fff;
+    padding: 0.85rem 1rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .plp-teaser-badge {
+    background: var(--plp-gold);
+    color: #111;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+  }
 </style>
 
 <!-- Minimalist Store Top Strip (ensures crisp white header nav legibility) -->
@@ -334,6 +355,18 @@ include __DIR__ . '/../includes/header.php';
     </div>
   </div>
 </section>
+
+<!-- Teaser Announcement Banner -->
+<aside class="plp-teaser-bar text-center" aria-label="Announcement">
+  <div class="container d-flex flex-wrap align-items-center justify-content-center gap-2">
+    <span class="plp-teaser-badge">
+      <i class="bi bi-stars me-1"></i> Coming Soon
+    </span>
+    <span class="small fw-light" style="letter-spacing: 0.02em;">
+      We are preparing something big for you &mdash; <strong>stay tuned!</strong> We are currently conducting tests and fine-tuning our online store experience.
+    </span>
+  </div>
+</aside>
 
 <main class="plp-store-main">
   <!-- Section 1: Vertical New Arrivals Carousel -->
