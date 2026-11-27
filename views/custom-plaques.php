@@ -798,6 +798,21 @@ include '../includes/header.php';
 
 <div class="plaque-config-page">
   <div class="container">
+    <!-- Testing Notice Banner -->
+    <div class="alert border-0 rounded-4 shadow-sm mb-4 p-3 d-flex align-items-center gap-3" style="background: rgba(212, 175, 55, 0.12); border-left: 4px solid #D4AF37 !important; color: #f8fafc;">
+      <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 40px; height: 40px; background: rgba(212, 175, 55, 0.2); color: #f3d467;">
+        <i class="bi bi-tools fs-5"></i>
+      </div>
+      <div>
+        <div class="fw-semibold text-warning" style="font-size: 0.88rem; letter-spacing: 0.04em;">
+          3D STUDIO TESTING IN PROGRESS
+        </div>
+        <div class="small text-secondary" style="font-size: 0.82rem;">
+          We are currently fine-tuning and testing our 3D configurator experience. You can explore the interactive 3D viewer and finishes while we prepare the official launch.
+        </div>
+      </div>
+    </div>
+
     <!-- Header Bar -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
       <div>

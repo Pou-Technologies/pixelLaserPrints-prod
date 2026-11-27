@@ -348,9 +348,9 @@ include __DIR__ . '/../includes/header.php';
         <button type="button" class="btn btn-outline-light btn-sm rounded-pill px-3 py-2" data-bs-toggle="offcanvas" data-bs-target="#storeBagOffcanvas">
           <i class="bi bi-bag me-1"></i> Bag (<span id="heroBagCount">0</span>)
         </button>
-        <a href="<?php echo (BASE_URL ?: ''); ?>/custom-plaques" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold" style="background: var(--plp-gold); color: #111;">
-          3D House Numbers <i class="bi bi-arrow-right ms-1"></i>
-        </a>
+        <button type="button" class="btn btn-sm rounded-pill px-3 py-2 fw-semibold opacity-75" style="background: var(--plp-gold); color: #111; cursor: not-allowed;" title="3D Configurator is temporarily paused for testing" disabled>
+          3D House Numbers <span class="badge bg-dark text-warning ms-1" style="font-size: 0.62rem;">Testing</span>
+        </button>
       </div>
     </div>
   </div>
@@ -488,9 +488,9 @@ include __DIR__ . '/../includes/header.php';
             </p>
           </div>
           <div class="col-lg-4 text-lg-end">
-            <a href="<?php echo (BASE_URL ?: ''); ?>/custom-plaques" class="btn rounded-pill px-4 py-2 fw-semibold" style="background: var(--plp-gold); color: #111;">
-              Open 3D Configurator <i class="bi bi-box ms-1"></i>
-            </a>
+            <button type="button" class="btn rounded-pill px-4 py-2 fw-semibold opacity-75" style="background: var(--plp-gold); color: #111; cursor: not-allowed;" title="3D Configurator is currently undergoing testing and updates" disabled>
+              Open 3D Configurator <span class="badge bg-dark text-warning ms-1" style="font-size: 0.65rem;">Testing</span>
+            </button>
           </div>
         </div>
       </div>
